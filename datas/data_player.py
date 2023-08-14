@@ -1,3 +1,4 @@
+import os
 from tinydb import TinyDB  # Représente la base de données
 
 # from tinydb import Query    #Permet d'interroger la base de données
@@ -8,8 +9,11 @@ class DataPlayer:
 
     """"""
 
+    if not os.path.exists("./DataBase"):
+            os.makedirs("./DataBase")
+
     def __init__(self):
-        self.db = TinyDB("ChessGame/Database.json")
+        self.db = TinyDB("./Database/Database.json")
         self.player_table = self.db.table("Players")
 
     def save_player(self, serialized_player):

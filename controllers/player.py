@@ -6,6 +6,7 @@ from datas.data_player import DataPlayer
 class PlayerController:
     def __init__(self) -> None:
         self.view = ViewPlayer()
+        self.datas = DataPlayer()
 
     def manage_player(self):
         """Affiche le MENU "GESTION DES JOUEURS" et renvoie le résultat du choix de l'utilisateur"""
@@ -25,9 +26,9 @@ class PlayerController:
                 exit_requested = True
 
     def create_player(self):
-        player_data = (self.view.get_player_data) #import fonction ViewPlayer
-        player = Player(**player_data) #Unpack dico
-        self.database_save_player(player) #save player ligne 30
+        player_data = self.view.get_player_data # import def inputs + dict ViewPlayer
+        player = Player(**player_data) # Unpack dico
+        self.database_save_player(player) # import def sauvegarde Model Player
         print("Joueur enregistré !")
         return
 
