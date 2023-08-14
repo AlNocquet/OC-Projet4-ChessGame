@@ -1,5 +1,3 @@
-from models.model_player import Player
-
 from tinydb import TinyDB  # Représente la base de données
 
 # from tinydb import Query    #Permet d'interroger la base de données
