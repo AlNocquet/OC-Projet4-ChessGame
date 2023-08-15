@@ -61,7 +61,6 @@ class ViewPlayer:
             try:
                 if str(date_of_birth):
                     print("Veuillez entrer des caractères numériques.")
-                    pass
 
             except ValueError:
                 if len(date_of_birth) > 0:
@@ -71,21 +70,25 @@ class ViewPlayer:
                     print("Veuillez entrer votre date d'anniversaire.")
 
             try:
-                if date_of_birth != datetime.datetime.strptime("%d/%m/%Y"):
-                    print("Format invalide : format jj/mm/aaaa.")
+                if date_of_birth != datetime.datetime.strptime(
+                    date_of_birth, "%d/%m/%Y"
+                ):
+                    print("Format invalide : utilisez le format jj/mm/aaaa.")
 
             except ValueError:
-                print("Format invalide : format jj/mm/aaaa.")
+                if len(date_of_birth) > 0:
+                    return date_of_birth
 
             try:
                 current_year = datetime.now()
                 age = current_year - date_of_birth
 
                 if age < 18:
-                    return True
+                    print("Vous devez avoir 18 ans pour vous inscrire.")
 
-            except:
-                print("Vous devez avoir 18 ans pour vous inscrire.")
+            except ValueError:
+                if len(date_of_birth) > 0:
+                    return date_of_birth
 
     def get_player_national_chess_id(self):
         while True:
