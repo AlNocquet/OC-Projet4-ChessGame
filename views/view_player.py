@@ -26,84 +26,77 @@ class ViewPlayer:
     def get_player_surname(self):
         """Affiche le champs demandé pour création du joueur et renvoie le résultat de la réponse de l'utilisateur"""
 
-        object_test = 0
-
         while True:
             surname = str.capitalize(input("Nom de famille :"))
-
             try:
-                surname = int(surname)
-                print("Les caractères numériques ne sont pas acceptés")
+                if int(surname):
+                    print("Les caractères numériques ne sont pas acceptés")
 
-            except:
-                object_test = +1
-                print("Veuillez entrer un nom de famille.")
+            except ValueError:
+                if len(surname) > 0:
+                    return surname
 
-            return surname
+                else:
+                    print("Veuillez entrer un nom de famille.")
 
     def get_player_name(self):
-        object_test = 0
-
         while True:
             name = str.capitalize(input("Prénom du joueur :"))
-
             try:
-                name = int(name)
-                print("Les caractères numériques ne sont pas acceptés")
+                if int(name):
+                    print("Les caractères numériques ne sont pas acceptés")
 
-            except:
-                object_test = +1
-                return name
+            except ValueError:
+                if len(name) > 0:
+                    return name
 
-            else:
-                print("Veuillez entrer un prénom.")
+                else:
+                    print("Veuillez entrer un prénom.")
 
     def get_player_date_of_birth():
-        test = 0
         while True:
             date_of_birth = str.capitalize(
                 input("Date anniversaire du joueur : format jj/mm/aaaa")
             )
+            try:
+                if str(date_of_birth):
+                    print("Veuillez entrer des caractères numériques.")
+                    pass
+
+            except ValueError:
+                if len(date_of_birth) > 0:
+                    return date_of_birth
+
+                else:
+                    print("Veuillez entrer votre date d'anniversaire.")
 
             try:
-                date_of_birth = str(date_of_birth)
-                print("Veuillez entrer des caractères numériques.")
+                if date_of_birth != datetime.datetime.strptime("%d/%m/%Y"):
+                    print("Format invalide : format jj/mm/aaaa.")
 
-            except:
-                test == 0
-                print("Veuillez entrer votre date d'anniversaire.")
-
-            try:
-                datetime.datetime.strptime(date_of_birth, "%d/%m/%Y")
-
-            except:
+            except ValueError:
                 print("Format invalide : format jj/mm/aaaa.")
 
-            if date_of_birth == 0:
-                print("Veuillez entrer votre date d'anniversaire.")
-
-                continue
-
-            if date_of_birth < 18:
+            try:
                 current_year = datetime.now()
                 age = current_year - date_of_birth
 
                 if age < 18:
-                    print("Vous devez avoir 18 ans pour vous inscrire.")
+                    return True
 
-                continue
-
-            return date_of_birth
+            except:
+                print("Vous devez avoir 18 ans pour vous inscrire.")
 
     def get_player_national_chess_id(self):
         while True:
             national_chess_id = str.capitalize(
                 input("Identifiant national d échec de la fédération :")
             )
+            try:
+                if len(national_chess_id) == 0:
+                    print(
+                        "Veuillez entrer votre identifiant national d échec de la fédération."
+                    )
 
-            if national_chess_id == 0:
-                print(
-                    "Veuillez entrer votre identifiant national d échec de la fédération."
-                )
-
-            return national_chess_id
+            except ValueError:
+                return national_chess_id

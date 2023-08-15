@@ -31,9 +31,9 @@ class PlayerController:
         name = self.view.get_player_name()
         date_of_birth = self.view.get_player_date_of_birth()
         national_chess_id = self.view.get_player_national_chess_id()
-        player = Player(surname, name, date_of_birth)
+        player = Player(surname, name, date_of_birth, national_chess_id)
         serialized_player = player.serialized_player()
-        self.database.save_player(serialized_player)
+        self.Database.save_player(serialized_player)
 
         return
 
