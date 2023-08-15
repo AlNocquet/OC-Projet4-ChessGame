@@ -5,3 +5,5 @@ class BaseView:
 
         else:
             return True
+        pass
+    

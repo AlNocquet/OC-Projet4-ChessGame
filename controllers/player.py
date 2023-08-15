@@ -26,10 +26,15 @@ class PlayerController:
                 exit_requested = True
 
     def create_player(self):
-        player_data = self.view.get_player_data # import def inputs + dict ViewPlayer
-        player = Player(**player_data) # Unpack dico
-        self.database_save_player(player) # import def sauvegarde Model Player
-        print("Joueur enregistré !")
+        print("============[Création joueur]============")
+        surname = self.view.get_player_surname()
+        name = self.view.get_player_name()
+        date_of_birth = self.view.get_player_date_of_birth()
+        national_chess_id = self.view.get_player_national_chess_id()
+        player = Player(surname, name, date_of_birth)
+        serialized_player = player.serialized_player()
+        self.database.save_player(serialized_player)
+
         return
 
     # def edit_player(self):
