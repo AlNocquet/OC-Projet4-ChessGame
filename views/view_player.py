@@ -53,26 +53,21 @@ class ViewPlayer:
                 else:
                     print("Veuillez entrer un prénom.")
 
-    def get_player_date_of_birth():
+    def get_player_date_of_birth(self):
         while True:
             date_of_birth = str.capitalize(
-                input("Date anniversaire du joueur : format jj/mm/aaaa")
+                input("Date de naissance du joueur, format jjmmaaaa : ")
             )
             try:
-                if str(date_of_birth):
-                    print("Veuillez entrer des caractères numériques.")
+                if len(date_of_birth) == 0:
+                    print("Veuillez renseigner votre date de naissance.")
 
             except ValueError:
                 if len(date_of_birth) > 0:
                     return date_of_birth
 
-                else:
-                    print("Veuillez entrer votre date d'anniversaire.")
-
             try:
-                if date_of_birth != datetime.datetime.strptime(
-                    date_of_birth, "%d/%m/%Y"
-                ):
+                if date_of_birth != datetime.strptime(date_of_birth, "%d/%m/%Y"):
                     print("Format invalide : utilisez le format jj/mm/aaaa.")
 
             except ValueError:
