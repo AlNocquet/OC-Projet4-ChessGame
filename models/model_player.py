@@ -27,4 +27,4 @@ class Player:
         return player
 
     def database_save_player(self, serialized_player):
-        self.DataPlayer.save_player(serialized_player)
+        self.models.save_player(serialized_player)

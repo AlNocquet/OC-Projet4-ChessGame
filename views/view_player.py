@@ -54,9 +54,11 @@ class ViewPlayer:
                     print("Veuillez entrer un prénom.")
 
     def get_player_date_of_birth(self):
-        while True:
+        valid_birthday = False
+
+        while valid_birthday == False:
             date_of_birth = str.capitalize(
-                input("Date de naissance du joueur, format jjmmaaaa : ")
+                input("Date de naissance du joueur, format jj/mm/aaaa : ")
             )
             try:
                 if len(date_of_birth) == 0:
@@ -67,23 +69,21 @@ class ViewPlayer:
                     return date_of_birth
 
             try:
-                if date_of_birth != datetime.strptime(date_of_birth, "%d/%m/%Y"):
-                    print("Format invalide : utilisez le format jj/mm/aaaa.")
+                formated_date = int
+                if formated_date != datetime.strptime(date_of_birth, "%d-%m-%Y"):
+                    continue
 
             except ValueError:
-                if len(date_of_birth) > 0:
-                    return date_of_birth
+                print("Format invalide : utilisez le format jj/mm/aaaa.")
 
-            try:
-                current_year = datetime.now()
-                age = current_year - date_of_birth
+            now = datetime.now()
 
-                if age < 18:
-                    print("Vous devez avoir 18 ans pour vous inscrire.")
+            if now.year - formated_date >= 18:
+                valid_birthday = True
+            else:
+                print("Vous devez avoir 18 ans pour vous inscrire.")
 
-            except ValueError:
-                if len(date_of_birth) > 0:
-                    return date_of_birth
+            return date_of_birth
 
     def get_player_national_chess_id(self):
         while True:
@@ -98,3 +98,8 @@ class ViewPlayer:
 
             except ValueError:
                 return national_chess_id
+
+    def print_players_list_by_surname(sorted_players):
+        print(sorted_players)
+
+    # PARAMETRAGE AFFICHAGE TABLEAU
