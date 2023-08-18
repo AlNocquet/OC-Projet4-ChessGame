@@ -28,31 +28,35 @@ class ViewPlayer:
         while True:
             surname = str.capitalize(input("Nom de famille du joueur :"))
 
-            try:
-                if int(surname):
-                    print("Les caractères numériques ne sont pas acceptés")
+            if surname.isalpha() == False:
+                print("Les caractères numériques ne sont pas acceptés")
 
-            except ValueError:
-                if len(surname) > 0:
-                    return surname
+                continue
+
+            if len(surname) > 0:
+                return surname
 
             else:
                 print("Veuillez entrer un nom de famille.")
+
+                continue
 
     def get_player_name():
         while True:
             name = str.capitalize(input("Prénom du joueur :"))
 
-            try:
-                if int(name):
-                    print("Les caractères numériques ne sont pas acceptés")
+            if name.isalpha() == False:
+                print("Les caractères numériques ne sont pas acceptés")
 
-            except ValueError:
-                if len(name) > 0:
-                    return name
+                continue
+
+            if len(name) > 0:
+                return name
 
             else:
                 print("Veuillez entrer un prénom.")
+
+                continue
 
     def get_player_date_of_birth():
         valid_birthday = False
