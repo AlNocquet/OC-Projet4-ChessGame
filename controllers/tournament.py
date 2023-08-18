@@ -6,7 +6,7 @@ from views.view_tournament import ViewTournament
 
 class TournamentController:
     def __init__(self) -> None:
-        self.view = ViewTournament
+        self.view = ViewTournament()
 
     def manage_tournament(self):
         """Affiche le MENU "GESTION DES TOURNOIS" et renvoie le résultat du choix de l'utilisateur"""

@@ -3,7 +3,7 @@ class ViewTournament:
         """Affiche le menu Tournoi et renvoie le résultat du choix de l'utilisateur"""
 
         while True:
-            print("===============[MENU TOURNOI]===============")
+            print("===============[MENU JOUEUR]===============")
             print("1. Créer un Tournoi")
             print("2. Consulter données d un Tournoi")
             print("3. Consulter liste des Tournois")
@@ -12,12 +12,13 @@ class ViewTournament:
             print("6. Consulter liste des Matchs d un Tournoi")
             print("7. Revenir au MENU PRINCIPAL")
 
-            choice = input("/n Entrez votre choix :")
+            choice = input("Entrez votre choix :")
 
             if choice in ["1", "2", "3", "4", "5", "6", "7"]:
                 if choice == "7":
                     print("Ok !")
-                return
+
+                return choice
 
             else:
                 print("Choix invalide !")

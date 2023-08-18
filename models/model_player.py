@@ -1,3 +1,5 @@
+from operator import itemgetter, attrgetter
+
 from datas.data_player import DataPlayer
 
 
@@ -13,18 +15,25 @@ class Player:
         self.surname = surname
         self.first_name = first_name
         self.date_of_birth = date_of_birth
-        self.total_score = 0
         self.national_chess_id = national_chess_id
+        self.total_score = 0
+
+        self.datas = DataPlayer()
 
     def serialized_player(self):
         player = {
             "surname": self.surname,
             "first name": self.first_name,
             "date of birth": self.date_of_birth,
-            "score": self.total_score,
             "National ID chess": self.national_chess_id,
+            "score": self.total_score,
         }
         return player
 
-    def database_save_player(self, serialized_player):
-        self.models.save_player(serialized_player)
+    def save_player(self, serialized_player):
+        self.datas.save_player_database(self, serialized_player)
+
+    def display_by_surname(self):
+        players = self.datas.extract_players_list()
+        sorted_players = sorted(players, key=itemgetter("surname"))
+        return
