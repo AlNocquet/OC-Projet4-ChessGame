@@ -95,6 +95,9 @@ class ViewPlayer:
 
             print("Veuillez entrer un identifiant valide.")
 
+    def get_player_score():
+        pass
+
     def print_players_list_by_surname():
         pass
 

@@ -1,5 +1,5 @@
 import os
-from tinydb import TinyDB  # Représente la base de données
+from tinydb import TinyDB
 
 # from tinydb import Query    #Permet d'interroger la base de données
 # from tinydb import where    #Permet d'affiner les critères de recherche
@@ -16,9 +16,9 @@ class DataPlayer:
         self.db = TinyDB("./Database/Database.json")
         self.player_table = self.db.table("Players")
 
-    def save_player_database(self, serialized_player):
+    def save_player_database(self, serialize):
         """Sauvegarde un joueur sur le Database.json"""
-        self.player_table.insert(serialized_player)
+        self.player_table.insert(serialize)
 
     def extract_players_list(self):
         """Extrait les joueurs enregistrés dans le Database.json sous forme de liste"""

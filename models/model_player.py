@@ -10,7 +10,7 @@ class Player:
     """
 
     def __init__(
-        self, surname, first_name, date_of_birth, total_score, national_chess_id
+        self, surname, first_name, date_of_birth, national_chess_id, total_score
     ):
         self.surname = surname
         self.first_name = first_name
@@ -20,18 +20,19 @@ class Player:
 
         self.datas = DataPlayer()
 
-    def serialized_player(self):
+    def serialize(self):
         player = {
             "surname": self.surname,
-            "first name": self.first_name,
-            "date of birth": self.date_of_birth,
-            "National ID chess": self.national_chess_id,
+            "name": self.first_name,
+            "date_of_birth": self.date_of_birth,
+            "national_chess_id": self.national_chess_id,
             "score": self.total_score,
         }
         return player
 
-    def save_player(self, serialized_player):
-        self.datas.save_player_database(self, serialized_player)
+    def save_player(self):
+        data = self.serialize()
+        self.datas.save_player_database(data)
 
     def display_by_surname(self):
         players = self.datas.extract_players_list()

@@ -30,13 +30,16 @@ class PlayerController:
         name = self.view.get_player_name()
         date_of_birth = self.view.get_player_date_of_birth()
         national_chess_id = self.view.get_player_national_chess_id()
-        player = Player
-        serialized_player = player.serialized_player(self)
+        total_score = self.view.get_player_score()
+        player = Player(surname, name, date_of_birth, national_chess_id, total_score)
+        serialized_player = player.serialize()
         self.models.save_player(serialized_player)
 
         return
 
     def display_players_by_surname(self):
         print("==[Affichage des joueurs par ordre Alphabétique]==")
-        self.models.display_by_surname
+        self.models.display_by_surname()
         self.view.print_players_list_by_surname()
+
+        return
