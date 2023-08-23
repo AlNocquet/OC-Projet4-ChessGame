@@ -23,8 +23,6 @@ class Tournament:
         self.rounds = []
         self.players = []
 
-        self.datas = DataApp()
-
     def serialize(self):
         tournament = {
             "name": self.name,
@@ -40,7 +38,11 @@ class Tournament:
 
 def save(self):
     data = self.serialize()
-    self.datas.save_tournament(data)
+    DataApp.save_tournament(data)
+
+
+def display(self):
+    return DataApp.extract_tournament_list(self)
 
 
 class Round:
@@ -61,7 +63,7 @@ class Round:
         round = [self.name, self.start_date_time, self.end_date_time]
         return round
 
-        # Lien Tours et Matches liste
+        # Lien Tours et Matchs liste
 
 
 class Match:

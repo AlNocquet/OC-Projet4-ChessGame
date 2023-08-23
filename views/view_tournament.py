@@ -26,12 +26,6 @@ class ViewTournament:
             else:
                 print("Choix invalide !")
 
-    def create_tournament_false(player_table):
-        print(
-            "La base de données doit contenir 8 joueurs pour pouvoir créer un tournoi \n"
-            f"Actuellement, elle contient {len(player_table)} joueurs"
-        )
-
     def get_tournament_name(self):
         """Affiche le champs demandé pour création du tournoi et renvoie le résultat de la réponse de l'utilisateur"""
 
@@ -85,6 +79,15 @@ class ViewTournament:
 
     def get_tournament_description():
         description = str.capitalize(
-            input("Description du tournoi (réservé directeur): ")
+            input("Remarques générales (réservé au directeur): ")
         )
         return description
+
+    def create_tournament_false(player_table):
+        print(
+            "La base de données doit contenir 8 joueurs pour pouvoir créer un tournoi \n"
+            f"Actuellement, elle contient {len(player_table)} joueurs"
+        )
+
+    def print_registered_tournaments(self):
+        pass

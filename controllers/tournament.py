@@ -45,11 +45,15 @@ class TournamentController:
             tournament = Tournament(name, place, date, description)
             tournament.save()  # Enregistre le tournoi dans Database.json via model_app.py
             self.add_players_tournament()  # Ajoute joueurs (au moins 8) suite création du tournoi
+            # Def ou import def : print(f"Désolé, {joueur} ne fait pas partie de la liste des joueurs")
+            # Def ou import def : Pairer les joueur, Else : print(f"Désolé, {joueur} ne fait pas partie de la liste des joueurs")
             self.create_turn()  # Créer un Round (Tour) suite création du tournoi
             return
 
         else:
-            return self.view.create_tournament_false(player_table)
+            return self.view.create_tournament_false(
+                player_table
+            )  # Pas assez de joueurs
 
     def add_players_tournament(self):
         """Affiche les joueurs enregistrés dans Database.json et renvoie le choix du joueur de l'utilisateur"""
@@ -59,8 +63,12 @@ class TournamentController:
         """Créer un Round (Tour)"""
         pass
 
-    def show_tournament_datas():
-        pass  # names, places, dates, players
+    def display_tournaments(self):
+        print("==[Affichage des tournoir enregistrés]==")
+        Tournament.display(self)
+        ViewTournament.print_registered_tournaments(self)
+
+        return
 
     def show_tournament_list():
         pass

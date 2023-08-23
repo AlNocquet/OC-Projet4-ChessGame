@@ -16,3 +16,7 @@ class DataApp:
     def save_tournament(self, serialize):
         """Sauvegarde un tournoi dans Database.json"""
         self.tournament_table.insert(serialize)
+
+    def extract_tournament_list(self):
+        """Extrait les tournois enregistrés dans le Database.json sous forme de liste"""
+        return self.tournament_table.all()
