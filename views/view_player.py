@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class ViewPlayer:
-    def display_player_menu():
+    def display_player_menu(self):
         """Affiche le menu Joueur et renvoie le résultat du choix de l'utilisateur"""
 
         while True:
@@ -13,8 +13,8 @@ class ViewPlayer:
 
             choice = input("Entrez votre choix :")
 
-            if choice in ["1", "2", "3", "4"]:
-                if choice == "4":
+            if choice in ["1", "2", "3"]:
+                if choice == "3":
                     print("Ok !")
 
                 return choice
@@ -22,7 +22,7 @@ class ViewPlayer:
             else:
                 print("Choix invalide !")
 
-    def get_player_surname():
+    def get_player_surname(self):
         """Affiche le champs demandé pour création du joueur et renvoie le résultat de la réponse de l'utilisateur"""
 
         while True:
@@ -41,7 +41,7 @@ class ViewPlayer:
 
                 continue
 
-    def get_player_name():
+    def get_player_name(self):
         while True:
             name = str.capitalize(input("Prénom du joueur :"))
 
@@ -58,47 +58,44 @@ class ViewPlayer:
 
                 continue
 
-    def get_player_date_of_birth():
+    def get_player_date_of_birth(self):
         valid_birthday = False
 
         while valid_birthday == False:
-            date_of_birth = input("Date de naissance sous format JJ-MM-AAAA : ")
+            date_of_birth = input("Date de naissance au format JJ-MM-AAAA : ")
 
             try:
                 formated_date = datetime.strptime(date_of_birth, "%d-%m-%Y")
 
             except ValueError:
-                print("Format de date invalide")
+                print("Veuillez entrer une date valide au format JJ-MM-AAAA.")
+
                 continue
 
             now = datetime.now()
 
             if now.year - formated_date.year >= 18:
                 valid_birthday = True
+                return date_of_birth
+
             else:
                 print("Vous devez avoir au moins 18 ans pour vous inscrire.")
 
-            if len(date_of_birth) == 0:
-                print("Veuillez entrer votre date de naissance.")
-
-            return date_of_birth
-
-    def get_player_national_chess_id():
+    def get_player_national_chess_id(self):
         while True:
             national_chess_id = input("Identifiant national d échec de la fédération :")
 
             if len(national_chess_id) == 7:
-                print(
-                    "Veuillez entrer votre identifiant national d échec de la fédération."
-                )
                 return national_chess_id
 
-            print("Veuillez entrer un identifiant valide.")
+            else:
+                len(national_chess_id) != 7
+                print("Veuillez entrer un identifiant valide (7 caractères).")
 
-    def get_player_score():
+    def get_player_score(self):
         pass
 
-    def print_players_list_by_surname():
+    def print_players_list_by_surname(self):
         pass
 
         # PARAMETRAGE AFFICHAGE TABLEAU

@@ -1,3 +1,6 @@
+from datas.data_app import DataApp
+
+
 class Tournament:
 
     """Créée l'objet Tournament qui doit s'enregistrer automatiquement dans la base. Chaque instance d'un tournoi est renseigné
@@ -13,14 +16,16 @@ class Tournament:
         self.name = name
         self.place = place
         self.date = date
-        # self.time = temps ?
+        # self.time_control = temps ?
         self.number_of_rounds = number_of_rounds
         self.number_current_round = 0
         self.description = description
         self.rounds = []
         self.players = []
 
-    def serialize_tournament(self):
+        self.datas = DataApp()
+
+    def serialize(self):
         tournament = {
             "name": self.name,
             "place": self.place,
@@ -31,6 +36,11 @@ class Tournament:
             "players": self.players,
         }
         return tournament
+
+
+def save(self):
+    data = self.serialize()
+    self.datas.save_tournament(data)
 
 
 class Round:

@@ -2,6 +2,8 @@ from models.model_app import Tournament
 from models.model_app import Round
 from models.model_app import Match
 from views.view_tournament import ViewTournament
+from datas.data_player import DataPlayer
+from datas.data_app import DataApp
 
 
 class TournamentController:
@@ -31,11 +33,34 @@ class TournamentController:
             elif choice == "7":
                 exit_requested = True
 
-    def create_tournament():
+    def create_tournament(self):
+        print("============[Création de tournoi]============")
+        player_table = DataPlayer.player_table
+        if len(player_table) == 8:
+            name = self.view.get_tournament_name()
+            place = self.view.get_tournament_place()
+            date = self.view.get_tournament_date()
+            # time_control = self.view.get_tournament_time_control()
+            description = self.view.get_tournament_description()
+            tournament = Tournament(name, place, date, description)
+            tournament.save()  # Enregistre le tournoi dans Database.json via model_app.py
+            self.add_players_tournament()  # Ajoute joueurs (au moins 8) suite création du tournoi
+            self.create_turn()  # Créer un Round (Tour) suite création du tournoi
+            return
+
+        else:
+            return self.view.create_tournament_false(player_table)
+
+    def add_players_tournament(self):
+        """Affiche les joueurs enregistrés dans Database.json et renvoie le choix du joueur de l'utilisateur"""
+        DataPlayer.extract_players_list(self)
+
+    def create_turn(self):
+        """Créer un Round (Tour)"""
         pass
 
     def show_tournament_datas():
-        pass  # names, dates
+        pass  # names, places, dates, players
 
     def show_tournament_list():
         pass

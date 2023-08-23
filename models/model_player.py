@@ -1,6 +1,6 @@
-from operator import itemgetter, attrgetter
-
 from datas.data_player import DataPlayer
+
+from operator import itemgetter, attrgetter
 
 
 class Player:
@@ -30,11 +30,11 @@ class Player:
         }
         return player
 
-    def save_player(self):
+    def save(self):
         data = self.serialize()
-        self.datas.save_player_database(data)
+        self.datas.save_player(data)
 
     def display_by_surname(self):
-        players = self.datas.extract_players_list()
+        players = DataPlayer.extract_players_list(self)
         sorted_players = sorted(players, key=itemgetter("surname"))
-        return
+        return sorted_players
