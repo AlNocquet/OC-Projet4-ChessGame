@@ -1,9 +1,6 @@
-from models.model_app import Tournament
-from models.model_app import Round
-from models.model_app import Match
+from models.model_tournament import Tournament
 from views.view_tournament import ViewTournament
 from datas.data_player import DataPlayer
-from datas.data_app import DataApp
 
 
 class TournamentController:
@@ -11,12 +8,12 @@ class TournamentController:
         self.view = ViewTournament()
 
     def manage_tournament(self):
-        """Affiche le MENU "GESTION DES TOURNOIS" et renvoie le résultat du choix de l'utilisateur"""
+        """Displays the menu "GESTION DES TOURNOIS" from view_tournament and return the user's choice"""
 
         exit_requested = False
 
         while not exit_requested:
-            choice = self.display_tournament_menu(self)
+            choice = self.view.display_tournament_menu(self)
 
             if choice == "1":
                 pass
@@ -34,50 +31,43 @@ class TournamentController:
                 exit_requested = True
 
     def create_tournament(self):
-        print("============[Création de tournoi]============")
+        """Get tournament's datas  and saves it in the database from the model_tournament.
+        Adds registered players of the database from data_player with the condition of a sufficient number of players per round.
+        """
+        name = self.view.get_tournament_name()
+        place = self.view.get_tournament_place()
+        date = self.view.get_tournament_date()
+        # time_control = self.view.get_tournament_time_control()
+        description = self.view.get_tournament_description()
+        player_number = self.view.get_tournament_player_number()
+        round_number = self.view.get_tournament_round()
+
         player_table = DataPlayer.player_table
-        if len(player_table) == 8:
-            name = self.view.get_tournament_name()
-            place = self.view.get_tournament_place()
-            date = self.view.get_tournament_date()
-            # time_control = self.view.get_tournament_time_control()
-            description = self.view.get_tournament_description()
-            tournament = Tournament(name, place, date, description)
-            tournament.save()  # Enregistre le tournoi dans Database.json via model_app.py
-            self.add_players_tournament()  # Ajoute joueurs (au moins 8) suite création du tournoi
-            # Def ou import def : print(f"Désolé, {joueur} ne fait pas partie de la liste des joueurs")
-            # Def ou import def : Pairer les joueur, Else : print(f"Désolé, {joueur} ne fait pas partie de la liste des joueurs")
-            self.create_turn()  # Créer un Round (Tour) suite création du tournoi
+        if len(player_table) < round_number * 2:
+            self.view.display_message(
+                f"Vous devez avoir au moins {round_number * 2} joueurs dans la base."
+            )
             return
 
-        else:
-            return self.view.create_tournament_false(
-                player_table
-            )  # Pas assez de joueurs
+        tournament = Tournament()
+        tournament.save()
+
+        self.add_players_tournament()
+
+        # self.create_turn()
+        return
 
     def add_players_tournament(self):
-        """Affiche les joueurs enregistrés dans Database.json et renvoie le choix du joueur de l'utilisateur"""
-        DataPlayer.extract_players_list(self)
-
-    def create_turn(self):
-        """Créer un Round (Tour)"""
+        """Displays saved players in Database.json and returns user's player choice"""
+        # DataPlayer.extract_players_list(self)
         pass
 
-    def display_tournaments(self):
-        print("==[Affichage des tournoir enregistrés]==")
-        Tournament.display(self)
+    def create_turn(self):
+        """"""
+        pass
+
+    def get_tournaments(self):
+        Tournaments = Tournament.get_all_tournaments()
         ViewTournament.print_registered_tournaments(self)
 
         return
-
-    def show_tournament_list():
-        pass
-
-    def show_tournament_players_by_surname():
-        pass
-
-    def show_tournament_rounds():
-        pass
-
-    def show_tournament_matchs():
-        pass

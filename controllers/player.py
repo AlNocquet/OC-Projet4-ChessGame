@@ -7,7 +7,7 @@ class PlayerController:
         self.view = ViewPlayer()
 
     def manage_player(self):
-        """Affiche le MENU "GESTION DES JOUEURS" et renvoie le résultat du choix de l'utilisateur"""
+        """Display the menu "GESTION DES JOUEURS" from view_player and return the user's choice"""
 
         exit_requested = False
 
@@ -17,12 +17,12 @@ class PlayerController:
             if choice == "1":
                 self.create_player()
             elif choice == "2":
-                self.display_players_by_surname()
+                self.get_players_by_surname()
             elif choice == "3":
                 exit_requested = True
 
     def create_player(self):
-        print("============[Création joueur]============")
+        """Get players datas and save it from the model_player"""
         surname = self.view.get_player_surname()
         first_name = self.view.get_player_name()
         date_of_birth = self.view.get_player_date_of_birth()
@@ -35,9 +35,9 @@ class PlayerController:
 
         return
 
-    def display_players_by_surname(self):
-        print("==[Affichage des joueurs par ordre Alphabétique]==")
-        Player.display_by_surname(self)
-        ViewPlayer.print_players_list_by_surname(self)
+    def get_players_by_surname(self):
+        """Get players list from the model_player and display it by surname from view_player"""
+        players = Player.get_all_sort_by_surname()
+        self.view.display_all_sort_by_surname(players)
 
         return

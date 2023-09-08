@@ -2,7 +2,7 @@ from tinydb import TinyDB
 import os
 
 
-class DataApp:
+class DataTournament:
 
     """"""
 
@@ -14,9 +14,9 @@ class DataApp:
         self.tournament_table = self.db.table("Tournaments")
 
     def save_tournament(self, serialize):
-        """Sauvegarde un tournoi dans Database.json"""
+        """Saves tournament in Database.json"""
         self.tournament_table.insert(serialize)
 
     def extract_tournament_list(self):
-        """Extrait les tournois enregistrés dans le Database.json sous forme de liste"""
+        """Extracts tournaments saved in Database.json as a dictionary list"""
         return self.tournament_table.all()

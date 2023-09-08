@@ -3,7 +3,7 @@ from datetime import datetime
 
 class ViewPlayer:
     def display_player_menu(self):
-        """Affiche le menu Joueur et renvoie le résultat du choix de l'utilisateur"""
+        """Displays the Player menu and returns the user's choice"""
 
         while True:
             print("===============[MENU JOUEUR]===============")
@@ -23,7 +23,7 @@ class ViewPlayer:
                 print("Choix invalide !")
 
     def get_player_surname(self):
-        """Affiche le champs demandé pour création du joueur et renvoie le résultat de la réponse de l'utilisateur"""
+        """Displays field requested for player creation and returns the user's response"""
 
         while True:
             surname = str.capitalize(input("Nom de famille du joueur :"))
@@ -95,7 +95,8 @@ class ViewPlayer:
     def get_player_score(self):
         pass
 
-    def print_players_list_by_surname(self):
-        pass
+    def display_all_sort_by_surname(self, players: list):
+        "Display list of all players ordered by surname (from model_player), with rich from base_view"
 
-        # PARAMETRAGE AFFICHAGE TABLEAU
+        title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
+        # self.view_base.table_settings(players, title)

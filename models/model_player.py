@@ -9,6 +9,8 @@ class Player:
     le nom, le prénom, la date de naissance, le classement, l'identifiant national d'échec de la fédération.
     """
 
+    datas = DataPlayer()  # Hors Init, Partagé par tous les objets de la classe
+
     def __init__(
         self, surname, first_name, date_of_birth, national_chess_id, total_score
     ):
@@ -17,8 +19,6 @@ class Player:
         self.date_of_birth = date_of_birth
         self.national_chess_id = national_chess_id
         self.total_score = 0
-
-        self.datas = DataPlayer()
 
     def serialize(self):
         player = {
@@ -30,11 +30,20 @@ class Player:
         }
         return player
 
-    def save(self):
+    def save(self):  # méthode d'instance = sur un objet
+        "Saves the player in the database (from data_player)"
         data = self.serialize()
         self.datas.save_player(data)
 
-    def display_by_surname(self):
-        players = DataPlayer.extract_players_list(self)
-        sorted_players = sorted(players, key=itemgetter("surname"))
+    @classmethod
+    # Non propre à un objet player mais toute la base "joueurs" = pas méthode d'instance mais de classe (cls, pointeur vers la classe par convention)
+    # DataPlayer sort du constructeur de Player : pas en variable d'instance, pas seulement propre à chaque objet de Player = commun à tous les objets (variable de classe)
+    def get_all_sort_by_surname(cls):
+        """Returns a list of players by surname"""
+
+        players = cls.datas.extract_players_list()  # Def Extraction liste joueurs
+        sorted_players = sorted(
+            players, key=itemgetter("surname")
+        )  # Trier avec clé de comparaison (valeur en paramètre)
+        # player.sort() = trie la liste sur place, sorted = nouvelle liste, garde liste initiale
         return sorted_players
