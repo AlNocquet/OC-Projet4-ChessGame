@@ -1,12 +1,22 @@
+from .view_base import BaseView
+
 from datetime import datetime
+from colorama import Fore, Style, Back
 
 
-class ViewTournament:
+class ViewTournament(BaseView):
     def display_tournament_menu(self):
         """Affiche le menu Tournoi et renvoie le résultat du choix de l'utilisateur"""
 
         while True:
-            print("===============[MENU JOUEUR]===============")
+            print(
+                Fore.WHITE
+                + Back.BLUE
+                + Style.BRIGHT
+                + "================[MENU TOURNOI]================"
+                + Style.RESET_ALL
+            )
+
             print("1. Créer un Tournoi")
             print("2. Consulter données d un Tournoi")
             print("3. Consulter liste des Tournois")
@@ -19,7 +29,7 @@ class ViewTournament:
 
             if choice in ["1", "2", "3", "4", "5", "6", "7"]:
                 if choice == "7":
-                    print("Ok !")
+                    print("\n     Ok !\n")
 
                 return choice
 

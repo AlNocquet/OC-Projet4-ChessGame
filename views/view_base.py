@@ -1,41 +1,16 @@
 from rich.console import Console
 from rich.table import Table
 
-from dataclasses import asdict, dataclass
-
-
-@dataclass
-class BasePlayer:
-    surname: str
-    first_name: str
-    date_of_birth: str
-    national_chess_id: str
-    score: str
-
-    def __str__(self) -> str:
-        return f", {self.surname}, {self.first_name}, {self.date_of_birth}, {self.national_chess_id}, {self.score} "
-
-    def serialize(self):
-        return asdict(self)
-
-    def str_list(self) -> list[str]:
-        """Return the values in str list"""
-        return [
-            self.surname,
-            self.first_name,
-            self.date_of_birth,
-            self.national_chess_id,
-            self.score,
-        ]
+from colorama import Fore, Style, Back
 
 
 class BaseView:
     @classmethod
     def display_message(self, msg: str):
         "Displays the message related to the function from view_player or view_tournament which uses it"
-        print(msg)
+        print(Fore.RED + msg + Style.RESET_ALL)
 
-    def table_settings(title: str, BasePlayer):
+    def table_settings(title: str, items=list):
         "Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"
 
         table = Table(
@@ -52,7 +27,7 @@ class BaseView:
             headers = ["Liste vide"]
 
         for title in headers:
-            table.add_column(title, style="cyan", justify="center")
+            table.add_column(title, style="cyan")
 
         for item in items:
             table.add_row(*item.values())

@@ -1,6 +1,11 @@
 from models.model_tournament import Tournament
 from views.view_tournament import ViewTournament
+from views.view_player import ViewPlayer
+from views.view_base import BaseView
 from datas.data_player import DataPlayer
+from controllers.player import PlayerController
+
+from colorama import Fore, Style, Back
 
 
 class TournamentController:
@@ -13,7 +18,7 @@ class TournamentController:
         exit_requested = False
 
         while not exit_requested:
-            choice = self.view.display_tournament_menu(self)
+            choice = ViewTournament.display_tournament_menu(self)
 
             if choice == "1":
                 pass
@@ -34,10 +39,17 @@ class TournamentController:
         """Get tournament's datas  and saves it in the database from the model_tournament.
         Adds registered players of the database from data_player with the condition of a sufficient number of players per round.
         """
+
+        print(
+            Fore.BLUE
+            + Style.BRIGHT
+            + "============[CRÉATION DU TOURNOI]============="
+            + Style.RESET_ALL
+        )
+
         name = self.view.get_tournament_name()
         place = self.view.get_tournament_place()
         date = self.view.get_tournament_date()
-        # time_control = self.view.get_tournament_time_control()
         description = self.view.get_tournament_description()
         player_number = self.view.get_tournament_player_number()
         round_number = self.view.get_tournament_round()
@@ -54,13 +66,16 @@ class TournamentController:
 
         self.add_players_tournament()
 
-        # self.create_turn()
         return
 
     def add_players_tournament(self):
-        """Displays saved players in Database.json and returns user's player choice"""
-        # DataPlayer.extract_players_list(self)
-        pass
+        """Displays saved players in Database.json and add them according to user's choice"""
+
+        PlayerController.get_players_by_surname()
+        DataPlayer.get_doc_id_by_player()
+
+        # while str(surname) not in players_list:
+        # BaseView.display_message("Désolé, il n'y a pas de joueur à ce nom")
 
     def create_turn(self):
         """"""

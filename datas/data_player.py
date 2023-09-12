@@ -1,4 +1,4 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 import os
 
 
@@ -20,3 +20,12 @@ class DataPlayer:
     def extract_players_list(self):
         """Extracts players saved in Database.json as a dictionary list"""
         return self.player_table.all()  # Retourne liste entière extraite
+
+    def get_doc_id_by_player(self, surname):
+        """Extracts player's doc_id by searching by surname in the Database.json"""
+
+        User = Query()
+
+        player = self.player_table.get(User.surname == surname)
+        player_id = player.doc_id
+        return player_id
