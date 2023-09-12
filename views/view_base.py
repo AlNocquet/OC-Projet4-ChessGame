@@ -1,7 +1,32 @@
 from rich.console import Console
 from rich.table import Table
 
-# from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass
+
+
+@dataclass
+class BasePlayer:
+    surname: str
+    first_name: str
+    date_of_birth: str
+    national_chess_id: str
+    score: str
+
+    def __str__(self) -> str:
+        return f", {self.surname}, {self.first_name}, {self.date_of_birth}, {self.national_chess_id}, {self.score} "
+
+    def serialize(self):
+        return asdict(self)
+
+    def str_list(self) -> list[str]:
+        """Return the values in str list"""
+        return [
+            self.surname,
+            self.first_name,
+            self.date_of_birth,
+            self.national_chess_id,
+            self.score,
+        ]
 
 
 class BaseView:
@@ -10,8 +35,7 @@ class BaseView:
         "Displays the message related to the function from view_player or view_tournament which uses it"
         print(msg)
 
-    @classmethod
-    def table_settings(title: str, items: list):
+    def table_settings(title: str, BasePlayer):
         "Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"
 
         table = Table(

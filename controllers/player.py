@@ -40,5 +40,5 @@ class PlayerController:
         """Get players list from the model_player and display it with rich from base_view"""
         players = Player.get_all_sort_by_surname()
         title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
-        BaseView.table_settings(players)
+        BaseView.table_settings(players, items=list)
         return
