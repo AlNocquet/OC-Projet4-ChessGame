@@ -10,7 +10,8 @@ class BaseView:
         "Displays the message related to the function from view_player or view_tournament which uses it"
         print(msg)
 
-    def table_settings(title: str, items: dict):
+    @classmethod
+    def table_settings(title: str, items: list):
         "Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"
 
         table = Table(
