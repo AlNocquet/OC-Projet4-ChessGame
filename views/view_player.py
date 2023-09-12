@@ -94,9 +94,3 @@ class ViewPlayer:
 
     def get_player_score(self):
         pass
-
-    def display_all_sort_by_surname(self, players: list):
-        "Display list of all players ordered by surname (from model_player), with rich from base_view"
-
-        title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
-        # self.view_base.table_settings(players, title)

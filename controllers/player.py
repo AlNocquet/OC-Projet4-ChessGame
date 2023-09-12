@@ -1,5 +1,6 @@
 from models.model_player import Player
 from views.view_player import ViewPlayer
+from views.view_base import BaseView
 
 
 class PlayerController:
@@ -36,8 +37,8 @@ class PlayerController:
         return
 
     def get_players_by_surname(self):
-        """Get players list from the model_player and display it by surname from view_player"""
+        """Get players list from the model_player and display it with rich from base_view"""
         players = Player.get_all_sort_by_surname()
-        self.view.display_all_sort_by_surname(players)
-
+        title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
+        BaseView.table_settings(players)
         return
