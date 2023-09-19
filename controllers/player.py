@@ -3,6 +3,7 @@ from views.view_player import ViewPlayer
 from views.view_base import BaseView
 
 from colorama import Fore, Style
+import os
 
 
 class PlayerController:
@@ -20,33 +21,19 @@ class PlayerController:
             if choice == "1":
                 self.create_player()
             elif choice == "2":
-                self.get_players_by_surname()
+                self.display_players_by_surname()
             elif choice == "3":
                 exit_requested = True
 
     def create_player(self):
-        """Get players datas and save it from the model_player"""
+        """Get players datas (unpack dictionary) from view_player and save it from the model_player"""
 
-        print(
-            Fore.MAGENTA
-            + Style.BRIGHT
-            + "============[CRÉATION DU JOUEUR]============="
-            + Style.RESET_ALL
-        )
-
-        surname = self.view.get_player_surname()
-        first_name = self.view.get_player_name()
-        date_of_birth = self.view.get_player_date_of_birth()
-        national_chess_id = self.view.get_player_national_chess_id()
-        total_score = 0
-        player = Player(
-            surname, first_name, date_of_birth, national_chess_id, total_score
-        )
+        player = self.view.get_new_player()
+        player = Player(**player)
         player.save()
+        self.view.display_message(f"Joueur sauvegardé avec succès !")
 
-        return
-
-    def get_players_by_surname(self):
+    def display_players_by_surname(self):
         """Get players list from the model_player and display it with rich from base_view"""
         players = []
         for p in Player.get_all_sort_by_surname():

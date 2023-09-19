@@ -1,6 +1,6 @@
 from datas.data_player import DataPlayer
 
-from operator import itemgetter, attrgetter
+from operator import itemgetter
 
 
 class Player:
@@ -11,14 +11,12 @@ class Player:
 
     datas = DataPlayer()  # Hors Init, Partagé par tous les objets de la classe
 
-    def __init__(
-        self, surname, first_name, date_of_birth, national_chess_id, total_score
-    ):
+    def __init__(self, surname, first_name, date_of_birth, national_chess_id, score=0):
         self.surname = surname
         self.first_name = first_name
         self.date_of_birth = date_of_birth
         self.national_chess_id = national_chess_id
-        self.total_score = 0
+        self.score = score
 
     def serialize(self):
         player = {
@@ -26,7 +24,7 @@ class Player:
             "name": self.first_name,
             "date_of_birth": self.date_of_birth,
             "national_chess_id": self.national_chess_id,
-            "score": self.total_score,
+            "score": self.score,
         }
         return player
 
@@ -40,10 +38,6 @@ class Player:
     # DataPlayer sort du constructeur de Player : pas en variable d'instance, pas seulement propre à chaque objet de Player = commun à tous les objets (variable de classe)
     def get_all_sort_by_surname(cls):
         """Returns a list of players by surname"""
-
-        players = cls.datas.extract_players_list()  # Def Extraction liste joueurs
-        sorted_players = sorted(
-            players, key=itemgetter("surname")
-        )  # Trier avec clé de comparaison (valeur en paramètre)
-        # player.sort() = trie la liste sur place, sorted = nouvelle liste, garde liste initiale
+        players = cls.datas.extract_players_list()
+        sorted_players = sorted(players, key=itemgetter("surname"))
         return sorted_players

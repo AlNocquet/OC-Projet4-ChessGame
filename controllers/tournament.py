@@ -5,12 +5,13 @@ from views.view_base import BaseView
 from datas.data_player import DataPlayer
 from controllers.player import PlayerController
 
-from colorama import Fore, Style, Back
+from colorama import Fore, Style, Back  # ,init
 
 
 class TournamentController:
     def __init__(self) -> None:
         self.view = ViewTournament()
+        self.view_player = ViewPlayer()
 
     def manage_tournament(self):
         """Displays the menu "GESTION DES TOURNOIS" from view_tournament and return the user's choice"""
@@ -18,10 +19,11 @@ class TournamentController:
         exit_requested = False
 
         while not exit_requested:
-            choice = ViewTournament.display_tournament_menu(self)
+            choice = self.view.display_tournament_menu()
 
             if choice == "1":
-                pass
+                self.create_tournament()
+
             elif choice == "2":
                 pass
             elif choice == "3":
@@ -40,19 +42,11 @@ class TournamentController:
         Adds registered players of the database from data_player with the condition of a sufficient number of players per round.
         """
 
-        print(
-            Fore.BLUE
-            + Style.BRIGHT
-            + "============[CRÉATION DU TOURNOI]============="
-            + Style.RESET_ALL
-        )
+        tournament = self.view.get_new_tournament()
+        tournament = Tournament(**tournament)
 
-        name = self.view.get_tournament_name()
-        place = self.view.get_tournament_place()
-        date = self.view.get_tournament_date()
-        description = self.view.get_tournament_description()
-        player_number = self.view.get_tournament_player_number()
-        round_number = self.view.get_tournament_round()
+        player_number = self.view.get_player_number("Nombre de joueurs")
+        round_number = 2
 
         player_table = DataPlayer.player_table
         if len(player_table) < round_number * 2:
@@ -61,8 +55,8 @@ class TournamentController:
             )
             return
 
-        tournament = Tournament()
         tournament.save()
+        self.view.display_message(f"Tournoi sauvegardé avec succès !")
 
         self.add_players_tournament()
 
@@ -72,10 +66,7 @@ class TournamentController:
         """Displays saved players in Database.json and add them according to user's choice"""
 
         PlayerController.get_players_by_surname()
-        DataPlayer.get_doc_id_by_player()
-
-        # while str(surname) not in players_list:
-        # BaseView.display_message("Désolé, il n'y a pas de joueur à ce nom")
+        # DataPlayer.get_doc_id_by_player()
 
     def create_turn(self):
         """"""

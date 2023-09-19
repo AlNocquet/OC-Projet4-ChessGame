@@ -16,7 +16,6 @@ class Tournament:
         self.name = name
         self.place = place
         self.date = date
-        # self.time_control = temps ?
         self.number_of_rounds = number_of_rounds
         self.number_current_round = 0
         self.description = description
