@@ -26,5 +26,5 @@ class AppController:
                 self.tournament_controller.manage_tournament()
             elif choice == "2":
                 self.player_controller.manage_player()
-            elif choice == "3":
-                exit_requested = True
+            elif choice == "Q" or choice == "q":
+                exit()

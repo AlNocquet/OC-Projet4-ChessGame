@@ -4,10 +4,22 @@ from rich.table import Table
 from colorama import Fore, Style, Back  # , init
 
 console = Console()
-# pythoninit(autoreset=True)
+# python init(autoreset=True)
+
+EXIT_CODE = "exit"
+
+
+class CancelError(Exception):
+    ...
+
+
+class PlayerNotFound(Exception):
+    ...
 
 
 class BaseView:
+    """BaseView object manage all formats and characteristics of user's requests."""
+
     @classmethod
     def display_message(self, msg: str):
         "Displays the message related to the function from view_player or view_tournament which uses it"
@@ -57,6 +69,9 @@ class BaseView:
         while True:
             value = str.capitalize(input(f"{label} : "))
 
+            if value.lower() == EXIT_CODE:
+                raise CancelError
+
             if value.isalpha():
                 return value
 
@@ -76,6 +91,9 @@ class BaseView:
 
             if value.isalnum():
                 return value
+
+            if value.lower() == EXIT_CODE:
+                raise CancelError
 
             msg = "La chaine de caractère ne doit être composée que de lettres et de chiffres."
             print(Fore.RED + msg + Style.RESET_ALL)

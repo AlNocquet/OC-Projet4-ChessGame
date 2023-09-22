@@ -7,21 +7,22 @@ class ViewApp:
 
         while True:
             print(
-                Fore.WHITE
+                "\n"
+                + Fore.WHITE
                 + Back.RED
                 + Style.BRIGHT
-                + "===============[MENU PRINCIPAL]==============="
+                + "===============[MENU PRINCIPAL]===============\n"
                 + Style.RESET_ALL
             )
             print("1. Gestion des Tournois")
             print("2. Gestion des Joueurs")
-            print("3. Quitter")
+            print("Q. Quitter le programme")
 
-            choice = input("Entrez votre choix :")
+            choice = input("\n Entrez votre choix :")
 
-            if choice in ["1", "2", "3"]:
-                if choice == "3":
-                    print("\n                  Au revoir !")
+            if choice in ["1", "2", "Q", "q"]:
+                if choice == "Q" or choice == "q":
+                    print("\n                  Au revoir !\n")
                 return choice
             else:
-                print("Choix invalide !")
+                print(Fore.RED + "\n Choix invalide !\n" + Style.RESET_ALL)

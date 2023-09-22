@@ -13,7 +13,7 @@ class ViewTournament(BaseView):
                 Fore.WHITE
                 + Back.BLUE
                 + Style.BRIGHT
-                + "================[MENU TOURNOI]================"
+                + "================[MENU TOURNOI]================\n"
                 + Style.RESET_ALL
             )
 
@@ -24,24 +24,28 @@ class ViewTournament(BaseView):
             print("5. Consulter liste des Tours d un Tournoi")
             print("6. Consulter liste des Matchs d un Tournoi")
             print("7. Revenir au MENU PRINCIPAL")
+            print("8. Quitter le programme")
 
-            choice = input("Entrez votre choix :")
+            choice = input("\n Entrez votre choix :")
 
             if choice in ["1", "2", "3", "4", "5", "6", "7"]:
                 if choice == "7":
                     print("\n     Ok !\n")
 
+                if choice == "8":
+                    print("\n                  Au revoir !")
+
                 return choice
 
             else:
-                print("Choix invalide !")
+                print("Choix invalide !\n")
 
     def get_new_tournament(self) -> dict:
         """Displays field requested for tournament creation and returns the user's response"""
         print(
-            Fore.BLUE
+            Fore.CYAN
             + Style.BRIGHT
-            + "============[CRÉATION DU TOURNOI]============="
+            + "============[CRÉATION DU TOURNOI]=============\n"
             + Style.RESET_ALL
         )
 

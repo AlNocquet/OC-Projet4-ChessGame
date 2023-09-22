@@ -36,6 +36,8 @@ class TournamentController:
                 pass
             elif choice == "7":
                 exit_requested = True
+            elif choice == "8":
+                exit()
 
     def create_tournament(self):
         """Get tournament's datas  and saves it in the database from the model_tournament.

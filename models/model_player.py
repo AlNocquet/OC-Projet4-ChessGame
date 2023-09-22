@@ -1,12 +1,14 @@
 from datas.data_player import DataPlayer
+from views.view_base import PlayerNotFound
 
 from operator import itemgetter
 
 
 class Player:
 
-    """Crée l'objet Player qui doit s'enregistrer automatiquement dans la base. L'instance du joueur doit contenir au moins :
-    le nom, le prénom, la date de naissance, le classement, l'identifiant national d'échec de la fédération.
+    """Creates the Player object which should automatically register in the database "Players.json" from data_player.
+    The player instance must contain at least:
+    the name, first name, date of birth, classification, national failure identifier of the federation.
     """
 
     datas = DataPlayer()  # Hors Init, Partagé par tous les objets de la classe
@@ -29,7 +31,7 @@ class Player:
         return player
 
     def save(self):  # méthode d'instance = sur un objet
-        "Saves the player in the database (from data_player)"
+        """Saves the player in the database (from data_player)"""
         data = self.serialize()
         self.datas.save_player(data)
 
@@ -41,3 +43,13 @@ class Player:
         players = cls.datas.extract_players_list()
         sorted_players = sorted(players, key=itemgetter("surname"))
         return sorted_players
+
+    @classmethod
+    def get_player_by_id(cls, id: int) -> "Player":
+        """Return a Player instance matching the id in db"""
+        data = cls.datas.get_by_id(id)
+        if data is None:
+            raise PlayerNotFound(
+                f"Le joueur avec l'identifiant {id} n'existe pas dans la base de données"
+            )
+        return Player(**data)
