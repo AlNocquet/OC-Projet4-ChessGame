@@ -1,6 +1,7 @@
 {
     "Players": {
         "1": {
+            "db_id": "1",
             "surname": "Nocquet",
             "name": "Alice",
             "date_of_birth": "05-11-1985",
@@ -8,6 +9,7 @@
             "score": 0
         },
         "2": {
+            "db_id": "2",
             "surname": "Omaj",
             "name": "Olivier",
             "date_of_birth": "11-03-1981",
@@ -15,6 +17,7 @@
             "score": 0
         },
         "3": {
+            "db_id": "3",
             "surname": "Bundy",
             "name": "Ted",
             "date_of_birth": "24-01-1989",
@@ -22,6 +25,7 @@
             "score": 0
         },
         "4": {
+            "db_id": "4",
             "surname": "Pops",
             "name": "Harry",
             "date_of_birth": "04-04-1982",
@@ -29,6 +33,7 @@
             "score": 0
         },
         "5": {
+            "db_id": "5",
             "surname": "Kruger",
             "name": "Victor",
             "date_of_birth": "05-01-1964",
@@ -36,6 +41,7 @@
             "score": 0
         },
         "6": {
+            "db_id": "6",
             "surname": "Steele",
             "name": "Peter",
             "date_of_birth": "23-12-1964",
@@ -43,6 +49,7 @@
             "score": 0
         },
         "7": {
+            "db_id": "7",
             "surname": "Chuck",
             "name": "Norris",
             "date_of_birth": "10-03-1940",
@@ -50,6 +57,7 @@
             "score": 0
         },
         "8": {
+            "db_id": "8",
             "surname": "Van Damme",
             "name": "Jean-claude",
             "date_of_birth": "18-10-1960",
@@ -57,6 +65,7 @@
             "score": 0
         },
         "9": {
+            "db_id": "9",
             "surname": "Cavill",
             "name": "Henry",
             "date_of_birth": "05-05-1983",
@@ -64,6 +73,7 @@
             "score": 0
         },
         "10": {
+            "db_id": "10",
             "surname": "Barba",
             "name": "Rafael",
             "date_of_birth": "14-03-1970",

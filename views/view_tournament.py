@@ -1,7 +1,6 @@
 from .view_base import BaseView
 
 from datetime import datetime
-from colorama import Fore, Style, Back
 
 
 class ViewTournament(BaseView):
@@ -9,12 +8,8 @@ class ViewTournament(BaseView):
         """Affiche le menu Tournoi et renvoie le résultat du choix de l'utilisateur"""
 
         while True:
-            print(
-                Fore.WHITE
-                + Back.BLUE
-                + Style.BRIGHT
-                + "================[MENU TOURNOI]================\n"
-                + Style.RESET_ALL
+            self.tournament_menu_settings(
+                f"\n ===============[ MENU TOURNOI ]===============\n"
             )
 
             print("1. Créer un Tournoi")
@@ -30,23 +25,20 @@ class ViewTournament(BaseView):
 
             if choice in ["1", "2", "3", "4", "5", "6", "7"]:
                 if choice == "7":
-                    print("\n     Ok !\n")
+                    self.display_message(f"\n Ok !\n")
 
                 if choice == "8":
-                    print("\n                  Au revoir !")
+                    self.display_message(f"\n Au revoir !\n")
 
                 return choice
 
             else:
-                print("Choix invalide !\n")
+                self.display_error_message(f"\n Choix invalide !\n")
 
     def get_new_tournament(self) -> dict:
         """Displays field requested for tournament creation and returns the user's response"""
-        print(
-            Fore.CYAN
-            + Style.BRIGHT
-            + "============[CRÉATION DU TOURNOI]=============\n"
-            + Style.RESET_ALL
+        self.tournament_sections_settings(
+            f"\n============[ CRÉATION DU TOURNOI ]=============\n  Tapez Exit pour revenir au menu précédent  \n"
         )
 
         name = self.get_alphanum(label="Nom du tournoi")

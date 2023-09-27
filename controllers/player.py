@@ -1,13 +1,10 @@
 from models.model_player import Player
 from views.view_player import ViewPlayer
-from views.view_base import BaseView, CancelError
+from views.view_base import BaseView, CancelError, PlayerNotFound
 from datas.data_player import DataPlayer
 
-from colorama import Fore, Style
-import os
 
-
-class PlayerController:
+class PlayerController(BaseView):
     def __init__(self) -> None:
         self.view = ViewPlayer()
         self.data = DataPlayer()
@@ -29,9 +26,9 @@ class PlayerController:
             elif choice == "4":
                 self.display_players_by_surname()
             elif choice == "5":
-                self.player_by_id()
+                self.find_player_by_id()
             elif choice == "6":
-                self.player_by_surname()
+                self.find_player_by_fullname()
             elif choice == "7":
                 exit_requested = True
             elif choice == "Q" or choice == "q":
@@ -44,7 +41,7 @@ class PlayerController:
             player = self.view.get_new_player()
             player = Player(**player)
             player.save()
-            self.view.display_message(f"\n Joueur sauvegardé avec succès ! \n")
+            self.view.display_success_message(f"\n Joueur sauvegardé avec succès ! \n")
 
         except CancelError:
             self.view.display_message(f"\n Création du joueur annulée.\n")
@@ -54,10 +51,9 @@ class PlayerController:
         """Update the player in the database (from data_player)"""
 
         try:
-            self.view.get_update_player()
-            self.view.requesting_player_by_surname()
-            self.data.update_player_from_table()
-            self.view.display_message(f"\n Joueur modifié avec succès ! \n")
+            player = self.view.get_update_player()
+            self.data.update_player_from_table(player)
+            self.view.display_success_message(f"\n Joueur modifié avec succès ! \n")
 
         except CancelError:
             self.view.display_message(f"\n Modification du joueur annulée.\n")
@@ -67,10 +63,9 @@ class PlayerController:
         """Delete the player in the database (from data_player)"""
 
         try:
-            self.view.get_remove_player()
-            self.view.requesting_player_by_surname()
-            self.data.remove_player_from_table()
-            self.view.display_message(f"\n Joueur supprimé avec succès ! \n")
+            player = self.view.get_remove_player()
+            self.data.remove_player_from_table(player)
+            self.view.display_success_message(f"\n Joueur supprimé avec succès ! \n")
 
         except CancelError:
             self.view.display_message(f"\n Supression du joueur annulée.\n")
@@ -86,31 +81,28 @@ class PlayerController:
         title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
         BaseView.table_settings(title, players)
 
-    def player_by_id(self):
+    def find_player_by_id(self):
         """Ask for player by id from view_player and get it from data_player"""
         try:
-            self.view.get_player_by_id()
-            self.view.requesting_player_by_id()
-            player = self.data.get_player_by_doc_id()
-            return player
+            request = self.view.get_player_by_id()
+            player = self.data.player_by_doc_id(request)
+            self.view.display_message(f"\n Voici le joueur {player} avec cet ID")
 
         except ValueError:
-            self.view.display_message(
-                f"\n Désolé, cet ID ne fait pas partie de ceux enregistrés.\n"
+            raise PlayerNotFound(
+                f"Le joueur avec l'identifiant id n'existe pas dans la base de données"
             )
-            return
 
-    def player_by_surname(self):
-        """Ask for player by surname from view_player and get it from data_player"""
+    def find_player_by_fullname(self):
+        """Ask for player by surname and first name from view_player and get it from data_player"""
 
         try:
-            self.view.get_player_by_surname()
-            self.view.requesting_player_by_surname()
-            player = self.data.get_player_by_doc_id()
-            return player
+            player = self.data.player_by_fullname()
+            self.view.get_player_by_fullname(player)
+            return
 
         except ValueError:
-            self.view.display_message(
+            self.view.display_error_message(
                 f"\n Désolé, ce joueur ne fait pas partie de ceux enregistrés.\n"
             )
             return

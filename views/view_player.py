@@ -1,22 +1,16 @@
 from datetime import datetime
 from .view_base import BaseView
 
-from colorama import Fore, Style, Back
-
 
 class ViewPlayer(BaseView):
     def display_player_menu(self):
         """Displays the Player menu and returns the user's choice"""
 
         while True:
-            print(
-                "\n"
-                + Fore.WHITE
-                + Back.MAGENTA
-                + Style.BRIGHT
-                + "================[MENU JOUEUR]================\n"
-                + Style.RESET_ALL
+            self.player_menu_settings(
+                f"\n ===============[ MENU JOUEUR ]===============\n"
             )
+
             print("1. Créer un joueur")
             print("2. Modifier un joueur")
             print("3. Supprimer un joueur")
@@ -30,27 +24,22 @@ class ViewPlayer(BaseView):
 
             if choice in ["1", "2", "3", "4", "5", "6", "7", "Q", "q"]:
                 if choice == "7":
-                    print("\n     Ok !\n")
+                    self.display_message(f"\n Ok !\n")
 
                 elif choice == "Q" or choice == "q":
-                    print("\n                  Au revoir !\n")
+                    self.display_message(f"\n Au revoir !\n")
 
                 return choice
 
             else:
-                print(Fore.RED + "\n Choix invalide !\n" + Style.RESET_ALL)
+                self.display_error_message(f"\n Choix invalide !\n")
 
     def get_new_player(self) -> dict:
         """Displays field requested for player creation and returns the user's response"""
 
-        print(
-            "\n"
-            + Fore.MAGENTA
-            + Style.BRIGHT
-            + "============[CRÉATION DU JOUEUR]=============\n"
-            + Style.RESET_ALL
+        self.player_sections_settings(
+            f"\n ===========[ CRÉATION DU JOUEUR ]============\n  Tapez Exit pour revenir au menu précédent  \n"
         )
-        print("  Tapez Exit pour revenir au menu précédent  \n")
 
         surname = self.get_alpha_string(label="Nom de famille du joueur")
         first_name = self.get_alpha_string(label="Prénom du joueur")
@@ -78,12 +67,9 @@ class ViewPlayer(BaseView):
                 formated_date = datetime.strptime(date_of_birth, "%d-%m-%Y")
 
             except ValueError:
-                print(
-                    Fore.RED
-                    + "Veuillez entrer une date valide au format JJ-MM-AAAA."
-                    + Style.RESET_ALL
+                self.display_error_message(
+                    f"\n Veuillez entrer une date valide au format JJ-MM-AAAA.\n"
                 )
-
                 continue
 
             now = datetime.now()
@@ -93,58 +79,43 @@ class ViewPlayer(BaseView):
                 return date_of_birth
 
             else:
-                print(
-                    Fore.RED
-                    + "Vous devez avoir au moins 18 ans pour vous inscrire."
-                    + Style.RESET_ALL
+                self.display_error_message(
+                    f"\n Vous devez avoir au moins 18 ans pour vous inscrire."
                 )
 
     def get_update_player(self):
-        print(
-            "\n"
-            + Fore.MAGENTA
-            + Style.BRIGHT
-            + "==========[MODIFICATION DU JOUEUR]==========\n"
-            + Style.RESET_ALL
+        self.player_sections_settings(
+            f"\n ==========[ MODIFICATION DU JOUEUR ]==========\n  Tapez Exit pour revenir au menu précédent  \n"
         )
-        print("  Tapez Exit pour revenir au menu précédent  \n")
+        self.request_player_by_id()
 
     def get_remove_player(self):
-        print(
-            "\n"
-            + Fore.MAGENTA
-            + Style.BRIGHT
-            + "==========[SUPPRESSION DU JOUEUR]==========\n"
-            + Style.RESET_ALL
+        self.player_sections_settings(
+            f"\n ==========[ SUPPRESSION DU JOUEUR ]==========\n  Tapez Exit pour revenir au menu précédent  \n"
         )
-        print("  Tapez Exit pour revenir au menu précédent  \n")
+        self.request_player_by_id()
 
     def get_player_by_id(self):
-        print(
-            "\n"
-            + Fore.MAGENTA
-            + Style.BRIGHT
-            + "========[RECHERCHE DU JOUEUR PAR ID]========\n"
-            + Style.RESET_ALL
+        self.player_sections_settings(
+            f"\n ========[ RECHERCHE DU JOUEUR PAR ID ]========\n  Tapez Exit pour revenir au menu précédent  \n"
         )
-        print("  Tapez Exit pour revenir au menu précédent  \n")
+        self.request_player_by_id()
 
-    def get_player_by_surname(self):
-        print(
-            "\n"
-            + Fore.MAGENTA
-            + Style.BRIGHT
-            + "=======[RECHERCHE DU JOUEUR PAR NOM]=======\n"
-            + Style.RESET_ALL
+    def request_player_by_id(self):
+        return self.get_alphanum(label="Quel est l'ID du joueur recherché")
+
+    def get_player_by_fullname(self):
+        self.player_sections_settings(
+            f"\n ===[ RECHERCHE DU JOUEUR PAR NOM et PRENOM ]=== \n  Tapez Exit pour revenir au menu précédent  \n"
         )
-        print("  Tapez Exit pour revenir au menu précédent  \n")
+        self.request_player_by_fullname()
 
-    def requesting_player_by_surname(self):
+    def request_player_by_fullname(self):
         surname = self.get_alpha_string(
             label="Quel est le Nom de famille du joueur recherché"
         )
-        return surname
+        first_name = self.get_alpha_string(
+            label="Quel est le Prénom du joueur recherché"
+        )
 
-    def requesting_player_by_id(self):
-        id = self.get_alphanum(label="Quel est l'ID du joueur recherché")
-        return id
+        return {"surname": surname, "first_name": first_name}
