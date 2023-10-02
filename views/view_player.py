@@ -8,8 +8,9 @@ class ViewPlayer(BaseView):
 
         while True:
             self.player_menu_settings(
-                f"\n ===============[ MENU JOUEUR ]===============\n"
+                f"================[ MENU JOUEUR ]================"
             )
+            self.display_message(f"\n--- Tapez E pour revenir au menu précédent ---\n")
 
             print("1. Créer un joueur")
             print("2. Modifier un joueur")
@@ -17,13 +18,12 @@ class ViewPlayer(BaseView):
             print("4. Consulter Joueurs par ordre alphabétique")
             print("5. Trouver un joueur par ID")
             print("6. Trouver un joueur par son Nom")
-            print("7. Revenir au MENU PRINCIPAL")
             print("Q. Quitter le programme")
 
-            choice = input("\n Entrez votre choix :")
+            choice = input(f"\n Entrez votre choix :")
 
-            if choice in ["1", "2", "3", "4", "5", "6", "7", "Q", "q"]:
-                if choice == "7":
+            if choice in ["1", "2", "3", "4", "5", "6", "E", "e", "Q", "q"]:
+                if choice == "E" or choice == "e":
                     self.display_message(f"\n Ok !\n")
 
                 elif choice == "Q" or choice == "q":
@@ -38,8 +38,9 @@ class ViewPlayer(BaseView):
         """Displays field requested for player creation and returns the user's response"""
 
         self.player_sections_settings(
-            f"\n ===========[ CRÉATION DU JOUEUR ]============\n  Tapez Exit pour revenir au menu précédent  \n"
+            f"\n============[ CRÉATION DU JOUEUR ]============"
         )
+        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
 
         surname = self.get_alpha_string(label="Nom de famille du joueur")
         first_name = self.get_alpha_string(label="Prénom du joueur")
@@ -85,20 +86,23 @@ class ViewPlayer(BaseView):
 
     def get_update_player(self):
         self.player_sections_settings(
-            f"\n ==========[ MODIFICATION DU JOUEUR ]==========\n  Tapez Exit pour revenir au menu précédent  \n"
+            f"\n==========[ MODIFICATION DU JOUEUR ]=========="
         )
+        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
         self.request_player_by_id()
 
     def get_remove_player(self):
         self.player_sections_settings(
-            f"\n ==========[ SUPPRESSION DU JOUEUR ]==========\n  Tapez Exit pour revenir au menu précédent  \n"
+            f"\n==========[ SUPPRESSION DU JOUEUR ]=========="
         )
+        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
         self.request_player_by_id()
 
     def get_player_by_id(self):
         self.player_sections_settings(
-            f"\n ========[ RECHERCHE DU JOUEUR PAR ID ]========\n  Tapez Exit pour revenir au menu précédent  \n"
+            f"\n========[ RECHERCHE DU JOUEUR PAR ID ]========"
         )
+        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
         self.request_player_by_id()
 
     def request_player_by_id(self):
@@ -106,8 +110,9 @@ class ViewPlayer(BaseView):
 
     def get_player_by_fullname(self):
         self.player_sections_settings(
-            f"\n ===[ RECHERCHE DU JOUEUR PAR NOM et PRENOM ]=== \n  Tapez Exit pour revenir au menu précédent  \n"
+            f"\n===[ RECHERCHE DU JOUEUR PAR NOM et PRENOM ]==="
         )
+        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
         self.request_player_by_fullname()
 
     def request_player_by_fullname(self):

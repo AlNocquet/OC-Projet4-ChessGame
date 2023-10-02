@@ -1,4 +1,8 @@
 from datas.data_tournament import DataTournament
+from datas.data_player import DataPlayer
+from views.view_base import PlayerNotFound
+
+from operator import itemgetter
 
 
 class Tournament:
@@ -11,13 +15,22 @@ class Tournament:
     datas = DataTournament()  # Hors Init, Partagé par tous les objets de la classe
 
     def __init__(
-        self, name, place, date, description, number_of_rounds, number_of_players
+        self,
+        name,
+        place,
+        date,
+        number_of_rounds,
+        number_of_players,
+        description,
+        rounds,
+        players,
     ):
         self.name = name
         self.place = place
         self.date = date
-        self.number_of_rounds = number_of_rounds
-        self.number_current_round = 0
+        self.number_of_rounds = 0
+        self.number_of_players = 8
+        self.number_current_round = 4
         self.description = description
         self.rounds = []
         self.players = []
@@ -28,25 +41,24 @@ class Tournament:
             "place": self.place,
             "date": self.date,
             "number of rounds": self.number_of_rounds,
+            "number_of_players": self.number_of_players,
             "description": self.description,
             "rounds": self.rounds,
             "players": self.players,
         }
         return tournament
 
+    def save(self):  # méthode d'instance = sur un objet
+        "Saves the tournament in the database (from data_tournament)"
+        data = self.serialize()
+        self.datas.save_tournament(data)
 
-def save(self):  # méthode d'instance = sur un objet
-    "Saves the tournament in the database (from data_tournament)"
-    data = self.serialize()
-    self.datas.save_tournament(data)
-
-
-@classmethod
-# Non propre à un objet Tournament mais toute la base "Tournament" = pas méthode d'instance mais de classe (cls, pointeur vers la classe par convention)
-# DataTournament sort du constructeur de Tournament : pas en variable d'instance, pas seulement propre à chaque objet Tournament = commun à tous les objets (variable de classe)
-def get_all_tournaments(self):
-    """Returns a list of tournaments"""
-    return DataTournament.extract_tournament_list(self)
+    @classmethod
+    def get_all_sort_by_name(cls):
+        """Returns a list of tournaments by surname"""
+        tournaments = cls.datas.extract_tournaments_list()
+        sorted_tournaments = sorted(tournaments, key=itemgetter("name"))
+        return sorted_tournaments
 
 
 class Round:
@@ -89,3 +101,9 @@ class Match:
             [self.player_name_2, self.player_2_score],
         )
         return match
+
+    def get_all_sort_tournaments_by_name(cls):
+        """Returns a list of players by surname"""
+        players = cls.datas.extract_tournament_list()
+        sorted_players = sorted(players, key=itemgetter("surname"))
+        return sorted_players

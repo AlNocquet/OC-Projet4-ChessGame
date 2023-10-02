@@ -6,15 +6,13 @@ class ViewApp(BaseView):
         """Affiche le menu principal et renvoie le résultat du choix de l'utilisateur"""
 
         while True:
-            self.main_menu_settings(
-                f"\n ===============[MENU PRINCIPAL]===============\n"
-            )
+            self.main_menu_settings(f"===============[MENU PRINCIPAL]===============\n")
 
             print("1. Gestion des Tournois")
             print("2. Gestion des Joueurs")
             print("Q. Quitter le programme")
 
-            choice = input("\n Entrez votre choix :")
+            choice = input(f"\n Entrez votre choix :")
 
             if choice in ["1", "2", "Q", "q"]:
                 if choice == "Q" or choice == "q":

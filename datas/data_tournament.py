@@ -1,10 +1,12 @@
 from tinydb import TinyDB
+from tinydb import Query
+from tinydb import where
 import os
 
 
 class DataTournament:
 
-    """"""
+    """DataTournament object handles user requests linked to the Tournament.json database"""
 
     if not os.path.exists("./Base"):
         os.makedirs("./Base")
@@ -17,6 +19,10 @@ class DataTournament:
         """Saves tournament in Tournaments.json"""
         self.tournament_table.insert(serialize)
 
-    def extract_tournament_list(self):
+    def extract_tournaments_list(self):
         """Extracts tournaments saved in Tournaments.json as a dictionary list"""
-        return self.tournament_table.all()
+        tournaments = self.tournament_table.all()
+        # add the db id for each tournament
+        for tournament in tournaments:
+            tournaments["id_db"] = str(tournament.doc_id)
+            return tournaments

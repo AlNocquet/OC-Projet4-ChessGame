@@ -13,10 +13,7 @@ class Player:
 
     datas = DataPlayer()  # Hors Init, Partagé par tous les objets de la classe
 
-    def __init__(
-        self, db_id, surname, first_name, date_of_birth, national_chess_id, score=0
-    ):
-        self.db_id = db_id
+    def __init__(self, surname, first_name, date_of_birth, national_chess_id, score=0):
         self.surname = surname
         self.first_name = first_name
         self.date_of_birth = date_of_birth
@@ -25,7 +22,6 @@ class Player:
 
     def serialize(self):
         player = {
-            "db_id": self.db_id,
             "surname": self.surname,
             "name": self.first_name,
             "date_of_birth": self.date_of_birth,

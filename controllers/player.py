@@ -7,7 +7,7 @@ from datas.data_player import DataPlayer
 class PlayerController(BaseView):
     def __init__(self) -> None:
         self.view = ViewPlayer()
-        self.data = DataPlayer()
+        self.data = DataPlayer
 
     def manage_player(self):
         """Display the menu "GESTION DES JOUEURS" from view_player and return the user's choice"""
@@ -29,7 +29,7 @@ class PlayerController(BaseView):
                 self.find_player_by_id()
             elif choice == "6":
                 self.find_player_by_fullname()
-            elif choice == "7":
+            elif choice == "E" or choice == "e":
                 exit_requested = True
             elif choice == "Q" or choice == "q":
                 exit()
@@ -47,7 +47,7 @@ class PlayerController(BaseView):
             self.view.display_message(f"\n Création du joueur annulée.\n")
             return
 
-    def update_player(self, item, doc_id):
+    def update_player(self):
         """Update the player in the database (from data_player)"""
 
         try:
@@ -63,8 +63,7 @@ class PlayerController(BaseView):
         """Delete the player in the database (from data_player)"""
 
         try:
-            player = self.view.get_remove_player()
-            self.data.remove_player_from_table(player)
+            self.data.remove_player_from_table(self.view.get_remove_player())
             self.view.display_success_message(f"\n Joueur supprimé avec succès ! \n")
 
         except CancelError:
