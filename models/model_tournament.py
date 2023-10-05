@@ -22,18 +22,19 @@ class Tournament:
         number_of_rounds,
         number_of_players,
         description,
-        rounds,
-        players,
+        number_current_round,
+        rounds=[],
+        players=[],
     ):
         self.name = name
         self.place = place
         self.date = date
-        self.number_of_rounds = 0
-        self.number_of_players = 8
-        self.number_current_round = 4
+        self.number_of_rounds = number_of_rounds
+        self.number_of_players = number_of_players
+        self.number_current_round = number_current_round
         self.description = description
-        self.rounds = []
-        self.players = []
+        self.rounds = rounds
+        self.players = players
 
     def serialize(self):
         tournament = {
@@ -41,7 +42,8 @@ class Tournament:
             "place": self.place,
             "date": self.date,
             "number of rounds": self.number_of_rounds,
-            "number_of_players": self.number_of_players,
+            "number of players": self.number_of_players,
+            "number of current round": self.number_current_round,
             "description": self.description,
             "rounds": self.rounds,
             "players": self.players,

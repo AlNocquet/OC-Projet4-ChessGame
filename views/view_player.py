@@ -1,5 +1,7 @@
-from datetime import datetime
 from .view_base import BaseView
+from .view_base import BaseView, console as c
+
+from datetime import datetime
 
 
 class ViewPlayer(BaseView):
@@ -124,3 +126,39 @@ class ViewPlayer(BaseView):
         )
 
         return {"surname": surname, "first_name": first_name}
+
+    def get_tournament_players_id(
+        self, player_number: int, valid_players_id: list
+    ) -> list[str]:
+        """Return a list of players id enter by the user"""
+
+        while True:
+            players_id_str: str = self.get_alphanum(
+                label=f"Veuillez indiquer les identifiants des {player_number} joueurs à ajouter au tournoi (chess_id) séparés par un espace [Entreé pour annuler]:\n"
+            )
+
+            if not players_id_str:
+                return
+
+            players_id: list = players_id_str.split()
+
+            bad_id = []
+            for db_id in players_id:
+                if db_id not in valid_players_id:
+                    bad_id.append(db_id)
+
+            if len(bad_id) > 0:
+                self.display_error_message(
+                    f"\n Les identifiants suivants ne sont pas valides : {bad_id}"
+                )
+                continue
+
+            c.print(f"len players_id = {len(players_id)}")
+            if len(players_id) == player_number:
+                return players_id
+
+            c.print("\n dans viewPlayer. get_tournament_players_id")
+            c.print(locals())
+            print(
+                f"\nSaisie invalide. Vous devez indiquer {player_number} identifiants"
+            )

@@ -58,7 +58,7 @@ class BaseView:
 
         table = Table(
             title=title,
-            header_style="",
+            header_style="yellow bold",
             title_style="purple bold",
             title_justify="center",
         )
@@ -88,8 +88,7 @@ class BaseView:
                 int(value)
                 return value
             except ValueError:
-                msg = f"vous devez rentrer un entier."
-                print(Fore.RED + msg + Style.RESET_ALL)
+                self.display_error_message(f"\n Vous devez rentrer un entier.\n")
 
     def get_alpha_string(self, label: str) -> str:
         """Returns an alpha string + value > 0 from the input from the user"""
@@ -102,9 +101,9 @@ class BaseView:
 
             if value.isalpha():
                 return value
-
-            msg = "La chaine de caractère ne doit être composée que de lettres (Au moins une)."
-            print(Fore.RED + msg + Style.RESET_ALL)
+            self.display_error_message(
+                f"\n La chaine de caractère ne doit être composée que de lettres (Au moins une).\n"
+            )
 
     def get_alphanum(self, label: str, min_len=1, max_len=255) -> str:
         """Returns a alphanumeric string + value > 0 from the input from the user"""
@@ -113,8 +112,9 @@ class BaseView:
             value = str.capitalize(input(f"{label} : "))
 
             if not min_len <= len(value) <= max_len:
-                msg = f"La chaine de caractères doit comprendre entre {min_len} et {max_len} caractères"
-                print(Fore.RED + msg + Style.RESET_ALL)
+                self.display_error_message(
+                    f"\n La chaine de caractères doit comprendre entre {min_len} et {max_len} caractères.\n"
+                )
                 continue
 
             if value.isalnum():
@@ -123,8 +123,9 @@ class BaseView:
             if value.lower() == EXIT_CODE:
                 raise CancelError
 
-            msg = "La chaine de caractère ne doit être composée que de lettres et de chiffres."
-            print(Fore.RED + msg + Style.RESET_ALL)
+            self.display_error_message(
+                f"\n La chaine de caractère ne doit être composée que de lettres et de chiffres.\n"
+            )
 
     def get_date(self, label) -> str:
         """Return a date(str) for tournament enter by the user"""
@@ -137,10 +138,8 @@ class BaseView:
                 return date_value
 
             except ValueError:
-                print(
-                    Fore.RED
-                    + "Veuillez entrer une date valide au format JJ-MM-AAAA."
-                    + Style.RESET_ALL
+                self.display_error_message(
+                    f"\n Veuillez entrer une date valide au format JJ-MM-AAAA \n"
                 )
 
     def get_player_number(self, label):
@@ -151,4 +150,4 @@ class BaseView:
             if int(player_number) % 2 == 0:
                 return player_number
             else:
-                console.print("Le nombre de joueur doit être pair.", style="red bold")
+                self.display_error_message(f"\n Le nombre de joueur doit être pair.\n")

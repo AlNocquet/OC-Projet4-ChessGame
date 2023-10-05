@@ -14,7 +14,7 @@ class ViewTournament(BaseView):
             self.display_message(f"\n--- Tapez E pour revenir au menu précédent ---\n")
 
             print("1. Créer un Tournoi")
-            print("2. Consulter liste des Tournois")
+            print("2. Afficher liste des Tournois")
             print("3. Consulter données d un Tournoi")
             print("4. Consulter liste Joueurs d un Tournoi par ordre alphabétique")
             print("5. Consulter liste des Tours d un Tournoi")
@@ -53,12 +53,12 @@ class ViewTournament(BaseView):
             "name": name,
             "place": place,
             "date": date,
-            "nombre de tours": number_of_rounds,
-            "nombre de joueurs": number_of_players,
+            "number_of_rounds": number_of_rounds,
+            "number_of_players": number_of_players,
             "description": description,
         }
 
-    def request_new_turn(self):
+    def request_new_round(self):
         self.get_alpha_string(label="Voulez-vous lancer un nouveau tournoi ?")
         choice = input(f"\n Entrez votre choix : Y/N")
 
