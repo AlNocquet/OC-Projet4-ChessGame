@@ -48,11 +48,13 @@ class TournamentController(BaseView):
             tournament = self.view.get_new_tournament()
             tournament = Tournament(**tournament)
 
-            if len(self.data.player_table) < int(tournament.number_of_rounds) * 2:
+            if len(DataPlayer().player_table) < int(tournament.number_of_rounds) * 2:
                 self.view.display_error_message(
                     f"\n Vous devez avoir au moins {tournament.number_of_rounds * 2} joueurs dans la base.\n"
                 )
                 return
+
+            self.add_players_tournament(tournament.number_of_players)
 
             tournament.save()
             self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
@@ -66,9 +68,9 @@ class TournamentController(BaseView):
     def add_players_tournament(self, player_number):
         """Displays saved players in Database.json and add them according to user's choice"""
 
-        players = PlayerController().display_players_by_surname()
+        players = PlayerController().get_all_players_sorted_by_surname()
 
-        valid_players_id = [p.get("db_id") for p in players]
+        valid_players_id = [p.get("id_db") for p in players]
 
         players_id_to_add = self.view_player.get_tournament_players_id(
             int(player_number), valid_players_id
@@ -79,28 +81,17 @@ class TournamentController(BaseView):
         else:
             players = []
 
-        # c.print(f"\n Variables dans add_players_tournament", style="green bold")
-        # c.print(locals())
-
         return players
-
-    def display_tournaments(self):
-        """Get players list from the model_player and display it with rich from base_view"""
-
-        tournaments = []
-
-        for t in Tournament.get_all_sort_by_name():
-            t["name"] = int(t.get("name"))
-            t["place"] = int(t.get("place"))
-            t["date"] = int(t.get("date"))
-            t["number of rounds"] = int(t.get("number of rounds"))
-            t["number of players"] = int(t.get("number of players"))
-            t["description"] = int(t.get("description"))
-            tournaments.append(t)
-
-        title = f"[LISTE DES {len(tournaments)} TOURNOIS]"
-        BaseView.table_settings(title, tournaments)
 
     def create_round(self):
         """Create a new Turn"""
         pass
+
+    def display_tournaments(self):
+        """Get players list from the model_player and display it with rich from base_view"""
+
+        tournaments = Tournament.get_tournaments_selected_fields_list()
+
+        title = f"[LISTE DE {len(tournaments)} TOURNOIS]"
+        self.view.table_settings(title, tournaments)
+        return tournaments

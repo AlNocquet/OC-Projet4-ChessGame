@@ -22,7 +22,7 @@ class Tournament:
         number_of_rounds,
         number_of_players,
         description,
-        number_current_round,
+        number_current_round=0,
         rounds=[],
         players=[],
     ):
@@ -41,9 +41,9 @@ class Tournament:
             "name": self.name,
             "place": self.place,
             "date": self.date,
-            "number of rounds": self.number_of_rounds,
-            "number of players": self.number_of_players,
-            "number of current round": self.number_current_round,
+            "number_of_rounds": self.number_of_rounds,
+            "number_of_players": self.number_of_players,
+            "number_of_current_round": self.number_current_round,
             "description": self.description,
             "rounds": self.rounds,
             "players": self.players,
@@ -62,50 +62,29 @@ class Tournament:
         sorted_tournaments = sorted(tournaments, key=itemgetter("name"))
         return sorted_tournaments
 
+    @classmethod
+    def get_tournaments_selected_fields_list(cls):
+        """Returns a list of tournaments with selected fields"""
 
-class Round:
-    """Creates the Round object which is stored in the tournament rounds list of the Tournament object.
-    The number of rounds in a tournament is set to 4 by default and therefore 8 players.
-    Each instance must contain: name (round number: Round1, Round2), date, start and end time.
-    """
+        tournaments_list = []
 
-    def __init__(
-        self, name, start_date_time, end_date_time=None
-    ):  # None = automatique selon durée
-        self.name = name
-        self.start_date_time = start_date_time
-        self.end_date_time = end_date_time
-        self.matchs = []
+        tournaments = cls.datas.extract_tournaments_list()
 
-    def round_list(self):
-        round = [self.name, self.start_date_time, self.end_date_time]
-        return round
+        for t in tournaments:
+            new_t = {
+                "name": t.get("name"),
+                "place": t.get("place"),
+                "date": t.get("date"),
+                "number_of_rounds": t.get("number_of_rounds"),
+                "number_of_players": t.get("number_of_players"),
+                "description": t.get("description"),
+            }
+            tournaments_list.append(new_t)
 
-        # Lien Tours et Matchs liste
+        return tournaments_list
 
-
-class Match:
-    """Creates the Match object which should contain a pair of players and their results.
-    Each Match instance is automatically stored as a tuple in the instance of the round to which it belongs.
-    This tuple contains two lists containing 2 elements: a player and a score.
-    """
-
-    def __init__(self, player_name_1, player_name_2, player_1_score, player_2_score):
-        self.player_name_1 = player_name_1
-        self.player_name_2 = player_name_2
-
-        self.player_1_score = 0
-        self.player_2_score = 0
-
-    def match_list_tuple(self):
-        match = (
-            [self.player_name_1, self.player_1_score],
-            [self.player_name_2, self.player_2_score],
-        )
-        return match
-
-    def get_all_sort_tournaments_by_name(cls):
-        """Returns a list of players by surname"""
-        players = cls.datas.extract_tournament_list()
-        sorted_players = sorted(players, key=itemgetter("surname"))
-        return sorted_players
+    # def get_all_sort_tournaments_by_date(cls):
+    # """Returns a list of players by surname"""
+    # players = cls.datas.extract_tournament_list()
+    # sorted_players = sorted(players, key=itemgetter("surname"))
+    # return sorted_players

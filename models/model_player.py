@@ -11,10 +11,10 @@ class Player:
     the name, first name, date of birth, classification, national failure identifier of the federation.
     """
 
-    datas = DataPlayer()  # Hors Init, Partagé par tous les objets de la classe
+    datas = DataPlayer()
 
     def __init__(
-        self, surname, first_name, date_of_birth, national_chess_id, score=0, id_db=None
+        self, surname, first_name, date_of_birth, national_chess_id, id_db, score=0
     ):
         self.surname = surname
         self.first_name = first_name
@@ -30,6 +30,7 @@ class Player:
             "date_of_birth": self.date_of_birth,
             "national_chess_id": self.national_chess_id,
             "score": self.score,
+            "ID": self.id_db,
         }
         return player
 
@@ -48,11 +49,40 @@ class Player:
         return sorted_players
 
     @classmethod
+    def get_player_updated(self):
+        """Returns a Player instance matching the id in db from data_player"""
+        data = self.datas.update_player()
+
+        if data is None:
+            raise PlayerNotFound(f"Ce joueur n'existe pas dans la base de données")
+
+        return data
+
+    def get_player_removed(self):
+        """Returns a Player instance matching the id in db from data_player"""
+        data = self.datas.remove_player()
+
+        if data is None:
+            raise PlayerNotFound(f"Ce joueur n'existe pas dans la base de données")
+
+        return data
+
+    @classmethod
     def get_player_by_id(cls, id: int) -> "Player":
-        """Return a Player instance matching the id in db"""
+        """Returns a Player instance matching the id in db from data_player"""
         data = cls.datas.get_by_id(id)
+
         if data is None:
             raise PlayerNotFound(
                 f"Le joueur avec l'identifiant {id} n'existe pas dans la base de données"
             )
         return Player(**data)
+
+    def get_player_by_fullname(self):
+        """Returns a Player instance matching the surname and first name in db from data_player"""
+        data = self.datas.get_by_fullname()
+
+        if data is None:
+            raise PlayerNotFound(f"Ce joueur n'existe pas dans la base de données")
+
+        return data

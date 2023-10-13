@@ -86,14 +86,14 @@ class ViewPlayer(BaseView):
                     f"\n Vous devez avoir au moins 18 ans pour vous inscrire."
                 )
 
-    def get_update_player(self):
+    def get_player_updated(self):
         self.player_sections_settings(
             f"\n==========[ MODIFICATION DU JOUEUR ]=========="
         )
         self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
         self.request_player_by_id()
 
-    def get_remove_player(self):
+    def get_player_removed(self):
         self.player_sections_settings(
             f"\n==========[ SUPPRESSION DU JOUEUR ]=========="
         )
@@ -134,7 +134,7 @@ class ViewPlayer(BaseView):
 
         while True:
             players_id_str: str = self.get_alphanum(
-                label=f"Veuillez indiquer les identifiants des {player_number} joueurs à ajouter au tournoi (chess_id) séparés par un espace [Entreé pour annuler]:\n"
+                label=f"Veuillez indiquer les chess_id des {player_number} joueurs à ajouter séparés avec un espace [Enter pour annuler]:\n"
             )
 
             if not players_id_str:

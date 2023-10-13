@@ -24,5 +24,5 @@ class DataTournament:
         tournaments = self.tournament_table.all()
         # add the db id for each tournament
         for tournament in tournaments:
-            tournaments["id_db"] = int(tournament.doc_id)
+            tournament["id_db"] = str(tournament.doc_id)
             return tournaments

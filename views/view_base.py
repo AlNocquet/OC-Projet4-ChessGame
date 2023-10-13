@@ -53,7 +53,7 @@ class BaseView:
         "Displays the title related to the section from view_tournament which uses it"
         print(Fore.CYAN + Style.BRIGHT + msg + Style.RESET_ALL)
 
-    def table_settings(title: str, items=list):
+    def table_settings(self, title: str, items=list):
         "Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"
 
         table = Table(
@@ -70,7 +70,7 @@ class BaseView:
             headers = ["Liste vide"]
 
         for title in headers:
-            table.add_column(title, style="cyan")
+            table.add_column(title, style="cyan", justify="center")
 
         for item in items:
             table.add_row(*item.values())
