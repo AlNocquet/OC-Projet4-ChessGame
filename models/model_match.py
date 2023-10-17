@@ -1,3 +1,8 @@
+from datas.data_player import DataPlayer
+
+import random
+
+
 class Match:
     """Creates the Match object which should contain a pair of players and their results.
     Each Match instance is automatically stored as a tuple in the instance of the round to which it belongs.
@@ -17,3 +22,6 @@ class Match:
             [self.player_name_2, self.player_2_score],
         )
         return match
+
+    def make_shuffle():
+        random.shuffle(DataPlayer().extract_players_list())

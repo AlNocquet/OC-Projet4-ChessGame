@@ -11,6 +11,8 @@ from controllers.player import PlayerController
 
 from datetime import datetime
 
+import random
+
 
 class TournamentController(BaseView):
     def __init__(self) -> None:
@@ -104,19 +106,31 @@ class TournamentController(BaseView):
     def create_round(self, players: list, current_round) -> Round:
         "Return a Round object with matches"
 
-        current_round += 1
+        if not round:
+            name = f"Round 1"
+            start_date = datetime.now()
 
-        name = f"Round {current_round}"
+            matches = []
 
-        start_date = datetime.now()
+            for player in players:
+                match = random.shuffle(players: list)
+                matches.append(match)
 
-        matches = []
+            round = Round(name=name, start_date=start_date, matches=matches)
 
-        for player in players:
-            match = Match.match_list_tuple()
-            matches.append(match)
+        else:
+            current_round += 1
+            name = f"Round {current_round}"
+            start_date = datetime.now()
 
-        round = Round(name=name, start_date=start_date, matches=matches)
+            matches = []
+
+            for player in players:
+                match = Match.match_list_tuple()
+                matches.append(match)
+
+            round = Round(name=name, start_date=start_date, matches=matches)
+
         return round
 
     def display_tournaments(self):
