@@ -108,15 +108,13 @@ class TournamentController(BaseView):
 
         matches = []
 
-        if not round:
+        if not current_round:
             name = f"Round 1"
             start_date = datetime.now()
 
             for player in players:
                 match = shuffle(int(len(players) / 2))
                 matches.append(match)
-
-            round = Round(name=name, start_date=start_date, matches=matches)
 
         else:
             current_round += 1
@@ -125,9 +123,9 @@ class TournamentController(BaseView):
 
             for player in players:
                 # match = Match().make_next_pair_of_players()
-                # matches.append(match)
+                matches.append(match)
 
-            round = Round(name=name, start_date=start_date, matches=matches)
+        round = Round(name=name, start_date=start_date, matches=matches)
 
         return round
 
