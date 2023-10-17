@@ -26,9 +26,9 @@ class Match:
     def make_shuffle_players():
         random.shuffle(DataPlayer().extract_players_list())
 
-        # FAUX : import list players sélectionén dans le match
+        # FAUX : import list players sélectionnés dans le round en création (controller du tournament)
 
     def make_next_pair_of_players():
         pass
 
-        # UTILISER MODEL MATCH POUR GESTION PLAYER 1 ET DEUX AVEC SCORES DE CHACUN
+        # UTILISER MODEL MATCH POUR GESTION PLAYER 1 ET 2 AVEC SCORES DE CHACUN
