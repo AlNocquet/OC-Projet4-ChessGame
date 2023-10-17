@@ -22,7 +22,7 @@ class Tournament:
         number_of_rounds,
         number_of_players,
         description,
-        number_current_round=0,
+        current_round=0,
         rounds=[],
         players=[],
     ):
@@ -31,7 +31,7 @@ class Tournament:
         self.date = date
         self.number_of_rounds = number_of_rounds
         self.number_of_players = number_of_players
-        self.number_current_round = number_current_round
+        self.current_round = current_round
         self.description = description
         self.rounds = rounds
         self.players = players
@@ -43,7 +43,7 @@ class Tournament:
             "date": self.date,
             "number_of_rounds": self.number_of_rounds,
             "number_of_players": self.number_of_players,
-            "number_of_current_round": self.number_current_round,
+            "current_round": self.current_round,
             "description": self.description,
             "rounds": self.rounds,
             "players": self.players,

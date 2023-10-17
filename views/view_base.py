@@ -80,7 +80,7 @@ class BaseView:
         console.print(table)
 
     def get_int(self, label):
-        """Return an value compatible with int from the input from the user"""
+        """Return a value compatible with int from the input from the user"""
 
         while True:
             value = input(f"{label} : ")
@@ -99,7 +99,7 @@ class BaseView:
             if value.lower() == EXIT_CODE:
                 raise CancelError
 
-            if value.isalpha():
+            if value.isalpha() or value.split():
                 return value
             self.display_error_message(
                 f"\n La chaine de caractère ne doit être composée que de lettres (Au moins une).\n"
@@ -117,7 +117,7 @@ class BaseView:
                 )
                 continue
 
-            if value.isalnum():
+            if value.isalnum() or value.split():
                 return value
 
             if value.lower() == EXIT_CODE:

@@ -1,8 +1,4 @@
-from datas.data_tournament import DataTournament
-from datas.data_player import DataPlayer
-from views.view_base import PlayerNotFound
-
-from operator import itemgetter
+from .model_match import Match
 
 
 class Round:
@@ -12,15 +8,15 @@ class Round:
     """
 
     def __init__(
-        self, name, start_date_time, end_date_time=None
+        self, name, start_date, end_date=None
     ):  # None = automatique selon durée
         self.name = name
-        self.start_date_time = start_date_time
-        self.end_date_time = end_date_time
+        self.start_date = start_date
+        self.end_date = end_date
         self.matchs = []
 
     def round_list(self):
-        round = [self.name, self.start_date_time, self.end_date_time]
+        round = [self.name, self.start_date, self.end_date]
         return round
 
         # Lien Tours et Matchs liste

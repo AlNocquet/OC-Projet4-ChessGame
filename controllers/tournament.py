@@ -1,4 +1,6 @@
 from models.model_tournament import Tournament
+from models.model_round import Round
+from models.model_match import Match
 from models.model_player import Player
 from views.view_tournament import ViewTournament
 from views.view_player import ViewPlayer
@@ -6,6 +8,8 @@ from views.view_base import BaseView, CancelError, PlayerNotFound, console as c
 from datas.data_player import DataPlayer
 from datas.data_tournament import DataTournament
 from controllers.player import PlayerController
+
+from datetime import datetime
 
 
 class TournamentController(BaseView):
@@ -56,7 +60,21 @@ class TournamentController(BaseView):
 
             self.add_players_tournament(tournament.number_of_players)
 
-            tournament.save()
+            exit_requested = False
+
+            while not exit_requested:
+                choice = self.view.request_new_round()
+
+                if choice == "Yes":
+                    self.create_round()
+
+                elif choice == "No":
+                    exit_requested = True
+
+            t = Tournament(round)
+            round = self.create_round(players=t.players, current_round=t.current_round)
+
+            tournament.save(t)
             self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
 
         except CancelError:
@@ -83,9 +101,23 @@ class TournamentController(BaseView):
 
         return players
 
-    def create_round(self):
-        """Create a new Turn"""
-        pass
+    def create_round(self, players: list, current_round) -> Round:
+        "Return a Round object with matches"
+
+        current_round += 1
+
+        name = f"Round {current_round}"
+
+        start_date = datetime.now()
+
+        matches = []
+
+        for player in players:
+            match = Match.match_list_tuple()
+            matches.append(match)
+
+        round = Round(name=name, start_date=start_date, matches=matches)
+        return round
 
     def display_tournaments(self):
         """Get players list from the model_player and display it with rich from base_view"""

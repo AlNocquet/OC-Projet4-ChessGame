@@ -1,10 +1,3 @@
-from datas.data_tournament import DataTournament
-from datas.data_player import DataPlayer
-from views.view_base import PlayerNotFound
-
-from operator import itemgetter
-
-
 class Match:
     """Creates the Match object which should contain a pair of players and their results.
     Each Match instance is automatically stored as a tuple in the instance of the round to which it belongs.

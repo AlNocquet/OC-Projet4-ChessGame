@@ -29,7 +29,6 @@ class ViewTournament(BaseView):
 
                 elif choice == "Q" or choice == "q":
                     self.display_message(f"\n Au revoir !\n")
-                    exit()
 
                 return choice
 
@@ -60,14 +59,13 @@ class ViewTournament(BaseView):
 
     def request_new_round(self):
         self.get_alpha_string(label="Voulez-vous lancer un nouveau tournoi ?")
-        choice = input(f"\n Entrez votre choix : Y/N")
+        choice = input(f"\n Entrez votre choix : Yes/No")
 
-        if choice == "Y" or choice == "y":
+        if choice == "Yes":
             self.display_message(f"\n Go !\n")
 
-        elif choice == "N" or choice == "n":
+        elif choice == "No":
             self.display_message(f"\n Ok !\n")
-            exit()
 
         else:
             self.display_error_message(f"\n Choix invalide !\n")
