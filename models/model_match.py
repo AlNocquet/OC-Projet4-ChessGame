@@ -23,5 +23,12 @@ class Match:
         )
         return match
 
-    # def make_shuffle():
-    # random.shuffle(DataPlayer().extract_players_list())
+    def make_shuffle_players():
+        random.shuffle(DataPlayer().extract_players_list())
+
+        # FAUX : import list players sélectionén dans le match
+
+    def make_next_pair_of_players():
+        pass
+
+        # UTILISER MODEL MATCH POUR GESTION PLAYER 1 ET DEUX AVEC SCORES DE CHACUN

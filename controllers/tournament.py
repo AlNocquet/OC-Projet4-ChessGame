@@ -126,7 +126,7 @@ class TournamentController(BaseView):
             matches = []
 
             for player in players:
-                # match =
+                match = Match.make_next_pair_of_players()
                 matches.append(match)
 
             round = Round(name=name, start_date=start_date, matches=matches)
