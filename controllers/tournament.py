@@ -113,7 +113,7 @@ class TournamentController(BaseView):
             matches = []
 
             for player in players:
-                match = random.shuffle(players: list)
+                match = random.shuffle(players)
                 matches.append(match)
 
             round = Round(name=name, start_date=start_date, matches=matches)
@@ -126,7 +126,7 @@ class TournamentController(BaseView):
             matches = []
 
             for player in players:
-                match = Match.match_list_tuple()
+                # match =
                 matches.append(match)
 
             round = Round(name=name, start_date=start_date, matches=matches)

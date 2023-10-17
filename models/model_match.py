@@ -23,5 +23,5 @@ class Match:
         )
         return match
 
-    def make_shuffle():
-        random.shuffle(DataPlayer().extract_players_list())
+    # def make_shuffle():
+    # random.shuffle(DataPlayer().extract_players_list())
