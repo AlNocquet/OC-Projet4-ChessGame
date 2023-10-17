@@ -11,7 +11,7 @@ from controllers.player import PlayerController
 
 from datetime import datetime
 
-import random
+from random import random, randint
 
 
 class TournamentController(BaseView):
@@ -113,7 +113,7 @@ class TournamentController(BaseView):
             matches = []
 
             for player in players:
-                match = random.shuffle(players)
+                match = random.shuffle(players == 2)  # sélectionner deux joueurs ?
                 matches.append(match)
 
             round = Round(name=name, start_date=start_date, matches=matches)
@@ -126,14 +126,15 @@ class TournamentController(BaseView):
             matches = []
 
             for player in players:
-                match = Match.make_next_pair_of_players(players)
+                match = Match.make_next_pair_of_players(players == 2)
+                # match = randit()
                 matches.append(match)
 
             round = Round(name=name, start_date=start_date, matches=matches)
 
-        # INPUT INSCRIRE SCORES + DEF ADD_SCORES
-
         return round
+
+        # INPUT INSCRIRE SCORES + DEF ADD_SCORES
 
     def make_next_pair_of_players() -> Match:
         pass
@@ -141,6 +142,9 @@ class TournamentController(BaseView):
         Match().match_list_tuple()
 
         # UTILISER MODEL MATCH POUR GESTION PLAYER 1 ET 2 AVEC SCORES DE CHACUN + liste players create_round
+
+    def add_scores():
+        pass
 
     def display_tournaments(self):
         """Get players list from the model_player and display it with rich from base_view"""
