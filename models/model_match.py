@@ -1,4 +1,5 @@
 from datas.data_player import DataPlayer
+from controllers.tournament import TournamentController
 
 import random
 
@@ -31,4 +32,6 @@ class Match:
     def make_next_pair_of_players():
         pass
 
-        # UTILISER MODEL MATCH POUR GESTION PLAYER 1 ET 2 AVEC SCORES DE CHACUN
+        Match.match_list_tuple()
+
+        # FAUX : Dans controller : mais UTILISER MODEL MATCH POUR GESTION PLAYER 1 ET 2 AVEC SCORES DE CHACUN + liste players create round

@@ -126,12 +126,19 @@ class TournamentController(BaseView):
             matches = []
 
             for player in players:
-                match = Match.make_next_pair_of_players()
+                match = Match.make_next_pair_of_players(players)
                 matches.append(match)
 
             round = Round(name=name, start_date=start_date, matches=matches)
 
         return round
+
+    def make_next_pair_of_players() -> Match:
+        pass
+
+        Match().match_list_tuple()
+
+        # UTILISER MODEL MATCH POUR GESTION PLAYER 1 ET 2 AVEC SCORES DE CHACUN + liste players create round
 
     def display_tournaments(self):
         """Get players list from the model_player and display it with rich from base_view"""
