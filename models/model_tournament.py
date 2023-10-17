@@ -1,6 +1,4 @@
 from datas.data_tournament import DataTournament
-from datas.data_player import DataPlayer
-from views.view_base import PlayerNotFound
 
 from operator import itemgetter
 

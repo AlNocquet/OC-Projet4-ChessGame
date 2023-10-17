@@ -17,6 +17,10 @@ class PlayerNotFound(Exception):
     ...
 
 
+class TournamentNotFound(Exception):
+    ...
+
+
 class BaseView:
     """BaseView object manage all formats and characteristics of user's requests."""
 

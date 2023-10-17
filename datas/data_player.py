@@ -43,7 +43,7 @@ class DataPlayer:
         return record
 
     def get_by_fullname(self, surname, first_name):
-        """Extracts player by searching the surname in the Players.json"""
+        """Extracts a player by searching the surname in the Players.json"""
 
         User = Query()
 

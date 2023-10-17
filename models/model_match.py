@@ -24,11 +24,6 @@ class Match:
         )
         return match
 
-    def make_shuffle_players():
-        random.shuffle(DataPlayer().extract_players_list())
-
-        # FAUX : import list players sélectionnés dans le round en création (controller du tournament)
-
     def make_next_pair_of_players():
         pass
 

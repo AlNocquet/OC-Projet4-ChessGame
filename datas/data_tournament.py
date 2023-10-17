@@ -3,6 +3,8 @@ from tinydb import Query
 from tinydb import where
 import os
 
+from views.view_base import TournamentNotFound
+
 
 class DataTournament:
 
@@ -26,3 +28,13 @@ class DataTournament:
         for tournament in tournaments:
             tournament["id_db"] = str(tournament.doc_id)
             return tournaments
+
+    def get_tournament_by_name(self, name):
+        """Extracts a Tournament by searching the name in le Tournaments.json"""
+        search = Query()
+        try:
+            tournament = self.tournament_table.get(search.name == name)
+            tournament_id = tournament.doc_id
+            return tournament_id
+        except:
+            raise TournamentNotFound(f"Ce tournoi n'existe pas dans la base de données")
