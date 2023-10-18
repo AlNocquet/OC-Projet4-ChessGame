@@ -134,7 +134,7 @@ class ViewPlayer(BaseView):
 
         while True:
             players_id_str: str = input(
-                f"Veuillez indiquer les identifiants des {player_number} joueurs à ajouter au tournoi (chess_id) séparés par un espace [Entreé pour annuler]:\n"
+                f"Veuillez indiquer les identifiants des {player_number} joueurs à ajouter au tournoi (db_id) séparés par un espace [Entreé pour annuler]:\n"
             )
 
             if not players_id_str:

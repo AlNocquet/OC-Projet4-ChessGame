@@ -10,7 +10,7 @@ from datas.data_tournament import DataTournament
 from controllers.player import PlayerController
 
 from datetime import datetime
-
+from operator import itemgetter
 from random import random, shuffle
 
 
@@ -106,37 +106,37 @@ class TournamentController(BaseView):
     def create_round(self, players: list, current_round) -> Round:
         "Return a Round object with matches"
 
+        players = players.copy()
+        shuffle(players)
+
         matches = []
+        # match = int(len(players) / 2)
 
-        if not current_round:
-            name = f"Round 1"
-            start_date = datetime.now()
-
-            for player in players:
-                match = shuffle(int(len(players) / 2))
+        while players > 0:
+            if not current_round:
+                name = f"Round 1"
+                start_date = datetime.now()
+                player_1 = players.index(value=0)
+                p1 = players.pop(player_1)
+                player_2 = players.index(value=0 + 1)
+                p2 = players.pop(player_2)
+                match = match.append(player_1, player_2)
                 matches.append(match)
 
-        else:
-            current_round += 1
-            name = f"Round {current_round}"
-            start_date = datetime.now()
-
-            for player in players:
-                # match = Match().make_next_pair_of_players()
+            else:
+                current_round += 1
+                name = f"Round {current_round}"
+                start_date = datetime.now()
+                # player_1 = players.index(0)
+                p1 = players.pop(player_1)
+                # player_2 = players.index(0 + 1)
+                p2 = players.pop(player_2)
+                match = match.append(player_1, player_2)
                 matches.append(match)
 
         round = Round(name=name, start_date=start_date, matches=matches)
 
         return round
-
-        # INPUT INSCRIRE SCORES + DEF ADD_SCORES
-
-    def make_next_pair_of_players() -> Match:
-        pass
-
-        Match().match_list_tuple()
-
-        # UTILISER MODEL MATCH POUR GESTION PLAYER 1 ET 2 AVEC SCORES DE CHACUN + liste players create_round
 
     def add_scores():
         pass

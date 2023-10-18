@@ -1,6 +1,3 @@
-from datas.data_player import DataPlayer
-from controllers.tournament import TournamentController
-
 import random
 
 
