@@ -141,8 +141,6 @@ class TournamentController(BaseView):
     def add_scores():
         pass
 
-        tournament = DataTournament().get_tournament_by_name()
-
     def display_tournaments(self):
         """Get players list from the model_player and display it with rich from base_view"""
 
