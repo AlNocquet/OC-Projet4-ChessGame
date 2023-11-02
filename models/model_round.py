@@ -7,16 +7,8 @@ class Round:
     Each instance must contain: name (round number: Round1, Round2), date, start and end time.
     """
 
-    def __init__(
-        self, name, start_date, end_date=None
-    ):  # None = automatique selon durée
+    def __init__(self, name, start_date, end_date=None, matches=[]):
         self.name = name
         self.start_date = start_date
         self.end_date = end_date
         self.matchs = []
-
-    def round_list(self):
-        round = [self.name, self.start_date, self.end_date]
-        return round
-
-        # Lien Tours et Matchs liste

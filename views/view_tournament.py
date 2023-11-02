@@ -57,14 +57,13 @@ class ViewTournament(BaseView):
             "description": description,
         }
 
-    def request_new_round(self):
-        self.get_alpha_string(label="Voulez-vous lancer un nouveau tournoi ?")
-        choice = input(f"\n Entrez votre choix : Yes/No")
+    def request_create_round(self):
+        choice = self.get_alpha_string(label="Voulez-vous lancer un nouveau tournoi ?")
 
-        if choice == "Yes":
+        if choice == "Yes" or choice == "yes":
             self.display_message(f"\n Go !\n")
 
-        elif choice == "No":
+        elif choice == "No" or choice == "no":
             self.display_message(f"\n Ok !\n")
 
         else:

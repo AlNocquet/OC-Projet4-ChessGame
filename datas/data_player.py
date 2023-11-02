@@ -24,7 +24,7 @@ class DataPlayer:
         # add the db id for each player
         for player in players:
             player["id_db"] = str(player.doc_id)
-            return players
+        return players
 
     def update_player(self, data: dict, ids: list) -> list[int]:
         """Update the player in the database Players.json"""
@@ -34,12 +34,12 @@ class DataPlayer:
         """Delete the player in the database Players.json"""
         return self.player_table.remove(doc_ids=ids)
 
-    def get_by_id(self, id: int) -> dict:
+    def get_by_id(self, id_db: int) -> dict:
         """Return a player dict matching the id"""
-        record = self.player_table.get(doc_id=id)
+        record = self.player_table.get(doc_id=id_db)
         if record is not None:
             # add the db_id in the record
-            record["db_id"] = str(record.doc_id)
+            record["id_db"] = str(record.doc_id)
         return record
 
     def get_by_fullname(self, surname, first_name):

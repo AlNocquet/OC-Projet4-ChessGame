@@ -80,9 +80,3 @@ class Tournament:
             tournaments_list.append(new_t)
 
         return tournaments_list
-
-    # def get_all_sort_tournaments_by_date(cls):
-    # """Returns a list of players by surname"""
-    # players = cls.datas.extract_tournament_list()
-    # sorted_players = sorted(players, key=itemgetter("surname"))
-    # return sorted_players

@@ -13,11 +13,9 @@ class Player:
 
     datas = DataPlayer()
 
-    def __init__(
-        self, surname, first_name, date_of_birth, national_chess_id, id_db, score=0
-    ):
+    def __init__(self, surname, name, date_of_birth, national_chess_id, id_db, score=0):
         self.surname = surname
-        self.first_name = first_name
+        self.name = name
         self.date_of_birth = date_of_birth
         self.national_chess_id = national_chess_id
         self.score = score
@@ -26,11 +24,11 @@ class Player:
     def serialize(self):
         player = {
             "surname": self.surname,
-            "name": self.first_name,
+            "name": self.name,
             "date_of_birth": self.date_of_birth,
             "national_chess_id": self.national_chess_id,
             "score": self.score,
-            "ID": self.id_db,
+            "id_db": self.id_db,
         }
         return player
 
@@ -68,13 +66,13 @@ class Player:
         return data
 
     @classmethod
-    def get_player_by_id(cls, id: int) -> "Player":
-        """Returns a Player instance matching the id in db from data_player"""
-        data = cls.datas.get_by_id(id)
+    def get_player_by_id(cls, id_db: int) -> "Player":
+        """Returns a Player instance matching the id_db from data_player"""
+        data = cls.datas.get_by_id(id_db)
 
         if data is None:
             raise PlayerNotFound(
-                f"Le joueur avec l'identifiant {id} n'existe pas dans la base de données"
+                f"Le joueur avec l'identifiant {id_db} n'existe pas dans la base de données"
             )
         return Player(**data)
 

@@ -45,7 +45,7 @@ class TournamentController(BaseView):
             elif choice == "Q" or choice == "q":
                 exit()
 
-    def create_tournament(self):
+    def create_tournament(self, players, current_round):
         """Get tournament's datas  and saves it in the database from the model_tournament.
         Adds registered players of the database from data_player with the condition of a sufficient number of players per round.
         """
@@ -65,18 +65,19 @@ class TournamentController(BaseView):
             exit_requested = False
 
             while not exit_requested:
-                choice = self.view.request_new_round()
+                choice = self.view.request_create_round(players, current_round)
 
-                if choice == "Yes":
+                if choice == "Yes" or choice == "yes":
                     self.create_round()
 
-                elif choice == "No":
+                elif choice == "No" or choice == "no":
                     exit_requested = True
 
-            t = Tournament(round)
+            t = Tournament()
             round = self.create_round(players=t.players, current_round=t.current_round)
+            tournament.append(round)
 
-            tournament.save(t)
+            tournament.save()
             self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
 
         except CancelError:
@@ -110,33 +111,17 @@ class TournamentController(BaseView):
         shuffle(players)
 
         matches = []
-        # match = int(len(players) / 2)
 
-        while players > 0:
-            if not current_round:
-                name = f"Round 1"
-                start_date = datetime.now()
-                player_1 = players.index(value=0)
-                p1 = players.pop(player_1)
-                player_2 = players.index(value=0 + 1)
-                p2 = players.pop(player_2)
-                match = match.append(player_1, player_2)
-                matches.append(match)
+        current_round += 1
 
-            else:
-                current_round += 1
-                name = f"Round {current_round}"
-                start_date = datetime.now()
-                # player_1 = players.index(0)
-                p1 = players.pop(player_1)
-                # player_2 = players.index(0 + 1)
-                p2 = players.pop(player_2)
-                match = match.append(player_1, player_2)
-                matches.append(match)
-
-        round = Round(name=name, start_date=start_date, matches=matches)
-
-        return round
+        for player in players:
+            name = f"Round {current_round}"
+            start_date = datetime.now()
+            # self.end_date =
+            player_1 = players.pop(0)
+            player_2 = players.pop(0)
+            matches.append(Match(player_1, player_2))
+        return matches
 
     def add_scores():
         pass
