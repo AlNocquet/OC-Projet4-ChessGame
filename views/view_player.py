@@ -108,7 +108,7 @@ class ViewPlayer(BaseView):
         self.request_player_by_id()
 
     def request_player_by_id(self):
-        return self.get_alphanum(label="Quel est l'ID du joueur recherché")
+        return self.get_alphanum(label="Quel est l'id_db du joueur recherché")
 
     def get_player_by_fullname(self):
         self.player_sections_settings(
@@ -134,7 +134,7 @@ class ViewPlayer(BaseView):
 
         while True:
             players_id_str: str = input(
-                f"Veuillez indiquer les identifiants (db_id) des {player_number} joueurs à ajouter au tournoi, séparés par un espace:\n"
+                f"\n Veuillez indiquer les identifiants (id_db) des {player_number} joueurs à ajouter au tournoi, séparés par un espace: \n"
             )
 
             if not players_id_str:
@@ -153,12 +153,13 @@ class ViewPlayer(BaseView):
                 )
                 continue
 
-            c.print(f"len players_id = {len(players_id)}")
+            # c.print(f"len players_id = {len(players_id)}")
             if len(players_id) == player_number:
                 return players_id
 
-            c.print("\n dans viewPlayer. get_tournament_players_id")
-            c.print(locals())
-            print(
-                f"\nSaisie invalide. Vous devez indiquer {player_number} identifiants"
-            )
+            # c.print("\n dans viewPlayer. get_tournament_players_id")
+            # c.print(locals())
+            else:
+                self.display_error_message(
+                    f"\n Saisie invalide. Vous devez indiquer {player_number} identifiants"
+                )

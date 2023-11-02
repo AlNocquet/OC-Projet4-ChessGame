@@ -39,7 +39,9 @@ class PlayerController(BaseView):
 
         try:
             player = self.view.get_new_player()
-            player = Player(**player)
+            player = Player(
+                **player
+            )  # you do not know how many keyword arguments that will be passed into your function
             player.save()
             self.view.display_success_message(f"\n Joueur sauvegardé avec succès ! \n")
 

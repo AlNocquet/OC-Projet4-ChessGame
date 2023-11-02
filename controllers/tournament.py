@@ -45,7 +45,7 @@ class TournamentController(BaseView):
             elif choice == "Q" or choice == "q":
                 exit()
 
-    def create_tournament(self, players, current_round):
+    def create_tournament(self):
         """Get tournament's datas  and saves it in the database from the model_tournament.
         Adds registered players of the database from data_player with the condition of a sufficient number of players per round.
         """
@@ -60,17 +60,19 @@ class TournamentController(BaseView):
                 )
                 return
 
-            self.add_players_tournament(tournament.number_of_players)
+            tournament.players = self.add_players_tournament(
+                tournament.number_of_players
+            )  # Réceptionner pas les players retournés par add_players.
 
             exit_requested = False
 
             while not exit_requested:
-                choice = self.view.request_create_round(players, current_round)
+                choice = self.view.request_create_round()
 
-                if choice == "Yes" or choice == "yes":
+                if choice == "Y" or choice == "y":
                     self.create_round()
 
-                elif choice == "No" or choice == "no":
+                elif choice == "N" or choice == "n":
                     exit_requested = True
 
             t = Tournament()
