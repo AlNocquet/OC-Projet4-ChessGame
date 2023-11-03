@@ -42,7 +42,7 @@ class ViewPlayer(BaseView):
         self.player_sections_settings(
             f"\n============[ CRÉATION DU JOUEUR ]============"
         )
-        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
+        # self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
 
         surname = self.get_alpha_string(label="Nom de famille du joueur")
         first_name = self.get_alpha_string(label="Prénom du joueur")

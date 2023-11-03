@@ -53,9 +53,17 @@ class BaseView:
         "Displays the title related to the section from view_player which uses it"
         print(Fore.MAGENTA + Style.BRIGHT + msg + Style.RESET_ALL)
 
+        # if self.get_alphanum(label="exit" or "Exit"):
+        # self.display_message(f"\n Ok !\n")
+        # ViewPlayer.display_player_menu()
+
     def tournament_sections_settings(self, msg: str):
         "Displays the title related to the section from view_tournament which uses it"
         print(Fore.CYAN + Style.BRIGHT + msg + Style.RESET_ALL)
+
+        # if self.get_alphanum(label="exit" or "Exit"):
+        # self.display_message(f"\n Ok !\n")
+        # ViewTournament.display_tournament_menu()
 
     def table_settings(self, title: str, items=list):
         "Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"

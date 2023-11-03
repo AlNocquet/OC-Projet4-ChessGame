@@ -27,11 +27,11 @@ class Tournament:
         self.name = name
         self.place = place
         self.date = date
-        self.number_of_rounds = number_of_rounds
+        self.number_of_rounds: int = number_of_rounds
         self.number_of_players = number_of_players
         self.current_round = current_round
         self.description = description
-        self.rounds = rounds
+        self.rounds: list = rounds
         self.players = players
 
     def serialize(self):

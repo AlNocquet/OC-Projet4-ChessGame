@@ -35,9 +35,9 @@ class ViewTournament(BaseView):
     def get_new_tournament(self) -> dict:
         """Displays field requested for tournament creation and returns the user's response"""
         self.tournament_sections_settings(
-            f"\n============[ CRÉATION DU TOURNOI ]============="
+            f"\n============[ CRÉATION DU TOURNOI ]=============\n"
         )
-        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
+        # self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
 
         name = self.get_alphanum(label="Nom du tournoi")
         place = self.get_alpha_string(label="Lieu du tournoi")
@@ -59,16 +59,17 @@ class ViewTournament(BaseView):
 
     def request_create_round(self):
         choice = self.get_alpha_string(
-            label="\n Voulez-vous lancer un nouveau tournoi ? (Y/N)"
+            label="\n Voulez-vous lancer un nouveau round ? (y/n)"
         )
 
-        if choice == "Y" or choice == "y":
-            self.display_message(f"\n Go !\n")
+        if choice in ["N", "n", "Y", "y", "Q", "q"]:
+            if choice == "N" or choice == "n":
+                self.display_message(f"\n Ok !\n")
 
-        elif choice == "N" or choice == "n":
-            self.display_message(f"\n Ok !\n")
+            elif choice == "Y" or choice == "y":
+                self.display_message(f"\n Go !\n")
 
-        else:
-            self.display_error_message(f"\n Choix invalide !\n")
+            else:
+                self.display_error_message(f"\n Choix invalide !\n")
 
-        return choice
+            return choice

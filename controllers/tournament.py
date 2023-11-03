@@ -62,23 +62,9 @@ class TournamentController(BaseView):
 
             tournament.players = self.add_players_tournament(
                 tournament.number_of_players
-            )  # Réceptionner pas les players retournés par add_players.
+            )  # Réceptionner les players retournés par add_players
 
-            exit_requested = False
-
-            while not exit_requested:
-                choice = self.view.request_create_round()
-
-                if choice == "Y" or choice == "y":
-                    self.create_round()
-
-                elif choice == "N" or choice == "n":
-                    exit_requested = True
-
-            t = Tournament()
-            round = self.create_round(players=t.players, current_round=t.current_round)
-            tournament.append(round)
-
+            self.manage_rounds(tournament)
             tournament.save()
             self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
 
@@ -109,21 +95,48 @@ class TournamentController(BaseView):
     def create_round(self, players: list, current_round) -> Round:
         "Return a Round object with matches"
 
-        players = players.copy()
-        shuffle(players)
-
         matches = []
 
         current_round += 1
+        name = f"Round {current_round}"
+        start_date = datetime.now()
 
-        for player in players:
-            name = f"Round {current_round}"
-            start_date = datetime.now()
-            # self.end_date =
+        while len(players) > 0:
             player_1 = players.pop(0)
             player_2 = players.pop(0)
-            matches.append(Match(player_1, player_2))
-        return matches
+            match = Match(player_1_name=player_1, player_2_name=player_2)
+            matches.append(match)
+
+        round = Round(name=name, start_date=start_date, matches=matches)
+
+        return round
+
+    def manage_rounds(self, tournament: Tournament):
+        """Manages the launch of the rounds' creation with a random sorting of players for the first round and a sorting by player's scores for the following ones"""
+
+        exit_requested = False
+
+        players = tournament.players.copy()
+
+        choice = self.view.request_create_round()
+
+        while not exit_requested:
+            if choice == "N" or choice == "n":
+                break
+            else:
+                if tournament.current_round == 0:
+                    shuffle(players)
+                    print(players)
+                else:
+                    players = players.sort(reverse=True, key=Player.score)
+                    print(players)
+
+                round = self.create_round(players, tournament.current_round)
+                tournament.rounds.append(round)
+                # inscrire les scores : def view + def score
+
+            if len(tournament.current_round) > len(tournament.number_of_rounds):
+                exit_requested = True
 
     def add_scores():
         pass
