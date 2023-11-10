@@ -1,6 +1,10 @@
 from datas.data_tournament import DataTournament
+from .model_round import Round
+from .model_player import Player
 
 from operator import itemgetter
+from rich.console import Console
+from rich.table import Table
 
 
 class Tournament:
@@ -43,8 +47,8 @@ class Tournament:
             "number_of_players": self.number_of_players,
             "current_round": self.current_round,
             "description": self.description,
-            "rounds": self.rounds,
-            "players": self.players,
+            "rounds": [round.serialize() for round in self.rounds],
+            "players": [player.id_db for player in self.players],
         }
         return tournament
 

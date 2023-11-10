@@ -40,9 +40,9 @@ class TournamentController(BaseView):
                 pass
             elif choice == "6":
                 pass
-            elif choice == "E" or choice == "e":
+            elif choice.lower() == "e":
                 exit_requested = True
-            elif choice == "Q" or choice == "q":
+            elif choice.lower() == "q":
                 exit()
 
     def create_tournament(self):
@@ -97,9 +97,12 @@ class TournamentController(BaseView):
 
         matches = []
 
-        current_round += 1
         name = f"Round {current_round}"
-        start_date = datetime.now()
+
+        # Create a datetime object
+        date = datetime.now()
+        # Convert the datetime object to a string in a specific format (Object of type datetime is not JSON serializable)
+        start_date = date.strftime("%Y-%m-%d %H:%M:%S")
 
         while len(players) > 0:
             player_1 = players.pop(0)
@@ -116,26 +119,23 @@ class TournamentController(BaseView):
 
         exit_requested = False
 
-        players = tournament.players.copy()
-
-        choice = self.view.request_create_round()
-
         while not exit_requested:
-            if choice == "N" or choice == "n":
-                break
+            choice = self.view.request_create_rounds()
+            if choice.lower() == "n":
+                return
+
+            players = tournament.players.copy()
+            if tournament.current_round == 0:
+                shuffle(players)
             else:
-                if tournament.current_round == 0:
-                    shuffle(players)
-                    print(players)
-                else:
-                    players = players.sort(reverse=True, key=Player.score)
-                    print(players)
+                players.sort(reverse=True, key=lambda player: player.score)
 
-                round = self.create_round(players, tournament.current_round)
-                tournament.rounds.append(round)
-                # inscrire les scores : def view + def score
+            tournament.current_round += 1
+            round = self.create_round(players, tournament.current_round)
+            tournament.rounds.append(round)
+            # inscrire les scores : def view + def score
 
-            if len(tournament.current_round) > len(tournament.number_of_rounds):
+            if tournament.current_round >= int(tournament.number_of_rounds):
                 exit_requested = True
 
     def add_scores():
@@ -149,3 +149,8 @@ class TournamentController(BaseView):
         title = f"[LISTE DE {len(tournaments)} TOURNOIS]"
         self.view.table_settings(title, tournaments)
         return tournaments
+
+
+if __name__ == "__main__":
+    tc = TournamentController
+    tc.create_tournament()

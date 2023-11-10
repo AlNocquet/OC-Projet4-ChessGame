@@ -15,7 +15,7 @@ class ViewApp(BaseView):
             choice = input(f"\n Entrez votre choix :")
 
             if choice in ["1", "2", "Q", "q"]:
-                if choice == "Q" or choice == "q":
+                if choice.lower() == "q":
                     self.display_message(f"\n Au revoir !\n")
                 return choice
             else:

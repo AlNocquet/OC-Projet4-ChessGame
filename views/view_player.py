@@ -25,10 +25,10 @@ class ViewPlayer(BaseView):
             choice = input(f"\n Entrez votre choix :")
 
             if choice in ["1", "2", "3", "4", "5", "6", "E", "e", "Q", "q"]:
-                if choice == "E" or choice == "e":
+                if choice.lower() == "e":
                     self.display_message(f"\n Ok !\n")
 
-                elif choice == "Q" or choice == "q":
+                elif choice.lower() == "q":
                     self.display_message(f"\n Au revoir !\n")
 
                 return choice

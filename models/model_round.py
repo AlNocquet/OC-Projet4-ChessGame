@@ -11,4 +11,13 @@ class Round:
         self.name = name
         self.start_date = start_date
         self.end_date = end_date
-        self.matches: list = []
+        self.matches: list = matches
+
+    def serialize(self):
+        round = {
+            "name": self.name,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "matches": [match.serialize() for match in self.matches],
+        }
+        return round

@@ -24,10 +24,10 @@ class ViewTournament(BaseView):
             choice = input(f"\n Entrez votre choix :")
 
             if choice in ["1", "2", "3", "4", "5", "6", "E", "e", "Q", "q"]:
-                if choice == "E" or choice == "e":
+                if choice.lower() == "e":
                     self.display_message(f"\n Ok !\n")
 
-                elif choice == "Q" or choice == "q":
+                elif choice.lower() == "q":
                     self.display_message(f"\n Au revoir !\n")
 
                 return choice
@@ -57,16 +57,16 @@ class ViewTournament(BaseView):
             "description": description,
         }
 
-    def request_create_round(self):
+    def request_create_rounds(self):
         choice = self.get_alpha_string(
             label="\n Voulez-vous lancer un nouveau round ? (y/n)"
         )
 
         if choice in ["N", "n", "Y", "y", "Q", "q"]:
-            if choice == "N" or choice == "n":
+            if choice.lower() == "n":
                 self.display_message(f"\n Ok !\n")
 
-            elif choice == "Y" or choice == "y":
+            elif choice.lower() == "y":
                 self.display_message(f"\n Go !\n")
 
             else:
