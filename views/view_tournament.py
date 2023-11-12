@@ -45,7 +45,7 @@ class ViewTournament(BaseView):
         number_of_rounds = self.get_alphanum(label="Nombre de tours")
         number_of_players = self.get_alphanum(label="Nombre de joueurs")
         description = self.get_alphanum(
-            "Remarques générales (réservé au directeur)", max_len=300
+            label="Remarques générales (réservé au directeur)", max_len=300
         )
 
         return {
@@ -58,18 +58,35 @@ class ViewTournament(BaseView):
         }
 
     def request_create_rounds(self):
+        """Request for rounds creation and returns the user's response"""
         choice = self.get_alpha_string(
             label="\n Voulez-vous lancer un nouveau round ? (y/n)"
         )
 
-        if choice in ["N", "n", "Y", "y", "Q", "q"]:
-            if choice.lower() == "n":
-                self.display_message(f"\n Ok !\n")
+        if choice.lower() == "n":
+            self.display_message(f"\n Ok !\n")
 
-            elif choice.lower() == "y":
-                self.display_message(f"\n Go !\n")
+        elif choice.lower() == "y":
+            self.display_message(f"\n Go !\n")
 
-            else:
-                self.display_error_message(f"\n Choix invalide !\n")
+        else:
+            self.display_error_message(f"\n Choix invalide !\n")
 
-            return choice
+        return choice
+
+    def request_add_scores(self):
+        """Request for player's scores of each round and returns the user's response"""
+        choice = self.get_alpha_string(
+            label="\n Voulez-vous enregistrer les scores du round ? (y/n) \n"
+        )
+
+        if choice.lower() == "n":
+            self.display_message(f"\n Ok !\n")
+
+        elif choice.lower() == "y":
+            self.display_message(f"\n Go !\n")
+
+        else:
+            self.display_error_message(f"\n Choix invalide !\n")
+
+        return choice

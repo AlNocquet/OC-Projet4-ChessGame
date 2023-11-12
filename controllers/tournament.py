@@ -107,7 +107,12 @@ class TournamentController(BaseView):
         while len(players) > 0:
             player_1 = players.pop(0)
             player_2 = players.pop(0)
-            match = Match(player_1_name=player_1, player_2_name=player_2)
+            match = Match(
+                player_1_name=player_1,
+                player_1_score=0,
+                player_2_name=player_2,
+                player_2_score=0,
+            )
             matches.append(match)
 
         round = Round(name=name, start_date=start_date, matches=matches)
@@ -133,13 +138,40 @@ class TournamentController(BaseView):
             tournament.current_round += 1
             round = self.create_round(players, tournament.current_round)
             tournament.rounds.append(round)
-            # inscrire les scores : def view + def score
+
+            self.add_scores_tournament()
 
             if tournament.current_round >= int(tournament.number_of_rounds):
                 exit_requested = True
 
-    def add_scores():
-        pass
+    def add_scores_tournament(self):
+        """Manages player's scores of each round"""
+        exit_requested = False
+
+        while not exit_requested:
+            choice = self.view.request_add_scores()
+
+            self.view.display_message(
+                f"\n Victoire Joueur 1 : Tapez 1 \n Victoire Joueur 2 : Tapez 2 \n Match Nul : Tapez 3 \n"
+            )
+
+            if choice == "1":
+                Match.player_1_score = 1
+                Match.player_2_score = 0
+
+            elif choice == "2":
+                Match.player_1_score = 0
+                Match.player_2_score = 1
+
+            elif choice == "3":
+                Match.player_1_score = 0.5
+                Match.player_2_score = 0.5
+
+            elif choice.lower() == "e":
+                exit_requested = True
+
+            else:
+                self.display_error_message(f"\n Choix invalide !\n")
 
     def display_tournaments(self):
         """Get players list from the model_player and display it with rich from base_view"""
@@ -149,8 +181,3 @@ class TournamentController(BaseView):
         title = f"[LISTE DE {len(tournaments)} TOURNOIS]"
         self.view.table_settings(title, tournaments)
         return tournaments
-
-
-if __name__ == "__main__":
-    tc = TournamentController
-    tc.create_tournament()

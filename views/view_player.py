@@ -2,6 +2,7 @@ from .view_base import BaseView
 from .view_base import BaseView, console as c
 
 from datetime import datetime
+from colorama import Fore, Style, Back
 
 
 class ViewPlayer(BaseView):
@@ -134,7 +135,10 @@ class ViewPlayer(BaseView):
 
         while True:
             players_id_str: str = input(
-                f"\n Veuillez indiquer les identifiants (id_db) des {player_number} joueurs à ajouter au tournoi, séparés par un espace: \n"
+                Fore.YELLOW
+                + Style.BRIGHT
+                + f"\n Veuillez indiquer les identifiants (id_db) des {player_number} joueurs à ajouter au tournoi, séparés par un espace: \n"
+                + Style.RESET_ALL
             )
 
             if not players_id_str:

@@ -106,7 +106,9 @@ class BaseView:
         """Returns an alpha string + value > 0 from the input from the user"""
 
         while True:
-            value = str.capitalize(input(f"{label} : "))
+            value = str.capitalize(
+                Fore.YELLOW + Style.BRIGHT + input(f"{label} : ") + Style.RESET_ALL
+            )
 
             if value.lower() == EXIT_CODE:
                 raise CancelError
@@ -121,7 +123,9 @@ class BaseView:
         """Returns a alphanumeric string + value > 0 from the input from the user"""
 
         while True:
-            value = str.capitalize(input(f"{label} : "))
+            value = str.capitalize(
+                Fore.YELLOW + Style.BRIGHT + input(f"{label} : ") + Style.RESET_ALL
+            )
 
             if not min_len <= len(value) <= max_len:
                 self.display_error_message(
