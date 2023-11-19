@@ -23,7 +23,7 @@ class AppController:
             choice = self.view_app.display_main_menu()
 
             if choice == "1":
-                self.tournament_controller.manage_tournament()
+                self.tournament_controller.manage_tournament_menu()
             elif choice == "2":
                 self.player_controller.manage_player()
             elif choice == "Q" or choice == "q":

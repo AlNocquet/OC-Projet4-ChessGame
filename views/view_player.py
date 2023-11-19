@@ -102,14 +102,12 @@ class ViewPlayer(BaseView):
         self.request_player_by_id()
 
     def get_player_by_id(self):
+        """Displays field requested for player search and returns the user's response"""
         self.player_sections_settings(
             f"\n========[ RECHERCHE DU JOUEUR PAR ID ]========"
         )
         self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
-        self.request_player_by_id()
-
-    def request_player_by_id(self):
-        return self.get_alphanum(label="Quel est l'id_db du joueur recherché")
+        return self.get_int(label="Quel est l'id_db du joueur recherché")
 
     def get_player_by_fullname(self):
         self.player_sections_settings(

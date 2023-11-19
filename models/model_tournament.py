@@ -66,7 +66,7 @@ class Tournament:
 
     @classmethod
     def get_tournaments_selected_fields_list(cls):
-        """Returns a list of tournaments with selected fields"""
+        """Returns a list of tournaments (from data_tournament) with selected fields"""
 
         tournaments_list = []
 

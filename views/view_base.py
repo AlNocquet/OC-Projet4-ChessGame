@@ -92,10 +92,12 @@ class BaseView:
         console.print(table)
 
     def get_int(self, label):
-        """Return a value compatible with int from the input from the user"""
+        """Returns a value compatible with int from the input of the user"""
 
         while True:
-            value = input(f"{label} : ")
+            value = input(Fore.YELLOW + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = str.capitalize(value)
+
             try:
                 int(value)
                 return value
@@ -103,12 +105,11 @@ class BaseView:
                 self.display_error_message(f"\n Vous devez rentrer un entier.\n")
 
     def get_alpha_string(self, label: str) -> str:
-        """Returns an alpha string + value > 0 from the input from the user"""
+        """Returns an alpha string + value > 0 from the input of the user"""
 
         while True:
-            value = str.capitalize(
-                Fore.YELLOW + Style.BRIGHT + input(f"{label} : ") + Style.RESET_ALL
-            )
+            value = input(Fore.YELLOW + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = str.capitalize(value)
 
             if value.lower() == EXIT_CODE:
                 raise CancelError
@@ -123,9 +124,8 @@ class BaseView:
         """Returns a alphanumeric string + value > 0 from the input from the user"""
 
         while True:
-            value = str.capitalize(
-                Fore.YELLOW + Style.BRIGHT + input(f"{label} : ") + Style.RESET_ALL
-            )
+            value = input(Fore.YELLOW + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = str.capitalize(value)
 
             if not min_len <= len(value) <= max_len:
                 self.display_error_message(
@@ -144,10 +144,16 @@ class BaseView:
             )
 
     def get_date(self, label) -> str:
-        """Return a date(str) for tournament enter by the user"""
+        """Returns a date(str) for tournament enter by the user"""
 
         while True:
-            date_value = input(f"{label} au format JJ-MM-AAAA : ")
+            date_value = input(
+                Fore.YELLOW
+                + Style.BRIGHT
+                + f"{label} au format JJ-MM-AAAA : "
+                + Style.RESET_ALL
+            )
+            date_value = str.capitalize(date_value)
 
             try:
                 formated_date = datetime.strptime(date_value, "%d-%m-%Y")
@@ -159,7 +165,7 @@ class BaseView:
                 )
 
     def get_player_number(self, label):
-        """Return the player number checking that number is even"""
+        """Returns the player number checking that number is even"""
         while True:
             player_number = self.get_int(label)
 

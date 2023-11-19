@@ -5,7 +5,7 @@ from datetime import datetime
 
 class ViewTournament(BaseView):
     def display_tournament_menu(self):
-        """Affiche le menu Tournoi et renvoie le résultat du choix de l'utilisateur"""
+        """ "Display tournament's main menu and returns the user's response"""
 
         while True:
             self.tournament_menu_settings(
@@ -32,18 +32,17 @@ class ViewTournament(BaseView):
 
                 return choice
 
-    def get_new_tournament(self) -> dict:
+    def request_new_tournament(self) -> dict:
         """Displays field requested for tournament creation and returns the user's response"""
         self.tournament_sections_settings(
             f"\n============[ CRÉATION DU TOURNOI ]=============\n"
         )
-        # self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
 
         name = self.get_alphanum(label="Nom du tournoi")
         place = self.get_alpha_string(label="Lieu du tournoi")
         date = self.get_date(label="Date du tournoi")
-        number_of_rounds = self.get_alphanum(label="Nombre de tours")
-        number_of_players = self.get_alphanum(label="Nombre de joueurs")
+        number_of_rounds = self.get_int(label="Nombre de tours")
+        number_of_players = self.get_int(label="Nombre de joueurs")
         description = self.get_alphanum(
             label="Remarques générales (réservé au directeur)", max_len=300
         )
@@ -75,7 +74,7 @@ class ViewTournament(BaseView):
         return choice
 
     def request_add_scores(self):
-        """Request for player's scores of each round and returns the user's response"""
+        """Request to add player's scores of each round and returns the user's response"""
         choice = self.get_alpha_string(
             label="\n Voulez-vous enregistrer les scores du round ? (y/n) \n"
         )
@@ -90,3 +89,15 @@ class ViewTournament(BaseView):
             self.display_error_message(f"\n Choix invalide !\n")
 
         return choice
+
+    def request_tournament_by_id(self):
+        """Display tournament's menu section and field to return the user's response"""
+
+        self.tournament_menu_settings(
+            f"\n========[ RECHERCHE DU TOURNOI PAR ID ]========"
+        )
+
+        request = self.get_int(
+            label="Voici le(s) tournoi(s) enregistré(s) : Lequel voulez vous charger ? "
+        )
+        return request
