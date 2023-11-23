@@ -12,6 +12,7 @@ class Round:
         self.start_date = start_date
         self.end_date = end_date
         self.matches: list = matches
+        self.status = "Round en cours"
 
     def serialize(self):
         round = {

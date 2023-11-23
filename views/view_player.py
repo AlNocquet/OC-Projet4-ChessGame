@@ -11,7 +11,7 @@ class ViewPlayer(BaseView):
 
         while True:
             self.player_menu_settings(
-                f"================[ MENU JOUEUR ]================"
+                f"\n ================[ MENU JOUEUR ]================"
             )
             self.display_message(f"\n--- Tapez E pour revenir au menu précédent ---\n")
 
@@ -135,7 +135,7 @@ class ViewPlayer(BaseView):
             players_id_str: str = input(
                 Fore.YELLOW
                 + Style.BRIGHT
-                + f"\n Veuillez indiquer les identifiants (id_db) des {player_number} joueurs à ajouter au tournoi, séparés par un espace: \n"
+                + f"\n Indiquer l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace :"
                 + Style.RESET_ALL
             )
 

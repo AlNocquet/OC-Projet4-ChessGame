@@ -6,7 +6,11 @@ class ViewApp(BaseView):
         """Affiche le menu principal et renvoie le résultat du choix de l'utilisateur"""
 
         while True:
-            self.main_menu_settings(f"===============[MENU PRINCIPAL]===============\n")
+            self.main_menu_settings(
+                f"\n"
+                + "\n"
+                + "=============================[MENU PRINCIPAL]=========================== \n"
+            )
 
             print("1. Gestion des Tournois")
             print("2. Gestion des Joueurs")

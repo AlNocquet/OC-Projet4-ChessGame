@@ -12,6 +12,7 @@ from controllers.player import PlayerController
 from datetime import datetime
 from operator import itemgetter
 from random import random, shuffle
+from colorama import Fore, Style, Back
 
 
 class TournamentController(BaseView):
@@ -134,46 +135,76 @@ class TournamentController(BaseView):
             round = self.create_round(players, tournament.current_round)
             tournament.rounds.append(round)
 
-            self.display_pair_of_players()
+            self.display_pair_of_players(round)
             self.add_scores_tournament(round)
+
+            now = datetime.now()
+            end_date = f"Date et heure de fin : {now.strftime('%d/%m/%Y %H:%M:%S')}"
+            tournament.rounds.append(end_date)
+
+            status = "Round terminé"
+            tournament.rounds.append(status)
 
             if tournament.current_round >= int(tournament.number_of_rounds):
                 exit_requested = True
 
-    def display_pair_of_players(self, round):
-        """Display players of each match"""
+    def display_pair_of_players(self, round: Round):
+        """Display players 1 and 2 (model_match via model_player) of each match"""
 
-        title = f"[ADVERSAIRES par MATCHS]"
+        title = f"[ADVERSAIRES PAR MATCH - ROUND EN COURS]"
+
+        matches = []
+        # num = 0
 
         for match in round.matches:
-            self.view.table_settings(title, player_1, player_2)
-        return match
+            # for index, match in enumerate(round.matches):
+            # Parcourir la liste et utiliser l'index de la liste parcourue + enumarate OU à la main : instancier ex num = 0 et incrémenter
+            # Problème : TypeError: 'bool' object is not iterable
+            # Problème : num int et non str > ne marche pas
+            # num = +1
+            matches.append(
+                {
+                    # "N° de Match": num,
+                    # "N° de Match": index + 1,
+                    "JOUEURS 1": match.player_1.full_name,
+                    "JOUEURS 2": match.player_2.full_name,
+                }
+            )
+        self.view.table_settings(title, matches)
 
-    def add_scores_tournament(self, tournament, round):
+    def add_scores_tournament(self, round: Round):
         """Add player's scores of each match"""
 
         choice = self.view.request_add_scores()
 
         for match in round.matches:
-            self.view.display_message(
+            print(
+                Fore.CYAN
+                + Style.BRIGHT
+                + match.player_1.full_name
+                + " VS "
+                + match.player_2.full_name
+                + Style.RESET_ALL
+            )
+            self.view.display_message_score_section(
                 f"\n Victoire Joueur 1 : Tapez 1 \n Victoire Joueur 2 : Tapez 2 \n Match Nul : Tapez 3 \n"
             )
-            if choice == "1":
-                match.player_1.score += 1
 
-            elif choice == "2":
-                match.player_2.score += 1
+            if choice in ["1", "2", "3"]:
+                if choice == "1":
+                    match.player_1.score += 1
 
-            elif choice == "3":
-                match.player_1.score += 0.5
-                match.player_2.score += 0.5
+                elif choice == "2":
+                    match.player_2.score += 1
 
-            else:
-                self.display_error_message(f"\n Choix invalide !\n")
+                elif choice == "3":
+                    match.player_1.score += 0.5
+                    match.player_2.score += 0.5
 
-            now = datetime.datetime.now()
-            end_date = f"Date et heure de fin : {now.strftime('%d/%m/%Y %H:%M:%S')}"
-            tournament.rounds.append(end_date)
+                return choice
+
+        else:
+            self.display_error_message(f"\n Choix invalide !\n")
 
     def display_tournaments(self):
         """Get tournaments list (from the model_tournament) and display it with rich (from base_view)"""

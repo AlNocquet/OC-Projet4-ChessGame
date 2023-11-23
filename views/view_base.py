@@ -1,6 +1,7 @@
 from datetime import datetime
 from rich.console import Console
 from rich.table import Table
+from rich.table import Column, Padding
 from colorama import Fore, Style, Back
 
 
@@ -29,6 +30,10 @@ class BaseView:
         "Displays the message related to the function from view_player or view_tournament which uses it"
         print(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL)
 
+    def display_message_score_section(self, msg: str):
+        "Displays the message related to the function from view_player or view_tournament which uses it"
+        print(Fore.BLUE + Style.BRIGHT + msg + Style.RESET_ALL)
+
     def display_error_message(self, msg: str):
         "Displays the error message related to the function from view_player or view_tournament which uses it"
         print(Fore.RED + Style.BRIGHT + msg + Style.RESET_ALL)
@@ -53,26 +58,24 @@ class BaseView:
         "Displays the title related to the section from view_player which uses it"
         print(Fore.MAGENTA + Style.BRIGHT + msg + Style.RESET_ALL)
 
-        # if self.get_alphanum(label="exit" or "Exit"):
-        # self.display_message(f"\n Ok !\n")
-        # ViewPlayer.display_player_menu()
-
     def tournament_sections_settings(self, msg: str):
         "Displays the title related to the section from view_tournament which uses it"
         print(Fore.CYAN + Style.BRIGHT + msg + Style.RESET_ALL)
 
-        # if self.get_alphanum(label="exit" or "Exit"):
-        # self.display_message(f"\n Ok !\n")
-        # ViewTournament.display_tournament_menu()
+    def rounds_menu_settings(self, msg: str):
+        "Displays the message related to the function from view_tournament which uses it"
+        print(Fore.MAGENTA + Style.BRIGHT + msg + Style.RESET_ALL)
 
     def table_settings(self, title: str, items=list):
         "Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"
 
         table = Table(
             title=title,
-            header_style="yellow bold",
+            padding=(0, 1),
+            header_style="blue bold",
             title_style="purple bold",
             title_justify="center",
+            width=75,
         )
 
         try:
@@ -95,7 +98,7 @@ class BaseView:
         """Returns a value compatible with int from the input of the user"""
 
         while True:
-            value = input(Fore.YELLOW + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = input(Fore.BLUE + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
             value = str.capitalize(value)
 
             try:

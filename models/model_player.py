@@ -21,14 +21,18 @@ class Player:
         self.score = score
         self.id_db = id_db
 
+    @property  # décorateur property // definition de méthode pour concaténation nom + prénom
+    def full_name(self):
+        return " " + self.name + " " + self.surname + " "
+
     def serialize(self):
         player = {
-            "surname": self.surname,
-            "name": self.name,
-            "date_of_birth": self.date_of_birth,
-            "national_chess_id": self.national_chess_id,
-            "score": self.score,
-            "id_db": self.id_db,
+            "NOM": self.surname,
+            "PRENOM": self.name,
+            "DATE ANNIVERSAIRE": self.date_of_birth,
+            "NATIONAL CHESS ID": self.national_chess_id,
+            "SCORE": self.score,
+            "ID_DB": self.id_db,
         }
         return player
 

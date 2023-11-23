@@ -1,3 +1,5 @@
 # Ignorer dossier Env
 env/
+# Ignorer INIT
+__init__.py
 
