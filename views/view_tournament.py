@@ -14,11 +14,10 @@ class ViewTournament(BaseView):
             self.display_message(f"\n--- Tapez E pour revenir au menu précédent ---\n")
 
             print("1. Créer un Tournoi")
-            print("2. Afficher liste des Tournois")
-            print("3. Consulter données d un Tournoi")
-            print("4. Consulter liste Joueurs d un Tournoi par ordre alphabétique")
-            print("5. Consulter liste des Tours d un Tournoi")
-            print("6. Consulter liste des Matchs d un Tournoi")
+            print("1. Charger un Tournoi")
+            print("3. Afficher liste des Tournois")
+            print("4. Consulter liste des Tours d un Tournoi")
+            print("5. Consulter liste des Matchs d un Tournoi")
             print("Q. Quitter le programme")
 
             choice = input(f"\n Entrez votre choix :")

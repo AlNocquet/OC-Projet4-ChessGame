@@ -20,5 +20,6 @@ class Round:
             "start_date": self.start_date,
             "end_date": self.end_date,
             "matches": [match.serialize() for match in self.matches],
+            "status": self.status,
         }
         return round

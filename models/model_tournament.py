@@ -47,7 +47,7 @@ class Tournament:
             "Nombre DE JOUEURS": self.number_of_players,
             "ROUND EN COURS": self.current_round,
             "DESCRIPTION": self.description,
-            "rounds": [round.serialize() for round in self.rounds],
+            "rounds": [round.serialize for round in self.rounds],
             "players": [player.id_db for player in self.players],
         }
         return tournament

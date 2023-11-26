@@ -32,14 +32,12 @@ class TournamentController(BaseView):
             if choice == "1":
                 self.create_tournament()
             elif choice == "2":
-                self.display_tournaments()
+                self.load_tournament()
             elif choice == "3":
-                pass
+                self.display_tournaments()
             elif choice == "4":
                 pass
             elif choice == "5":
-                pass
-            elif choice == "6":
                 pass
             elif choice.lower() == "e":
                 exit_requested = True
