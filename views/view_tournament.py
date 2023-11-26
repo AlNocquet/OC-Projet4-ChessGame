@@ -95,6 +95,21 @@ class ViewTournament(BaseView):
 
         return choice
 
+    def get_match_result(self):
+        """Display choice of match results and returns the user's response"""
+
+        self.display_message_score_section(
+            f"\n Victoire Joueur 1 : Tapez 1 \n Victoire Joueur 2 : Tapez 2 \n Match Nul : Tapez 3 \n"
+        )
+
+        choice = self.get_alpha_string(f"\n Entrez votre choix")
+
+        if choice in ["1", "2", "3"]:
+            return choice
+
+        else:
+            self.display_error_message(f"\n Choix invalide !\n")
+
     def request_tournament_by_id(self):
         """Display tournament's menu section and field to return the user's response"""
 

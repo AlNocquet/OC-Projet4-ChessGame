@@ -154,18 +154,13 @@ class TournamentController(BaseView):
         title = f"[ADVERSAIRES PAR MATCH - ROUND EN COURS]"
 
         matches = []
-        # num = 0
 
-        for match in round.matches:
-            # for index, match in enumerate(round.matches):
+        for index, match in enumerate(round.matches):
             # Parcourir la liste et utiliser l'index de la liste parcourue + enumarate OU à la main : instancier ex num = 0 et incrémenter
-            # Problème : TypeError: 'bool' object is not iterable
-            # Problème : num int et non str > ne marche pas
-            # num = +1
+
             matches.append(
                 {
-                    # "N° de Match": num,
-                    # "N° de Match": index + 1,
+                    "N° de Match": str(index + 1),
                     "JOUEURS 1": match.player_1.full_name,
                     "JOUEURS 2": match.player_2.full_name,
                 }
@@ -175,7 +170,7 @@ class TournamentController(BaseView):
     def add_scores_tournament(self, round: Round):
         """Add player's scores of each match"""
 
-        choice = self.view.request_add_scores()
+        self.view.request_add_scores()
 
         for match in round.matches:
             print(
@@ -186,25 +181,19 @@ class TournamentController(BaseView):
                 + match.player_2.full_name
                 + Style.RESET_ALL
             )
-            self.view.display_message_score_section(
-                f"\n Victoire Joueur 1 : Tapez 1 \n Victoire Joueur 2 : Tapez 2 \n Match Nul : Tapez 3 \n"
-            )
+
+            choice = self.view.get_match_result()
 
             if choice in ["1", "2", "3"]:
                 if choice == "1":
-                    match.player_1.score += 1
+                    match.player_1.score = 1
 
                 elif choice == "2":
-                    match.player_2.score += 1
+                    match.player_2.score = 1
 
                 elif choice == "3":
-                    match.player_1.score += 0.5
-                    match.player_2.score += 0.5
-
-                return choice
-
-        else:
-            self.display_error_message(f"\n Choix invalide !\n")
+                    match.player_1.score = 0.5
+                    match.player_2.score = 0.5
 
     def display_tournaments(self):
         """Get tournaments list (from the model_tournament) and display it with rich (from base_view)"""
