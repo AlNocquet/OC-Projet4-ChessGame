@@ -2,25 +2,35 @@ from .view_base import BaseView
 
 from datetime import datetime
 
+from colorama import Fore, Style, Back
+
 
 class ViewTournament(BaseView):
     def display_tournament_menu(self):
         """ "Display tournament's main menu and returns the user's response"""
 
         while True:
+            print("\n")
             self.tournament_menu_settings(
-                f"\n ============================[ MENU TOURNOI ]============================"
+                f"============================[ MENU TOURNOI ]============================"
             )
-            self.display_message(f"\n--- Tapez E pour revenir au menu précédent ---\n")
+            self.display_message_section(
+                f"\n                Tapez E pour revenir au menu précédent\n"
+            )
 
             print("1. Créer un Tournoi")
-            print("1. Charger un Tournoi")
+            print("2. Charger un Tournoi")
             print("3. Afficher liste des Tournois")
-            print("4. Consulter liste des Tours d un Tournoi")
-            print("5. Consulter liste des Matchs d un Tournoi")
+            print("4. Consulter liste des ROUNDS d'un Tournoi")
+            print("5. Consulter liste des MATCHS d'un Tournoi")
             print("Q. Quitter le programme")
 
-            choice = input(f"\n Entrez votre choix :")
+            choice = input(
+                Fore.BLACK
+                + Style.BRIGHT
+                + f"\n Entrez votre choix : "
+                + Style.RESET_ALL
+            )
 
             if choice in ["1", "2", "3", "4", "5", "6", "E", "e", "Q", "q"]:
                 if choice.lower() == "e":
@@ -60,21 +70,22 @@ class ViewTournament(BaseView):
 
     def request_create_rounds(self):
         """Request for rounds creation and returns the user's response"""
+
         choice = self.get_alpha_string(label="\n LANCER UN ROUND ? (Y/N)")
 
         if choice.lower() == "n":
             self.display_message(f"\n Ok !\n")
+            self.display_tournament_menu()
 
         elif choice.lower() == "y":
-            self.display_message(f"\n Go !\n")
+            self.display_success_message(f"\n GO !\n")
             self.rounds_menu_settings(
                 f"\n -------------------------[ CRÉATION D'UN ROUND ]------------------------ \n"
             )
+            return choice
 
         else:
             self.display_error_message(f"\n Choix invalide !\n")
-
-        return choice
 
     def request_add_scores(self):
         """Request to add player's scores of each round and returns the user's response"""
@@ -82,17 +93,18 @@ class ViewTournament(BaseView):
 
         if choice.lower() == "n":
             self.display_message(f"\n Ok !\n")
+            return self.display_tournament_menu()
 
         elif choice.lower() == "y":
-            self.display_message(f"\n Go !\n")
+            self.display_success_message(f"\n GO !\n")
             self.rounds_menu_settings(
-                f"\n ---------------------[ ENREGISTREMENTS DES SCORES ]--------------------- \n"
+                f"\n ---------------------[ ENREGISTREMENTS DES SCORES ]---------------------"
             )
+
+            return choice
 
         else:
             self.display_error_message(f"\n Choix invalide !\n")
-
-        return choice
 
     def get_match_result(self):
         """Display choice of match results and returns the user's response"""
@@ -101,7 +113,9 @@ class ViewTournament(BaseView):
             f"\n Victoire Joueur 1 : Tapez 1 \n Victoire Joueur 2 : Tapez 2 \n Match Nul : Tapez 3 \n"
         )
 
-        choice = self.get_alpha_string(f"\n Entrez votre choix")
+        choice = input(
+            Fore.BLACK + Style.BRIGHT + f"Entrez votre choix : " + Style.RESET_ALL
+        )
 
         if choice in ["1", "2", "3"]:
             return choice

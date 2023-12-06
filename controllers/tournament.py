@@ -149,7 +149,7 @@ class TournamentController(BaseView):
     def display_pair_of_players(self, round: Round):
         """Display players 1 and 2 (model_match via model_player) of each match"""
 
-        title = f"[ADVERSAIRES PAR MATCH - ROUND EN COURS]"
+        title = f"[ADVERSAIRES PAR MATCH]"
 
         matches = []
 
@@ -159,11 +159,13 @@ class TournamentController(BaseView):
             matches.append(
                 {
                     "N° de Match": str(index + 1),
-                    "JOUEURS 1": match.player_1.full_name,
-                    "JOUEURS 2": match.player_2.full_name,
+                    "player_1": match.player_1.full_name,
+                    "player_2": match.player_2.full_name,
                 }
             )
-        self.view.table_settings(title, matches)
+
+        headers = ["N° de Match", "Joueur 1", "Joueur 2"]
+        self.view.table_settings(headers, title, matches)
 
     def add_scores_tournament(self, round: Round):
         """Add player's scores of each match"""
@@ -172,26 +174,37 @@ class TournamentController(BaseView):
 
         for match in round.matches:
             print(
-                Fore.CYAN
+                "\n"
+                + Fore.CYAN
+                + Style.BRIGHT
+                + "JOUEUR 1 :"
+                + Style.RESET_ALL
+                + Fore.WHITE
                 + Style.BRIGHT
                 + match.player_1.full_name
-                + " VS "
+                + Style.RESET_ALL
+                + "\n"
+                + Fore.CYAN
+                + Style.BRIGHT
+                + "JOUEUR 2 :"
+                + Style.RESET_ALL
+                + Fore.WHITE
+                + Style.BRIGHT
                 + match.player_2.full_name
                 + Style.RESET_ALL
             )
 
             choice = self.view.get_match_result()
 
-            if choice in ["1", "2", "3"]:
-                if choice == "1":
-                    match.player_1.score = 1
+            if choice == "1":
+                match.player_1.score += 1
 
-                elif choice == "2":
-                    match.player_2.score = 1
+            elif choice == "2":
+                match.player_2.score += 1
 
-                elif choice == "3":
-                    match.player_1.score = 0.5
-                    match.player_2.score = 0.5
+            elif choice == "3":
+                match.player_1.score += 0.5
+                match.player_2.score += 0.5
 
     def display_tournaments(self):
         """Get tournaments list (from the model_tournament) and display it with rich (from base_view)"""

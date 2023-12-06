@@ -10,10 +10,13 @@ class ViewPlayer(BaseView):
         """Displays the Player menu and returns the user's choice"""
 
         while True:
+            print("\n")
             self.player_menu_settings(
-                f"\n ================[ MENU JOUEUR ]================"
+                f"================[ MENU JOUEUR ]================"
             )
-            self.display_message(f"\n--- Tapez E pour revenir au menu précédent ---\n")
+            self.display_message_section(
+                f"\n    Tapez E pour revenir au menu précédent\n"
+            )
 
             print("1. Créer un joueur")
             print("2. Modifier un joueur")
@@ -23,7 +26,12 @@ class ViewPlayer(BaseView):
             print("6. Trouver un joueur par son Nom")
             print("Q. Quitter le programme")
 
-            choice = input(f"\n Entrez votre choix :")
+            choice = input(
+                Fore.BLACK
+                + Style.BRIGHT
+                + f"\n Entrez votre choix : "
+                + Style.RESET_ALL
+            )
 
             if choice in ["1", "2", "3", "4", "5", "6", "E", "e", "Q", "q"]:
                 if choice.lower() == "e":
@@ -51,14 +59,12 @@ class ViewPlayer(BaseView):
         national_chess_id = self.get_alphanum(
             "Identifiant national d échec de la fédération", min_len=7, max_len=7
         )
-        score = self.get_player_number(label="Score")
 
         return {
             "surname": surname,
             "first_name": first_name,
             "date_of_birth": date_of_birth,
             "national_chess_id": national_chess_id,
-            "score": score,
         }
 
     def get_player_date_of_birth(self):
@@ -133,9 +139,9 @@ class ViewPlayer(BaseView):
 
         while True:
             players_id_str: str = input(
-                Fore.YELLOW
+                Fore.CYAN
                 + Style.BRIGHT
-                + f"\n Indiquer l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace :"
+                + f"\n Indiquer l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace : "
                 + Style.RESET_ALL
             )
 

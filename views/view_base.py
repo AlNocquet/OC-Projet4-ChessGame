@@ -27,8 +27,16 @@ class BaseView:
 
     @classmethod
     def display_message(self, msg: str):
+        "Displays the message related to the function from view app, view_player or view_tournament which uses it"
+        print(Fore.WHITE + Style.BRIGHT + msg + Style.RESET_ALL)
+
+    def display_message_section(self, msg: str):
+        "Displays the message related to the menus from view app, view_player or view_tournament which uses it"
+        print(Fore.BLACK + Style.BRIGHT + msg + Style.RESET_ALL)
+
+    def display_message_round(self, msg: str):
         "Displays the message related to the function from view_player or view_tournament which uses it"
-        print(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL)
+        print(Fore.MAGENTA + Style.BRIGHT + msg + Style.RESET_ALL)
 
     def display_message_score_section(self, msg: str):
         "Displays the message related to the function from view_player or view_tournament which uses it"
@@ -66,7 +74,7 @@ class BaseView:
         "Displays the message related to the function from view_tournament which uses it"
         print(Fore.MAGENTA + Style.BRIGHT + msg + Style.RESET_ALL)
 
-    def table_settings(self, title: str, items=list):
+    def table_settings(self, headers, title: str, items: list):
         "Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"
 
         table = Table(
@@ -85,7 +93,7 @@ class BaseView:
             headers = ["Liste vide"]
 
         for title in headers:
-            table.add_column(title, style="cyan", justify="center")
+            table.add_column(title, style="white", justify="center")
 
         for item in items:
             table.add_row(*item.values())
@@ -98,7 +106,7 @@ class BaseView:
         """Returns a value compatible with int from the input of the user"""
 
         while True:
-            value = input(Fore.BLUE + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = input(Fore.CYAN + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
             value = str.capitalize(value)
 
             try:
@@ -111,7 +119,7 @@ class BaseView:
         """Returns an alpha string + value > 0 from the input of the user"""
 
         while True:
-            value = input(Fore.YELLOW + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = input(Fore.CYAN + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
             value = str.capitalize(value)
 
             if value.lower() == EXIT_CODE:
@@ -127,7 +135,7 @@ class BaseView:
         """Returns a alphanumeric string + value > 0 from the input from the user"""
 
         while True:
-            value = input(Fore.YELLOW + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = input(Fore.CYAN + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
             value = str.capitalize(value)
 
             if not min_len <= len(value) <= max_len:
@@ -151,7 +159,7 @@ class BaseView:
 
         while True:
             date_value = input(
-                Fore.YELLOW
+                Fore.CYAN
                 + Style.BRIGHT
                 + f"{label} au format JJ-MM-AAAA : "
                 + Style.RESET_ALL

@@ -40,14 +40,14 @@ class Tournament:
 
     def serialize(self):
         tournament = {
-            "NOM": self.name,
-            "LIEU": self.place,
-            "DATE": self.date,
-            "Nombre DE ROUNDS": self.number_of_rounds,
-            "Nombre DE JOUEURS": self.number_of_players,
-            "ROUND EN COURS": self.current_round,
-            "DESCRIPTION": self.description,
-            "rounds": [round.serialize for round in self.rounds],
+            "name": self.name,
+            "place": self.place,
+            "date": self.date,
+            "number_of_rounds": self.number_of_rounds,
+            "number_of_players": self.number_of_players,
+            "current_round": self.current_round,
+            "description": self.description,
+            "rounds": [round.serialize() for round in self.rounds],
             "players": [player.id_db for player in self.players],
         }
         return tournament

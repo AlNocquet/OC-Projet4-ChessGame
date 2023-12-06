@@ -81,7 +81,16 @@ class PlayerController(BaseView):
             players.append(p)
 
         title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
-        self.view.table_settings(title, players)
+
+        headers = [
+            "Nom",
+            "Prénom",
+            "Date Naissance",
+            "National Chess Id",
+            "id_db",
+            "Score",
+        ]
+        self.view.table_settings(headers, title, players)
 
         return players
 
