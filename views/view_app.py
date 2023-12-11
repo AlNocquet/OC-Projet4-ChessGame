@@ -13,7 +13,7 @@ class ViewApp(BaseView):
                 f"=============================[MENU PRINCIPAL]==========================="
             )
 
-            self.display_message_section(
+            self.display_message_sections(
                 f"\n       BIENVENU, BIENVENU ! Et ! Que le sort vous soit favorable ! \n"
             )
 

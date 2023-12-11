@@ -139,7 +139,7 @@ class ViewPlayer(BaseView):
 
         while True:
             players_id_str: str = input(
-                Fore.CYAN
+                Fore.BLUE
                 + Style.BRIGHT
                 + f"\n Indiquer l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace : "
                 + Style.RESET_ALL

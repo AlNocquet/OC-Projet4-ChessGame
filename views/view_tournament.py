@@ -1,5 +1,5 @@
 from .view_base import BaseView
-
+from models.model_round import Round
 from datetime import datetime
 
 from colorama import Fore, Style, Back
@@ -50,12 +50,12 @@ class ViewTournament(BaseView):
             f"\n =========================[ CRÉATION DU TOURNOI ]======================== \n"
         )
 
-        name = self.get_alphanum(label="Nom du tournoi")
-        place = self.get_alpha_string(label="Lieu du tournoi")
-        date = self.get_date(label="Date du tournoi")
-        number_of_rounds = self.get_int(label="Nombre de tours")
-        number_of_players = self.get_int(label="Nombre de joueurs")
-        description = self.get_alphanum(
+        name = self.get_data_rounds(label="Nom du tournoi")
+        place = self.get_data_rounds(label="Lieu du tournoi")
+        date = self.get_date_rounds(label="Date du tournoi")
+        number_of_rounds = self.get_int_rounds(label="Nombre de tours")
+        number_of_players = self.get_int_rounds(label="Nombre de joueurs")
+        description = self.get_data_rounds(
             label="Remarques générales (réservé au directeur)", max_len=300
         )
 
@@ -68,37 +68,44 @@ class ViewTournament(BaseView):
             "description": description,
         }
 
-    def request_create_rounds(self):
+    def request_create_rounds(self, round: Round):
         """Request for rounds creation and returns the user's response"""
 
-        choice = self.get_alpha_string(label="\n LANCER UN ROUND ? (Y/N)")
+        choice = input(
+            Fore.CYAN
+            + Style.BRIGHT
+            + f"\n Lancer nouveau round ? (Y/N) : "
+            + Style.RESET_ALL
+        )
 
         if choice.lower() == "n":
-            self.display_message(f"\n Ok !\n")
+            self.display_message(f"\n Ok !")
             self.display_tournament_menu()
 
         elif choice.lower() == "y":
-            self.display_success_message(f"\n GO !\n")
-            self.rounds_menu_settings(
-                f"\n -------------------------[ CRÉATION D'UN ROUND ]------------------------ \n"
-            )
+            self.display_message(f"\n GO !")
             return choice
 
         else:
             self.display_error_message(f"\n Choix invalide !\n")
 
-    def request_add_scores(self):
+    def request_add_scores(self, round: Round):
         """Request to add player's scores of each round and returns the user's response"""
-        choice = self.get_alpha_string(label="\n ENREGISTRER LES SCORES ? (Y/N)")
+        choice = input(
+            Fore.CYAN
+            + Style.BRIGHT
+            + f"\n Enregistrer les scores ? (Y/N) : "
+            + Style.RESET_ALL
+        )
 
         if choice.lower() == "n":
-            self.display_message(f"\n Ok !\n")
-            return self.display_tournament_menu()
+            self.display_message(f"\n Ok !")
+            self.display_tournament_menu()
 
         elif choice.lower() == "y":
-            self.display_success_message(f"\n GO !\n")
+            self.display_message(f"\n GO !")
             self.rounds_menu_settings(
-                f"\n ---------------------[ ENREGISTREMENTS DES SCORES ]---------------------"
+                f"\n ---------------------[ Enregistrement scores du {round.name}]---------------------"
             )
 
             return choice

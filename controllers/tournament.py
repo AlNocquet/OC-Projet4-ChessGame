@@ -63,7 +63,7 @@ class TournamentController(BaseView):
                 tournament.number_of_players
             )  # Réceptionner les players retournés par add_players
 
-            self.manage_rounds(tournament)
+            self.manage_rounds(tournament, round)
             tournament.save()
             self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
 
@@ -113,13 +113,14 @@ class TournamentController(BaseView):
 
         return round
 
-    def manage_rounds(self, tournament: Tournament):
-        """Manages the launch of the rounds' creation with a random sorting of players for the first round and a sorting by player's scores for the following ones"""
+    def manage_rounds(self, tournament: Tournament, round: Round):
+        """Manages the launch of the rounds' creation with a random sorting of players for the first round and a sorting
+        by player's scores for the following ones"""
 
         exit_requested = False
 
         while not exit_requested:
-            choice = self.view.request_create_rounds()
+            choice = self.view.request_create_rounds(round)
             if choice.lower() == "n":
                 return
 
@@ -149,7 +150,7 @@ class TournamentController(BaseView):
     def display_pair_of_players(self, round: Round):
         """Display players 1 and 2 (model_match via model_player) of each match"""
 
-        title = f"[ADVERSAIRES PAR MATCH]"
+        title = f"[Liste des matchs du {round.name}]"
 
         matches = []
 
@@ -170,26 +171,26 @@ class TournamentController(BaseView):
     def add_scores_tournament(self, round: Round):
         """Add player's scores of each match"""
 
-        self.view.request_add_scores()
+        self.view.request_add_scores(round)
 
         for match in round.matches:
             print(
                 "\n"
-                + Fore.CYAN
+                + Fore.BLACK
                 + Style.BRIGHT
                 + "JOUEUR 1 :"
                 + Style.RESET_ALL
                 + Fore.WHITE
-                + Style.BRIGHT
+                + Style.NORMAL
                 + match.player_1.full_name
                 + Style.RESET_ALL
                 + "\n"
-                + Fore.CYAN
+                + Fore.BLACK
                 + Style.BRIGHT
                 + "JOUEUR 2 :"
                 + Style.RESET_ALL
                 + Fore.WHITE
-                + Style.BRIGHT
+                + Style.NORMAL
                 + match.player_2.full_name
                 + Style.RESET_ALL
             )
@@ -216,7 +217,8 @@ class TournamentController(BaseView):
         return tournaments
 
     def load_tournament(self):
-        """Display saved tournaments' list (from controller_tournament) and loads one (from data_tournament) selected by the user (from view_tournament)"""
+        """Display saved tournaments' list (from controller_tournament) and loads one (from data_tournament)
+        selected by the user (from view_tournament)"""
 
         try:
             tournaments = (
