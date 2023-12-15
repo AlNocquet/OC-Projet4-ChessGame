@@ -26,53 +26,83 @@ class BaseView:
     """BaseView object manage all formats and characteristics of user's requests."""
 
     @classmethod
+    def get_yes_or_no(self, msg: str, min_len=1) -> str:
+        """Return string 'y' or 'n' and value = 1 from the input from the user"""
+
+        valid_choice = ["y", "n", "Y", "N"]
+
+        while True:
+            choice = input(Fore.BLACK + Style.DIM + f"\n {msg}" + Style.RESET_ALL)
+
+            if choice in valid_choice:
+                return choice
+
+            elif len(valid_choice) < min_len:
+                self.display_error_message(self, msg="Veuillez saisir un choix.")
+
+            else:
+                self.display_error_message(self, msg="Choix invalide")
+
     def display_message(self, msg: str):
-        "Displays messages of view app, view_player or view_tournament which uses it"
+        """Displays messages of view app, view_player or view_tournament which uses it"""
+        print("\n")
         print(Fore.WHITE + Style.BRIGHT + msg + Style.RESET_ALL)
 
     def display_section_subtitles(self, msg: str):
-        "Displays messages under menus of view app, view_player or view_tournament which uses it"
+        """Displays messages under menus of view app, view_player or view_tournament which uses it"""
         print(Fore.BLACK + Style.BRIGHT + msg.center(100) + Style.RESET_ALL)
 
     def display_error_message(self, msg: str):
-        "Displays error messages related to view_player or view_tournament which uses it"
+        """Displays error messages related to view_player or view_tournament which uses it"""
+        print("\n")
         print(Fore.RED + Style.BRIGHT + msg + Style.RESET_ALL)
 
     def display_success_message(self, msg: str):
-        "Displays success messages related to view_player or view_tournament which uses it"
+        """Displays success messages related to view_player or view_tournament which uses it"""
+        print("\n")
         print(Fore.GREEN + Style.BRIGHT + msg + Style.RESET_ALL)
 
     def main_menu_settings(self, msg: str) -> str:
-        "Displays the menu related to view_app which uses it"
+        """Displays the menu related to view_app which uses it"""
         print("\n")
         print(Fore.WHITE + Back.RED + Style.BRIGHT + msg.center(100) + Style.RESET_ALL)
 
     def player_menu_settings(self, msg: str):
-        "Displays the menu related to view_player which uses it"
+        """Displays the menu related to view_player which uses it"""
         print("\n")
         print(
             Fore.WHITE + Back.MAGENTA + Style.BRIGHT + msg.center(100) + Style.RESET_ALL
         )
 
     def tournament_menu_settings(self, msg: str):
-        "Displays the menu related to tournament_player which uses it"
+        """Displays the menu related to tournament_player which uses it"""
         print("\n")
         print(Fore.WHITE + Back.BLUE + Style.BRIGHT + msg.center(100) + Style.RESET_ALL)
 
     def player_sections_settings(self, msg: str):
-        "Displays the title related to the section of view_player which uses it"
+        """Displays the title related to the section of view_player which uses it"""
         print("\n")
         print(
             Fore.MAGENTA + Back.BLACK + Style.BRIGHT + msg.center(100) + Style.RESET_ALL
         )
 
     def tournament_sections_settings(self, msg: str):
-        "Displays the title related to the section of view_tournament which uses it"
+        """Displays the title related to the section of view_tournament which uses it"""
         print("\n")
         print(Fore.CYAN + Style.BRIGHT + msg.center(100) + Style.RESET_ALL)
 
+    def scores_section_settings_1(self, msg: str):
+        """Defines the visual of scores' section of view_tournament which uses it"""
+        print("\n")
+        print(Fore.CYAN + Style.BRIGHT + msg + Style.RESET_ALL)
+
+    def scores_section_settings_2(self, msg: str):
+        """Defines the visual of scores' section of view_tournament which uses it"""
+        print("\n")
+        print(Fore.BLUE + Style.DIM + msg + Style.RESET_ALL)
+
     def table_settings(self, headers, title: str, items: list):
-        "Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"
+        """Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"""
 
         print("\n")
 
@@ -101,15 +131,15 @@ class BaseView:
         print("")
         console.print(table)
 
-    def get_user_answer(self, label, min_len=0):
-        """Returns a alphanumeric string + value > 0 from the input from the user"""
+    def get_user_answer(self, label, min_len=1):
+        """Returns a alphanumeric string and value = 1 from the input from the user"""
 
         while True:
-            value = input(Fore.BLACK + Style.DIM + f"{label}" + Style.RESET_ALL)
+            value = input(Fore.BLACK + Style.DIM + f"\n {label}" + Style.RESET_ALL)
             value = str.capitalize(value)
 
-            if len(value) == min_len:
-                self.display_error_message(f"\n Veuillez saisir un choix.\n")
+            if len(value) < min_len:
+                self.display_error_message(f"Veuillez saisir un choix")
 
             return value
 
@@ -124,9 +154,7 @@ class BaseView:
                 int(value)
                 return value
             except ValueError:
-                self.display_error_message(
-                    f"\n Veuillez entrer uniquement un entier.\n"
-                )
+                self.display_error_message(f"Veuillez entrer uniquement un entier")
 
     def get_alpha_string(self, label: str) -> str:
         """Returns an alpha string + value > 0 from the input of the user"""
@@ -141,7 +169,7 @@ class BaseView:
             if value.isalpha() or value.split():
                 return value
             self.display_error_message(
-                f"\n Veuillez entrer une chaîne de caractères uniquement composée de lettres (au moins une).\n"
+                f"Veuillez entrer une chaîne de caractères uniquement composée de lettres (au moins une)"
             )
 
     def get_alphanum(self, label: str, min_len=1, max_len=255) -> str:
@@ -153,7 +181,7 @@ class BaseView:
 
             if not min_len <= len(value) <= max_len:
                 self.display_error_message(
-                    f"\n Veuillez entrer une chaîne de caractères entre {min_len} et {max_len} caractères.\n"
+                    f"Veuillez entrer une chaîne de caractères entre {min_len} et {max_len} caractères"
                 )
                 continue
 
@@ -164,7 +192,7 @@ class BaseView:
                 raise CancelError
 
             self.display_error_message(
-                f"\n Veuillez entrer une chaîne de caractère uniquement composée de lettres et de chiffres.\n"
+                f"Veuillez entrer une chaîne de caractère uniquement composée de lettres et de chiffres"
             )
 
     def get_date(self, label) -> str:
@@ -181,23 +209,23 @@ class BaseView:
             )
 
             try:
-                formated_date = datetime.strptime(date_value, "%d-%m-%Y")
+                formated_date = datetime.strptime(date_value, "%d-%m-%Y").date()
 
             except ValueError:
                 self.display_error_message(
-                    f"\n Veuillez entrer une date valide au format JJ-MM-AAAA \n"
+                    f"Veuillez entrer une date valide au format JJ-MM-AAAA"
                 )
                 continue
 
-            now = datetime.now()
+            now = datetime.now().date()
 
-            if not formated_date <= now:
+            if not formated_date < now:
                 valid_date = True
                 return date_value
 
             else:
                 self.display_error_message(
-                    f"\n Veuillez entrer une date égale ou supérieure à la date du jour. \n"
+                    f"Veuillez entrer une date égale ou supérieure à la date du jour"
                 )
 
     def get_player_number(self, label):
@@ -208,6 +236,4 @@ class BaseView:
             if int(player_number) % 2 == 0:
                 return player_number
             else:
-                self.display_error_message(
-                    f"\n Veuillez entrer un nombre de joueurs pair.\n"
-                )
+                self.display_error_message(f"Veuillez entrer un nombre de joueurs pair")

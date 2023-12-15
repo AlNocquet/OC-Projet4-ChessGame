@@ -1,5 +1,6 @@
 from .view_base import BaseView
 from models.model_round import Round
+from models.model_match import Match
 
 from colorama import Fore, Style
 
@@ -20,24 +21,25 @@ class ViewTournament(BaseView):
             print("5. Consulter liste des MATCHS d'un Tournoi")
             print("Q. Quitter le programme")
 
-            choice = self.get_user_answer(label="\n Entrez votre choix : ")
+            choice = self.get_user_answer(label=f"Entrez votre choix : ")
 
             if choice in ["1", "2", "3", "4", "5", "6", "E", "e", "Q", "q"]:
-                if choice.lower() == "E":
-                    self.display_message(f"\n Ok !\n")
+                if choice.lower() == "e":
+                    self.display_message(f"Ok !")
 
-                elif choice.lower() == "Q":
-                    self.display_message(f"\n Au revoir !\n")
+                elif choice.lower() == "q":
+                    self.display_message(f"Au revoir !")
 
                 return choice
 
             else:
-                self.display_error_message(f"\n Choix invalide !\n")
+                self.display_error_message(f"Choix invalide")
 
     def get_create_tournament(self) -> dict:
         """Displays field for tournament creation and returns the user's response"""
 
-        self.tournament_sections_settings(f"CRÉATION DU TOURNOI")
+        self.tournament_sections_settings(f"CRÉATION DU TOURNOI ")
+
         print("\n")
 
         name = self.get_alphanum(label="Nom du tournoi")
@@ -61,42 +63,41 @@ class ViewTournament(BaseView):
     def get_create_round(self, round: Round):
         """Displays field for user's choice for round creation and returns the user's response"""
 
-        choice = self.get_user_answer(f"Lancer le round ? (Y/N) : ")
+        choice = self.get_yes_or_no(f"Lancer un round ? (Y/N) : ")
 
-        if choice in ["Y", "N", "y", "n"]:
-            if choice.lower() == "N":
-                self.display_message(f"\n Ok !\n")
+        # if choice.lower() == "n":
+        # self.display_message(f"Ok !")
 
-                return choice
+        return choice
 
-            else:
-                self.display_error_message(f"\n Choix invalide !\n")
-
-    def get_current_match(self, round: Round):
+    def get_current_match(self, round: Round, match: Match):
         """Displays round's name and 2 players of each match"""
 
-        for match in round.matches:
-            self.tournament_sections_settings(f"Enregistrement scores du {round.name}")
+        self.tournament_sections_settings(f"Scores du {round.name}")
 
-            self.tournament_sections_settings(
-                f"JOUEUR 1 :"
-                + match.player_1.full_name
-                + "\n"
-                + "JOUEUR 2 :"
-                + match.player_2.full_name
-            )
+        self.scores_section_settings_1(
+            f"JOUEUR 1 :"
+            + match.player_1.full_name
+            + "\n"
+            + "JOUEUR 2 :"
+            + match.player_2.full_name
+        )
 
-            self.tournament_sections_settings(
-                f"\n Victoire Joueur 1 : Tapez 1 \n Victoire Joueur 2 : Tapez 2 \n Match Nul : Tapez 3 \n"
-            )
+        self.scores_section_settings_2(
+            f"VICTOIRE JOUEUR 1 : Tapez 1"
+            + "\n"
+            + f"VICTOIRE JOUEUR 2 : Tapez 2"
+            + "\n"
+            + f"MATCH NUL : Tapez 3"
+        )
 
     def get_choices_match_result(self, round: Round):
         """Displays choices of match results and returns the user's response"""
 
-        choice = self.get_user_answer(label="\n Entrez votre choix ")
+        choice = self.get_user_answer(label=f"Entrez votre choix : ")
 
         if choice in ["1", "2", "3"]:
             return choice
 
         else:
-            self.display_error_message(f"\n Choix invalide !\n")
+            self.display_error_message(f"Choix invalide")

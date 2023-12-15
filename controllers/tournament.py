@@ -137,7 +137,6 @@ class TournamentController(BaseView):
                 self.create_pair_of_players(round)
                 self.add_scores_to_tournament(round)
 
-            else:
                 tournament.current_round >= int(tournament.number_of_rounds)
                 exit_requested = True
 
@@ -166,15 +165,14 @@ class TournamentController(BaseView):
         """Returns player's scores of each match and ends it"""
 
         try:
-            choice = self.get_user_answer(f"\n Enregistrer les scores ? (Y/N) : ")
+            choice = self.get_yes_or_no(f"Enregistrer les scores ? (Y/N) : ")
 
             if choice.lower() == "n":
-                self.display_message(f"\n Ok !")
+                self.display_message(f"Ok !")
                 return
 
             for match in round.matches:
-                self.view.get_current_match()
-                choice = self.view.get_choices_match_result()
+                self.view.get_current_match(round, match)
 
                 if choice == "1":
                     match.player_1.score += 1
@@ -186,7 +184,9 @@ class TournamentController(BaseView):
                     match.player_1.score += 0.5
                     match.player_2.score += 0.5
 
-            now = datetime.now()
+                choice = self.view.get_choices_match_result(round)
+
+            now = datetime.now().date()
             round.end_date = (
                 f"Date et heure de fin : {now.strftime('%d/%m/%Y %H:%M:%S')}"
             )
@@ -194,6 +194,6 @@ class TournamentController(BaseView):
             round.status = "Round terminé"
 
         except CancelError:
-            self.view.display_message(f"\n Enregistrement des scores annulé.\n")
+            self.view.display_message(f"Enregistrement des scores annulé")
 
         return
