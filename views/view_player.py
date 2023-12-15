@@ -144,6 +144,7 @@ class ViewPlayer(BaseView):
                 + f"\n Indiquer l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace : "
                 + Style.RESET_ALL
             )
+            print()
 
             if not players_id_str:
                 return

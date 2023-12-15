@@ -24,6 +24,7 @@ class Tournament:
         number_of_rounds,
         number_of_players,
         description,
+        status="En cours",
         current_round=0,
         rounds=[],
         players=[],
@@ -35,6 +36,7 @@ class Tournament:
         self.number_of_players = number_of_players
         self.current_round = current_round
         self.description = description
+        self.status = status
         self.rounds: list = rounds
         self.players = players
 
@@ -47,6 +49,7 @@ class Tournament:
             "number_of_players": self.number_of_players,
             "current_round": self.current_round,
             "description": self.description,
+            "status": self.status,
             "rounds": [round.serialize() for round in self.rounds],
             "players": [player.id_db for player in self.players],
         }
