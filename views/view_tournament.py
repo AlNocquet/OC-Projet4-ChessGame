@@ -16,20 +16,16 @@ class ViewTournament(BaseView):
 
             print("1. Créer un Tournoi")
             print("2. Charger un Tournoi")
-            print("3. Afficher liste des Tournois")
+            print("3. Afficher liste des Tournois (par date)")
             print("4. Consulter liste des ROUNDS d'un Tournoi")
             print("5. Consulter liste des MATCHS d'un Tournoi")
             print("Q. Quitter le programme")
 
             choice = self.get_user_answer(label=f"Entrez votre choix : ")
 
-            if choice in ["1", "2", "3", "4", "5", "6", "E", "e", "Q", "q"]:
-                if choice.lower() == "e":
-                    self.display_message(f"Ok !")
+            valid_choice = ["1", "2", "3", "4", "5", "6", "e", "q"]
 
-                elif choice.lower() == "q":
-                    self.display_message(f"Au revoir !")
-
+            if choice in valid_choice:
                 return choice
 
             else:
@@ -59,16 +55,6 @@ class ViewTournament(BaseView):
             "number_of_players": number_of_players,
             "description": description,
         }
-
-    def get_create_round(self, round: Round):
-        """Displays field for user's choice for round creation and returns the user's response"""
-
-        choice = self.get_yes_or_no(f"Lancer un round ? (Y/N) : ")
-
-        # if choice.lower() == "n":
-        # self.display_message(f"Ok !")
-
-        return choice
 
     def get_current_match(self, round: Round, match: Match):
         """Displays round's name and 2 players of each match"""
@@ -101,3 +87,31 @@ class ViewTournament(BaseView):
 
         else:
             self.display_error_message(f"Choix invalide")
+
+    def get_tournament_id(self, valid_tournament_id):
+        """Returns a list of tournaments' id enter by the user"""
+
+        while True:
+            tournament_id = input(
+                Fore.WHITE
+                + Style.DIM
+                + "Indiquez l'id_db du tournoi à sélectionner : "
+                + Style.RESET_ALL
+            )
+            print()
+
+            if not tournament_id:
+                return
+
+            bad_id = []
+            for db_id in tournament_id:
+                if db_id not in valid_tournament_id:
+                    bad_id.append(db_id)
+
+            if len(bad_id) > 0:
+                self.display_error_message(
+                    f"Les identifiants suivants ne sont pas valides : {bad_id}"
+                )
+
+            else:
+                self.display_error_message("Saisie invalide")

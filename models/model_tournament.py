@@ -25,6 +25,7 @@ class Tournament:
         number_of_players,
         description,
         status="En cours",
+        id_db=None,
         current_round=0,
         rounds=[],
         players=[],
@@ -37,11 +38,13 @@ class Tournament:
         self.current_round = current_round
         self.description = description
         self.status = status
+        self.id_db = id_db
         self.rounds: list = rounds
         self.players = players
 
     def serialize(self):
         tournament = {
+            "name": self.name,
             "name": self.name,
             "place": self.place,
             "date": self.date,
@@ -50,6 +53,7 @@ class Tournament:
             "current_round": self.current_round,
             "description": self.description,
             "status": self.status,
+            "id_db": self.id_db,
             "rounds": [round.serialize() for round in self.rounds],
             "players": [player.id_db for player in self.players],
         }
@@ -61,10 +65,10 @@ class Tournament:
         self.datas.save_tournament(data)
 
     @classmethod
-    def get_all_sort_by_name(cls):
-        """Returns a list of tournaments by surname"""
+    def get_all_sort_by_date(cls):
+        """Returns a list of tournaments by date"""
         tournaments = cls.datas.extract_tournaments_list()
-        sorted_tournaments = sorted(tournaments, key=itemgetter("name"))
+        sorted_tournaments = sorted(tournaments, key=itemgetter("date"))
         return sorted_tournaments
 
     @classmethod
@@ -74,8 +78,9 @@ class Tournament:
         tournaments_list = []
 
         tournaments = cls.datas.extract_tournaments_list()
+        sorted_tournaments = sorted(tournaments, key=itemgetter("date"))
 
-        for t in tournaments:
+        for t in sorted_tournaments:
             new_t = {
                 "name": t.get("name"),
                 "place": t.get("place"),
@@ -83,6 +88,7 @@ class Tournament:
                 "number_of_rounds": t.get("number_of_rounds"),
                 "number_of_players": t.get("number_of_players"),
                 "description": t.get("description"),
+                "status": t.get("status"),
             }
             tournaments_list.append(new_t)
 

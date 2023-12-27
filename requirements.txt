@@ -1,5 +1,11 @@
-flake8==6.1.0
-mccabe==0.7.0
-pycodestyle==2.11.0
-pyflakes==3.1.0
+colorama==0.4.6
+dataclasses==0.6     
+flake8==6.1.0        
+markdown-it-py==3.0.0
+mccabe==0.7.0        
+mdurl==0.1.2
+pycodestyle==2.11.0  
+pyflakes==3.1.0      
+Pygments==2.16.1     
+rich==13.5.2
 tinydb==4.8.0

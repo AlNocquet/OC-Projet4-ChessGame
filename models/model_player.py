@@ -13,26 +13,34 @@ class Player:
 
     datas = DataPlayer()
 
-    def __init__(self, surname, name, date_of_birth, national_chess_id, id_db, score=0):
+    def __init__(
+        self,
+        surname,
+        first_name,
+        date_of_birth,
+        national_chess_id,
+        id_db=None,
+        score=0,
+    ):
         self.surname = surname
-        self.name = name
+        self.first_name = first_name
         self.date_of_birth = date_of_birth
         self.national_chess_id = national_chess_id
-        self.score = score
         self.id_db = id_db
+        self.score = score
 
     @property  # décorateur property // definition de méthode pour concaténation nom + prénom
     def full_name(self):
-        return " " + self.name + " " + self.surname + " "
+        return " " + self.first_name + " " + self.surname + " "
 
     def serialize(self):
         player = {
             "surname": self.surname,
-            "name": self.name,
+            "first_name": self.first_name,
             "date_of_birth": self.date_of_birth,
             "national_chess_id": self.national_chess_id,
-            "score": self.score,
             "id_db": self.id_db,
+            "score": self.score,
         }
         return player
 
@@ -79,12 +87,3 @@ class Player:
                 f"Le joueur avec l'identifiant {id_db} n'existe pas dans la base de données"
             )
         return Player(**data)
-
-    def get_player_by_fullname(self):
-        """Returns a Player instance matching the surname and first name in db from data_player"""
-        data = self.datas.get_by_fullname()
-
-        if data is None:
-            raise PlayerNotFound(f"Ce joueur n'existe pas dans la base de données")
-
-        return data

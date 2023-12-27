@@ -26,19 +26,16 @@ class BaseView:
     """BaseView object manage all formats and characteristics of user's requests."""
 
     @classmethod
-    def get_yes_or_no(self, msg: str, min_len=1) -> str:
-        """Return string 'y' or 'n' and value = 1 from the input from the user"""
+    def get_yes_or_no(self, msg: str) -> str:
+        """Input Enter your choice - Return string 'y' or 'n' + value > 0 from the input from the user"""
 
-        valid_choice = ["y", "n", "Y", "N"]
+        valid_choice = ["y", "n"]
 
         while True:
-            choice = input(Fore.BLACK + Style.DIM + f"\n {msg}" + Style.RESET_ALL)
+            choice = input(Fore.WHITE + Style.DIM + f"\n {msg}").lower()
 
             if choice in valid_choice:
                 return choice
-
-            elif len(valid_choice) < min_len:
-                self.display_error_message(self, msg="Veuillez saisir un choix.")
 
             else:
                 self.display_error_message(self, msg="Choix invalide")
@@ -46,60 +43,50 @@ class BaseView:
     def display_message(self, msg: str):
         """Displays messages of view app, view_player or view_tournament which uses it"""
         print("\n")
-        print(Fore.WHITE + Style.BRIGHT + msg + Style.RESET_ALL)
+        print(Fore.WHITE + Style.BRIGHT + msg)
 
     def display_section_subtitles(self, msg: str):
         """Displays messages under menus of view app, view_player or view_tournament which uses it"""
-        print(Fore.BLACK + Style.BRIGHT + msg.center(100) + Style.RESET_ALL)
+        print(Fore.WHITE + Style.DIM + msg.center(100) + "\n")
 
     def display_error_message(self, msg: str):
         """Displays error messages related to view_player or view_tournament which uses it"""
-        print("\n")
-        print(Fore.RED + Style.BRIGHT + msg + Style.RESET_ALL)
+        print("\n" + Fore.RED + Style.BRIGHT + msg)
 
     def display_success_message(self, msg: str):
         """Displays success messages related to view_player or view_tournament which uses it"""
-        print("\n")
-        print(Fore.GREEN + Style.BRIGHT + msg + Style.RESET_ALL)
+        print("\n" + Fore.GREEN + Style.BRIGHT + msg)
 
     def main_menu_settings(self, msg: str) -> str:
         """Displays the menu related to view_app which uses it"""
         print("\n")
-        print(Fore.WHITE + Back.RED + Style.BRIGHT + msg.center(100) + Style.RESET_ALL)
+        print(Fore.WHITE + Back.RED + Style.BRIGHT + msg.center(100))
 
     def player_menu_settings(self, msg: str):
         """Displays the menu related to view_player which uses it"""
         print("\n")
-        print(
-            Fore.WHITE + Back.MAGENTA + Style.BRIGHT + msg.center(100) + Style.RESET_ALL
-        )
+        print(Fore.WHITE + Back.MAGENTA + Style.BRIGHT + msg.center(100))
 
     def tournament_menu_settings(self, msg: str):
         """Displays the menu related to tournament_player which uses it"""
         print("\n")
-        print(Fore.WHITE + Back.BLUE + Style.BRIGHT + msg.center(100) + Style.RESET_ALL)
+        print(Fore.WHITE + Back.BLUE + Style.BRIGHT + msg.center(100))
 
     def player_sections_settings(self, msg: str):
         """Displays the title related to the section of view_player which uses it"""
-        print("\n")
-        print(
-            Fore.MAGENTA + Back.BLACK + Style.BRIGHT + msg.center(100) + Style.RESET_ALL
-        )
+        print("\n" + Fore.MAGENTA + Back.BLACK + Style.BRIGHT + msg.center(100))
 
     def tournament_sections_settings(self, msg: str):
         """Displays the title related to the section of view_tournament which uses it"""
-        print("\n")
-        print(Fore.CYAN + Style.BRIGHT + msg.center(100) + Style.RESET_ALL)
+        print("\n" + Fore.CYAN + Style.BRIGHT + msg.center(100))
 
     def scores_section_settings_1(self, msg: str):
         """Defines the visual of scores' section of view_tournament which uses it"""
-        print("\n")
-        print(Fore.CYAN + Style.BRIGHT + msg + Style.RESET_ALL)
+        print("\n" + Fore.CYAN + Style.BRIGHT + msg)
 
     def scores_section_settings_2(self, msg: str):
         """Defines the visual of scores' section of view_tournament which uses it"""
-        print("\n")
-        print(Fore.BLUE + Style.DIM + msg + Style.RESET_ALL)
+        print("\n" + Fore.BLUE + Style.DIM + msg)
 
     def table_settings(self, headers, title: str, items: list):
         """Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"""
@@ -131,24 +118,18 @@ class BaseView:
         print("")
         console.print(table)
 
-    def get_user_answer(self, label, min_len=1):
-        """Returns a alphanumeric string and value = 1 from the input from the user"""
+    def get_user_answer(self, label):
+        """Input Enter your choice - Returns a alphanumeric string + value > 0 from the input from the user"""
 
         while True:
-            value = input(Fore.BLACK + Style.DIM + f"\n {label}" + Style.RESET_ALL)
-            value = str.capitalize(value)
-
-            if len(value) < min_len:
-                self.display_error_message(f"Veuillez saisir un choix")
-
+            value = input(Fore.WHITE + Style.DIM + f"\n {label}").lower()
             return value
 
     def get_int(self, label):
         """Returns a value compatible with int from the input of the user"""
 
         while True:
-            value = input(Fore.BLUE + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
-            value = str.capitalize(value)
+            value = input(Fore.WHITE + Style.DIM + f"{label} : ")
 
             try:
                 int(value)
@@ -160,7 +141,7 @@ class BaseView:
         """Returns an alpha string + value > 0 from the input of the user"""
 
         while True:
-            value = input(Fore.BLUE + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = input(Fore.WHITE + Style.DIM + f"{label} : ")
             value = str.capitalize(value)
 
             if value.lower() == EXIT_CODE:
@@ -176,7 +157,7 @@ class BaseView:
         """Returns a alphanumeric string + value > 0 from the input from the user"""
 
         while True:
-            value = input(Fore.BLUE + Style.BRIGHT + f"{label} : " + Style.RESET_ALL)
+            value = input(Fore.WHITE + Style.DIM + f"{label} : ")
             value = str.capitalize(value)
 
             if not min_len <= len(value) <= max_len:
@@ -202,10 +183,7 @@ class BaseView:
 
         while valid_date == False:
             date_value = input(
-                Fore.BLUE
-                + Style.BRIGHT
-                + f"{label} au format JJ-MM-AAAA : "
-                + Style.RESET_ALL
+                Fore.WHITE + Style.DIM + f"{label} au format JJ-MM-AAAA : "
             )
 
             try:
@@ -226,6 +204,35 @@ class BaseView:
             else:
                 self.display_error_message(
                     f"Veuillez entrer une date égale ou supérieure à la date du jour"
+                )
+
+    def get_player_date_of_birth(self):
+        """Displays field requested for player creation and returns the user's response"""
+        valid_birthday = False
+
+        while valid_birthday == False:
+            date_of_birth = input(
+                Fore.WHITE + Style.DIM + "Date de naissance au format JJ-MM-AAAA : "
+            )
+
+            try:
+                formated_date = datetime.strptime(date_of_birth, "%d-%m-%Y")
+
+            except ValueError:
+                self.display_error_message(
+                    f"Veuillez entrer une date valide au format JJ-MM-AAAA"
+                )
+                continue
+
+            now = datetime.now()
+
+            if now.year - formated_date.year >= 18:
+                valid_birthday = True
+                return date_of_birth
+
+            else:
+                self.display_error_message(
+                    f"Vous devez avoir au moins 18 ans pour vous inscrire"
                 )
 
     def get_player_number(self, label):

@@ -1,0 +1,59 @@
+{
+    "Tournaments": {
+        "1": {
+            "name": "Test1",
+            "place": "Paris",
+            "date": "26-12-2023",
+            "number_of_rounds": "4",
+            "number_of_players": "8",
+            "current_round": 1,
+            "description": "0",
+            "status": "En cours",
+            "id_db": null,
+            "rounds": [
+                {
+                    "name": "Round 1",
+                    "start_date": "2023-12-26 21:51:15",
+                    "end_date": null,
+                    "matches": [
+                        {
+                            "player_1": "6",
+                            "player_2": "8",
+                            "player_1_score": 0,
+                            "player_2_score": 0
+                        },
+                        {
+                            "player_1": "4",
+                            "player_2": "3",
+                            "player_1_score": 0,
+                            "player_2_score": 0
+                        },
+                        {
+                            "player_1": "7",
+                            "player_2": "1",
+                            "player_1_score": 0,
+                            "player_2_score": 0
+                        },
+                        {
+                            "player_1": "2",
+                            "player_2": "5",
+                            "player_1_score": 0,
+                            "player_2_score": 0
+                        }
+                    ],
+                    "status": "In progress"
+                }
+            ],
+            "players": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8"
+            ]
+        }
+    }
+}

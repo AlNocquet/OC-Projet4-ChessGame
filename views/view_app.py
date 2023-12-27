@@ -18,9 +18,10 @@ class ViewApp(BaseView):
 
             choice = self.get_user_answer(label="Entrez votre choix : ")
 
-            if choice in ["1", "2", "Q", "q"]:
-                if choice.lower() == "q":
-                    self.display_message(f"Au revoir ! \n")
+            valid_choice = ["1", "2", "q"]
+
+            if choice in valid_choice:
                 return choice
+
             else:
                 self.display_error_message(f"Choix invalide !")

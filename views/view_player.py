@@ -11,47 +11,36 @@ class ViewPlayer(BaseView):
 
         while True:
             print("\n")
-            self.player_menu_settings(
-                f"================[ MENU JOUEUR ]================"
-            )
-            self.display_message_section(
-                f"\n    Tapez E pour revenir au menu précédent\n"
-            )
+            self.player_menu_settings(f"MENU JOUEUR")
+
+            self.display_section_subtitles(f"Tapez E pour revenir au menu précédent")
 
             print("1. Créer un joueur")
             print("2. Modifier un joueur")
             print("3. Supprimer un joueur")
             print("4. Consulter Joueurs par ordre alphabétique")
-            print("5. Trouver un joueur par ID")
-            print("6. Trouver un joueur par son Nom")
             print("Q. Quitter le programme")
 
-            choice = input(
-                Fore.BLACK
-                + Style.BRIGHT
-                + f"\n Entrez votre choix : "
-                + Style.RESET_ALL
-            )
+            choice = self.get_user_answer(label=f"Entrez votre choix : ")
 
-            if choice in ["1", "2", "3", "4", "5", "6", "E", "e", "Q", "q"]:
+            if choice in ["1", "2", "3", "4", "Q", "q"]:
                 if choice.lower() == "e":
-                    self.display_message(f"\n Ok !\n")
+                    self.display_message(f"Ok !")
 
                 elif choice.lower() == "q":
-                    self.display_message(f"\n Au revoir !\n")
+                    self.display_message(f"Au revoir !")
 
                 return choice
 
             else:
-                self.display_error_message(f"\n Choix invalide !\n")
+                self.display_error_message(f"Choix invalide")
 
     def get_new_player(self) -> dict:
         """Displays field requested for player creation and returns the user's response"""
 
-        self.player_sections_settings(
-            f"\n============[ CRÉATION DU JOUEUR ]============"
-        )
-        # self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
+        self.player_sections_settings(f"CRÉATION DU JOUEUR")
+
+        print("\n")
 
         surname = self.get_alpha_string(label="Nom de famille du joueur")
         first_name = self.get_alpha_string(label="Prénom du joueur")
@@ -67,84 +56,24 @@ class ViewPlayer(BaseView):
             "national_chess_id": national_chess_id,
         }
 
-    def get_player_date_of_birth(self):
-        valid_birthday = False
-
-        while valid_birthday == False:
-            date_of_birth = input("Date de naissance au format JJ-MM-AAAA : ")
-
-            try:
-                formated_date = datetime.strptime(date_of_birth, "%d-%m-%Y")
-
-            except ValueError:
-                self.display_error_message(
-                    f"\n Veuillez entrer une date valide au format JJ-MM-AAAA.\n"
-                )
-                continue
-
-            now = datetime.now()
-
-            if now.year - formated_date.year >= 18:
-                valid_birthday = True
-                return date_of_birth
-
-            else:
-                self.display_error_message(
-                    f"\n Vous devez avoir au moins 18 ans pour vous inscrire."
-                )
-
     def get_player_updated(self):
-        self.player_sections_settings(
-            f"\n==========[ MODIFICATION DU JOUEUR ]=========="
-        )
-        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
-        self.request_player_by_id()
+        pass
 
     def get_player_removed(self):
-        self.player_sections_settings(
-            f"\n==========[ SUPPRESSION DU JOUEUR ]=========="
-        )
-        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
-        self.request_player_by_id()
-
-    def get_player_by_id(self):
-        """Displays field requested for player search and returns the user's response"""
-        self.player_sections_settings(
-            f"\n========[ RECHERCHE DU JOUEUR PAR ID ]========"
-        )
-        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
-        return self.get_int(label="Quel est l'id_db du joueur recherché")
-
-    def get_player_by_fullname(self):
-        self.player_sections_settings(
-            f"\n===[ RECHERCHE DU JOUEUR PAR NOM et PRENOM ]==="
-        )
-        self.display_message(f"\n-- Tapez Exit pour revenir au menu précédent --\n")
-        self.request_player_by_fullname()
-
-    def request_player_by_fullname(self):
-        surname = self.get_alpha_string(
-            label="Quel est le Nom de famille du joueur recherché"
-        )
-        first_name = self.get_alpha_string(
-            label="Quel est le Prénom du joueur recherché"
-        )
-
-        return {"surname": surname, "first_name": first_name}
+        pass
 
     def get_tournament_players_id(
         self, player_number: int, valid_players_id: list
     ) -> list[str]:
-        """Return a list of players id enter by the user"""
+        """Returns a list of players id enter by the user - from Tournament Controller"""
 
         while True:
             players_id_str: str = input(
-                Fore.BLUE
-                + Style.BRIGHT
-                + f"\n Indiquer l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace : "
+                Fore.WHITE
+                + Style.DIM
+                + f"\n Indiquez l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace : "
                 + Style.RESET_ALL
             )
-            print()
 
             if not players_id_str:
                 return
@@ -162,12 +91,9 @@ class ViewPlayer(BaseView):
                 )
                 continue
 
-            # c.print(f"len players_id = {len(players_id)}")
             if len(players_id) == player_number:
                 return players_id
 
-            # c.print("\n dans viewPlayer. get_tournament_players_id")
-            # c.print(locals())
             else:
                 self.display_error_message(
                     f"\n Saisie invalide. Vous devez indiquer {player_number} identifiants"

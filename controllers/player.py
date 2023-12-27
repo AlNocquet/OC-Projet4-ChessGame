@@ -25,10 +25,6 @@ class PlayerController(BaseView):
                 self.remove_player()
             elif choice == "4":
                 self.get_all_players_sorted_by_surname()
-            elif choice == "5":
-                self.find_player_by_id()
-            elif choice == "6":
-                self.find_player_by_surname()
             elif choice == "E" or choice == "e":
                 exit_requested = True
             elif choice == "Q" or choice == "q":
@@ -39,14 +35,12 @@ class PlayerController(BaseView):
 
         try:
             player = self.view.get_new_player()
-            player = Player(
-                **player
-            )  # you do not know how many keyword arguments that will be passed into your function
+            player = Player(**player)
             player.save()
-            self.view.display_success_message(f"\n Joueur sauvegardé avec succès ! \n")
+            self.view.display_success_message(f"Joueur sauvegardé avec succès !")
 
         except CancelError:
-            self.view.display_message(f"\n Création du joueur annulée.\n")
+            self.view.display_message(f"Création du joueur annulée")
             return
 
     def update_player(self):
@@ -55,10 +49,10 @@ class PlayerController(BaseView):
         try:
             player = self.view.get_player_updated()
             Player.get_player_updated(player)
-            self.view.display_success_message(f"\n Joueur modifié avec succès ! \n")
+            self.view.display_success_message(f"Joueur modifié avec succès !")
 
         except CancelError:
-            self.view.display_message(f"\n Modification du joueur annulée.\n")
+            self.view.display_message(f"Modification du joueur annulée")
             return
 
     def remove_player(self, item, doc_id):
@@ -67,10 +61,10 @@ class PlayerController(BaseView):
         try:
             player = self.view.get_player_removed()
             Player.get_player_removed(player)
-            self.view.display_success_message(f"\n Joueur supprimé avec succès ! \n")
+            self.view.display_success_message(f"Joueur supprimé avec succès !")
 
         except CancelError:
-            self.view.display_message(f"\n Supression du joueur annulée.\n")
+            self.view.display_message(f"Supression du joueur annulée")
             return
 
     def get_all_players_sorted_by_surname(self):

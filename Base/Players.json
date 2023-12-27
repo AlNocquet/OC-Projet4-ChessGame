@@ -2,70 +2,70 @@
     "Players": {
         "1": {
             "surname": "Nocquet",
-            "name": "Alice",
+            "first_name": "Alice",
             "date_of_birth": "05-11-1985",
             "national_chess_id": "Ab12345",
             "score": 0
         },
         "2": {
             "surname": "Omaj",
-            "name": "Olivier",
+            "first_name": "Olivier",
             "date_of_birth": "11-03-1981",
             "national_chess_id": "Ab32145",
             "score": 0
         },
         "3": {
             "surname": "Bundy",
-            "name": "Ted",
+            "first_name": "Ted",
             "date_of_birth": "24-01-1989",
             "national_chess_id": "As14789",
             "score": 0
         },
         "4": {
             "surname": "Pops",
-            "name": "Harry",
+            "first_name": "Harry",
             "date_of_birth": "04-04-1982",
             "national_chess_id": "Bb96321",
             "score": 0
         },
         "5": {
             "surname": "Kruger",
-            "name": "Victor",
+            "first_name": "Victor",
             "date_of_birth": "05-01-1964",
             "national_chess_id": "Hl58963",
             "score": 0
         },
         "6": {
             "surname": "Steele",
-            "name": "Peter",
+            "first_name": "Peter",
             "date_of_birth": "23-12-1964",
             "national_chess_id": "Hr78541",
             "score": 0
         },
         "7": {
             "surname": "Norris",
-            "name": "Chuck",
+            "first_name": "Chuck",
             "date_of_birth": "10-03-1940",
             "national_chess_id": "Qi00000",
             "score": 0
         },
         "8": {
             "surname": "Vandamme",
-            "name": "Jc",
+            "first_name": "Jc",
             "date_of_birth": "18-10-1960",
             "national_chess_id": "Qi00130",
             "score": 0
         },
         "9": {
             "surname": "Cavill",
-            "name": "Henry",
+            "first_name": "Henry",
             "date_of_birth": "05-05-1983",
             "national_chess_id": "Tw99999",
             "score": 0
         },
         "10": {
             "surname": "Barba",
-            "name": "Rafael",
+            "first_name": "Rafael",
             "date_of_birth": "14-03-1970",
             "national_chess_id": "Da00911",
             "score": 0
