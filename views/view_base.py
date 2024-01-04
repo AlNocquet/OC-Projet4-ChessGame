@@ -9,6 +9,12 @@ console = Console()
 
 EXIT_CODE = "exit"
 
+date = datetime.now()
+
+START_DATE = date.strftime("%Y-%m-%d %H:%M:%S")
+
+END_DATE = date.strftime("%Y-%m-%d %H:%M:%S")
+
 
 class CancelError(Exception):
     ...
@@ -99,7 +105,7 @@ class BaseView:
             header_style="blue bold",
             title_style="purple bold",
             title_justify="center",
-            width=100,
+            width=115,
         )
 
         try:

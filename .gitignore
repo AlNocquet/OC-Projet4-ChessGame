@@ -1,3 +1,6 @@
 # Ignorer INIT
 __init__.py
+# Ignorer VENV
+.env
+
 

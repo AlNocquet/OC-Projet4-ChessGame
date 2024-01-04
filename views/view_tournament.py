@@ -40,7 +40,7 @@ class ViewTournament(BaseView):
 
         name = self.get_alphanum(label="Nom du tournoi")
         place = self.get_alpha_string(label="Lieu du tournoi")
-        date = self.get_date(label="Date du tournoi")
+        start_date = self.get_date(label="Date du tournoi")
         number_of_rounds = self.get_int(label="Nombre de tours")
         number_of_players = self.get_player_number(label="Nombre de joueurs")
         description = self.get_alphanum(
@@ -50,7 +50,7 @@ class ViewTournament(BaseView):
         return {
             "name": name,
             "place": place,
-            "date": date,
+            "start_date": start_date,
             "number_of_rounds": number_of_rounds,
             "number_of_players": number_of_players,
             "description": description,
@@ -88,20 +88,16 @@ class ViewTournament(BaseView):
         else:
             self.display_error_message(f"Choix invalide")
 
-    def get_tournament_id(self, valid_tournament_id):
-        """Returns a list of tournaments' id enter by the user"""
+    def get_tournament_id(self, valid_tournament_id: int):
+        """Displays field for the tournament's id and returns the user's response - from Tournament Controller"""
 
         while True:
-            tournament_id = input(
+            tournament_id: int = input(
                 Fore.WHITE
                 + Style.DIM
                 + "Indiquez l'id_db du tournoi à sélectionner : "
                 + Style.RESET_ALL
             )
-            print()
-
-            if not tournament_id:
-                return
 
             bad_id = []
             for db_id in tournament_id:
@@ -109,9 +105,9 @@ class ViewTournament(BaseView):
                     bad_id.append(db_id)
 
             if len(bad_id) > 0:
-                self.display_error_message(
-                    f"Les identifiants suivants ne sont pas valides : {bad_id}"
-                )
+                self.display_error_message(f"L'identifiant {bad_id} n'est pas valide")
 
             else:
                 self.display_error_message("Saisie invalide")
+
+            return tournament_id

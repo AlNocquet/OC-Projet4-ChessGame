@@ -12,7 +12,7 @@ class Round:
         self.start_date = start_date
         self.end_date = end_date
         self.matches: list = matches
-        self.status = "In progress"
+        self.status = "Launched"
 
     def serialize(self):
         round = {

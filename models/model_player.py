@@ -39,7 +39,6 @@ class Player:
             "first_name": self.first_name,
             "date_of_birth": self.date_of_birth,
             "national_chess_id": self.national_chess_id,
-            "id_db": self.id_db,
             "score": self.score,
         }
         return player
@@ -80,7 +79,7 @@ class Player:
     @classmethod
     def get_player_by_id(cls, id_db: int) -> "Player":
         """Returns a Player instance matching the id_db from data_player"""
-        data = cls.datas.get_by_id(id_db)
+        data = cls.datas.get_p_by_id(id_db)
 
         if data is None:
             raise PlayerNotFound(

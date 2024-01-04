@@ -34,8 +34,8 @@ class DataPlayer:
         """Delete the player in the database Players.json"""
         return self.player_table.remove(data, doc_ids=id_db)
 
-    def get_by_id(self, id_db: int) -> dict:
-        """Return a player dict matching the id"""
+    def get_p_by_id(self, id_db: int) -> dict:
+        """Return a player dict matching the id (id_db matching doc_id)"""
         record = self.player_table.get(cond=None, doc_id=id_db)
         if record is not None:
             # add the db_id in the record

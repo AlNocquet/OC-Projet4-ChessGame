@@ -1,4 +1,5 @@
 from datas.data_tournament import DataTournament
+from views.view_base import TournamentNotFound
 from .model_round import Round
 from .model_player import Player
 
@@ -20,24 +21,26 @@ class Tournament:
         self,
         name,
         place,
-        date,
+        start_date,
         number_of_rounds,
         number_of_players,
         description,
-        status="En cours",
+        status="Launched",
         id_db=None,
+        end_date=None,
         current_round=0,
         rounds=[],
         players=[],
     ):
         self.name = name
         self.place = place
-        self.date = date
+        self.start_date = start_date
         self.number_of_rounds: int = number_of_rounds
         self.number_of_players = number_of_players
         self.current_round = current_round
         self.description = description
         self.status = status
+        self.end_date = end_date
         self.id_db = id_db
         self.rounds: list = rounds
         self.players = players
@@ -47,13 +50,12 @@ class Tournament:
             "name": self.name,
             "name": self.name,
             "place": self.place,
-            "date": self.date,
+            "start_date": self.start_date,
             "number_of_rounds": self.number_of_rounds,
             "number_of_players": self.number_of_players,
             "current_round": self.current_round,
             "description": self.description,
             "status": self.status,
-            "id_db": self.id_db,
             "rounds": [round.serialize() for round in self.rounds],
             "players": [player.id_db for player in self.players],
         }
@@ -65,10 +67,15 @@ class Tournament:
         self.datas.save_tournament(data)
 
     @classmethod
-    def get_all_sort_by_date(cls):
+    def search(self, field_name: str, value: str):
+        "Returns records where fields value match - to resume ONE tournament"
+        return self.datas.search(field_name, value)
+
+    @classmethod
+    def get_all_sorted_by_date(cls):
         """Returns a list of tournaments by date"""
         tournaments = cls.datas.extract_tournaments_list()
-        sorted_tournaments = sorted(tournaments, key=itemgetter("date"))
+        sorted_tournaments = sorted(tournaments, key=itemgetter("start_date"))
         return sorted_tournaments
 
     @classmethod
@@ -77,19 +84,31 @@ class Tournament:
 
         tournaments_list = []
 
-        tournaments = cls.datas.extract_tournaments_list()
-        sorted_tournaments = sorted(tournaments, key=itemgetter("date"))
+        tournaments = cls.get_all_sorted_by_date()
 
-        for t in sorted_tournaments:
+        for t in tournaments:
             new_t = {
                 "name": t.get("name"),
                 "place": t.get("place"),
-                "date": t.get("date"),
+                "start_date": t.get("start_date"),
+                "end_date": t.get("end_date"),
                 "number_of_rounds": t.get("number_of_rounds"),
                 "number_of_players": t.get("number_of_players"),
                 "description": t.get("description"),
                 "status": t.get("status"),
+                "id_db": t.get("id_db"),
             }
             tournaments_list.append(new_t)
 
         return tournaments_list
+
+    @classmethod
+    def get_tournament_by_id(cls, id_db: int) -> "Tournament":
+        """Returns a Tournament instance matching the id_db from data_player"""
+        data = cls.datas.get_t_by_id(id_db)
+
+        if data is None:
+            raise TournamentNotFound(
+                f"Le tournoi avec l'identifiant {id_db} n'existe pas dans la base de données"
+            )
+        return Tournament(**data)

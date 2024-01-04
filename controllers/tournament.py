@@ -32,7 +32,7 @@ class TournamentController(BaseView):
             if choice == "1":
                 self.create_tournament()
             elif choice == "2":
-                self.load_tournament()
+                self.resume_tournament()
             elif choice == "3":
                 self.get_all_tournaments_sorted_by_date()
             elif choice == "4":
@@ -64,8 +64,6 @@ class TournamentController(BaseView):
             )  # Réceptionner les players retournés par add_players
 
             self.manage_rounds(tournament, round)
-            tournament.save()
-            self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
 
         except CancelError:
             self.view.display_message(f"\n Création du tournoi annulé.\n")
@@ -91,6 +89,50 @@ class TournamentController(BaseView):
 
         return players
 
+    def manage_rounds(self, tournament: Tournament, round: Round):
+        """Manages the launch of the rounds' creation with a random sorting of players for the first round and a sorting
+        by player's scores for the following ones"""
+
+        continue_rounds = True
+
+        while continue_rounds:
+            choice_next_round = self.get_yes_or_no(f"Lancer un round ? (Y/N) : ")
+
+            if choice_next_round == "n":
+                break
+
+            round = None
+            try:
+                round = tournament.rounds[tournament.current_round]
+            except IndexError:
+                pass
+
+            players = tournament.players.copy()
+            if tournament.current_round == 0:
+                shuffle(players)
+            else:
+                players.sort(reverse=True, key=lambda player: player.score)
+
+            tournament.current_round += 1
+            round = self.create_round(players, tournament.current_round)
+            tournament.rounds.append(round)
+
+            self.get_matches_list(round)
+
+            choice_scores = self.add_scores_to_tournament(round)
+            if choice_scores == "n":
+                break
+
+            if tournament.current_round >= int(tournament.number_of_rounds):
+                continue_rounds = False
+                date = datetime.now()
+                tournament.end_date = date.strftime("%Y-%m-%d %H:%M:%S")
+                tournament.status = "Done"
+                self.view.display_message(f"Tournoi terminé !")
+
+        tournament.save()
+        self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
+
     def create_round(self, players: list, current_round) -> Round:
         "Returns a Round object with matches"
 
@@ -111,37 +153,8 @@ class TournamentController(BaseView):
 
         return round
 
-    def manage_rounds(self, tournament: Tournament, round: Round):
-        """Manages the launch of the rounds' creation with a random sorting of players for the first round and a sorting
-        by player's scores for the following ones"""
-
-        exit_requested = False
-
-        while not exit_requested:
-            choice = self.get_yes_or_no(f"Lancer un round ? (Y/N) : ")
-
-            if choice == "n":
-                return
-
-            elif tournament.current_round >= int(tournament.number_of_rounds):
-                exit_requested = True
-
-            elif choice == "y":
-                players = tournament.players.copy()
-                if tournament.current_round == 0:
-                    shuffle(players)
-                else:
-                    players.sort(reverse=True, key=lambda player: player.score)
-
-                tournament.current_round += 1
-                round = self.create_round(players, tournament.current_round)
-                tournament.rounds.append(round)
-
-                self.get_pair_of_players(round)
-                self.add_scores_to_tournament(tournament, round)
-
-    def get_pair_of_players(self, round: Round):
-        """Displays a match with 2 players"""
+    def get_matches_list(self, round: Round):
+        """Displays matches with pair of players"""
 
         title = f"[Liste des matchs du {round.name}]"
 
@@ -161,49 +174,55 @@ class TournamentController(BaseView):
         headers = ["N° de Match", "Joueur 1", "Joueur 2"]
         self.view.table_settings(headers, title, matches)
 
-    def add_scores_to_tournament(self, tournament: Tournament, round: Round):
+    def add_scores_to_tournament(self, round: Round):
         """Returns player's scores of each match and ends it"""
 
-        exit_requested = False
+        choice = self.get_yes_or_no(f"Enregistrer les scores ? (Y/N) : ")
 
-        while not exit_requested:
-            choice = self.get_yes_or_no(f"Enregistrer les scores ? (Y/N) : ")
+        if choice == "n":
+            return "n"
 
-            if choice == "n":
-                # return
-                tournament.save()
-                self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
-                exit_requested = True
+        for match in round.matches:
+            self.view.get_current_match(round, match)
 
-            for match in round.matches:
-                self.view.get_current_match(round, match)
+            if choice == "1":
+                match.player_1_score = 1
+                match.player_1.score += 1
 
-                if choice == "1":
-                    match.player_1_score = 1
-                    match.player_1.score += 1
+            elif choice == "2":
+                match.player_2_score = 1
+                match.player_2.score += 1
 
-                elif choice == "2":
-                    match.player_2_score = 1
-                    match.player_2.score += 1
-
-                elif choice == "3":
-                    match.player_1_score = 0.5
-                    match.player_2_score = 0.5
-                    match.player_1.score += 0.5
-                    match.player_2.score += 0.5
+            elif choice == "3":
+                match.player_1_score = 0.5
+                match.player_2_score = 0.5
+                match.player_1.score += 0.5
+                match.player_2.score += 0.5
 
             choice = self.view.get_choices_match_result(round)
 
         now = datetime.now().date()
-        round.end_date = f"Date et heure de fin : {now.strftime('%d/%m/%Y %H:%M:%S')}"
-
-        round.status = "Over"
+        round.end_date = f"Date et heure de fin : {now.strftime('%Y-%m-%d %H:%M:%S')}"
+        round.status = "Done"
+        self.view.display_message(f"Round terminé !")
 
         return
 
-    def load_tournament(self):
-        """Displays tournaments' list and loads the selected one for resuming data saving"""
-        pass
+    def resume_tournament(self):
+        """Displays list of tournaments "Launched" and resumes the selected one"""
+
+        self.tournament_sections_settings(f"CHARGEMENT DU TOURNOI ")
+
+        # Fonction(tournaments) view table rich des tournois lancé
+        tournaments = Tournament.search("status", "Launched")
+
+        # Fonction Input du View tournament du tournoi à sélectionné
+        tournament_id = self.view.get_tournament_id()
+
+        tournament = Tournament.get(
+            tournament_id
+        )  # Ici mettre nom fonction input du View tournament
+        self.manage_rounds(tournament)
 
     def get_all_tournaments_sorted_by_date(self):
         """Displays tournaments list sorted by date from the model_tournament and display it with rich from base_view"""
@@ -211,6 +230,7 @@ class TournamentController(BaseView):
         tournaments = []
 
         for t in Tournament.get_tournaments_selected_fields_list():
+            t["start_date"] = str(t.get("start_date"))
             tournaments.append(t)
 
         title = f"[LISTE DES {len(tournaments)} TOURNOIS PAR DATE]"
@@ -223,6 +243,7 @@ class TournamentController(BaseView):
             "Nbre de joueurs",
             "description",
             "status",
+            "id_db",
         ]
         self.view.table_settings(headers, title, tournaments)
 
