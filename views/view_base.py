@@ -82,16 +82,20 @@ class BaseView:
         """Displays the title related to the section of view_player which uses it"""
         print("\n" + Fore.MAGENTA + Back.BLACK + Style.BRIGHT + msg.center(100))
 
+    def player_sections_messages_settings(self, msg: str):
+        """Displays the title related to the section of view_player which uses it"""
+        print("\n" + Fore.MAGENTA + Back.BLACK + Style.BRIGHT + msg)
+
     def tournament_sections_settings(self, msg: str):
         """Displays the title related to the section of view_tournament which uses it"""
         print("\n" + Fore.CYAN + Style.BRIGHT + msg.center(100))
 
-    def scores_section_settings_1(self, msg: str):
+    def scores_section_settings(self, msg: str):
         """Defines the visual of scores' section of view_tournament which uses it"""
         print("\n" + Fore.CYAN + Style.BRIGHT + msg)
 
-    def scores_section_settings_2(self, msg: str):
-        """Defines the visual of scores' section of view_tournament which uses it"""
+    def scores_section_choice_settings(self, msg: str):
+        """Defines the visual of scores' choices of view_tournament which uses it"""
         print("\n" + Fore.BLUE + Style.DIM + msg)
 
     def table_settings(self, headers, title: str, items: list):
@@ -105,7 +109,7 @@ class BaseView:
             header_style="blue bold",
             title_style="purple bold",
             title_justify="center",
-            width=115,
+            width=100,
         )
 
         try:
@@ -128,7 +132,7 @@ class BaseView:
         """Input Enter your choice - Returns a alphanumeric string + value > 0 from the input from the user"""
 
         while True:
-            value = input(Fore.WHITE + Style.DIM + f"\n {label}").lower()
+            value = input(Fore.WHITE + Style.BRIGHT + f"\n {label}").lower()
             return value
 
     def get_int(self, label):
@@ -218,7 +222,7 @@ class BaseView:
 
         while valid_birthday == False:
             date_of_birth = input(
-                Fore.WHITE + Style.DIM + "Date de naissance au format JJ-MM-AAAA : "
+                Fore.WHITE + Style.DIM + "\n Date de naissance au format JJ-MM-AAAA : "
             )
 
             try:

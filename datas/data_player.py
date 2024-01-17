@@ -26,13 +26,13 @@ class DataPlayer:
             player["id_db"] = str(player.doc_id)
         return players
 
-    def update_player(self, data: dict, id_db: list) -> list[int]:
+    def update_player(self, field_to_update: dict, id_db: list) -> list[int]:
         """Update the player in the database Players.json"""
-        return self.player_table.update(data, doc_ids=id_db)
+        return self.player_table.update(field_to_update, doc_ids=id_db)
 
-    def remove_player(self, data: dict, id_db: list) -> list[int]:
+    def remove_player(self, id_db: list) -> list[int]:
         """Delete the player in the database Players.json"""
-        return self.player_table.remove(data, doc_ids=id_db)
+        return self.player_table.remove(doc_ids=id_db)
 
     def get_p_by_id(self, id_db: int) -> dict:
         """Return a player dict matching the id (id_db matching doc_id)"""

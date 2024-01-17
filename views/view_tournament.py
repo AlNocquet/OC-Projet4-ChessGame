@@ -61,7 +61,7 @@ class ViewTournament(BaseView):
 
         self.tournament_sections_settings(f"Scores du {round.name}")
 
-        self.scores_section_settings_1(
+        self.scores_section_settings(
             f"JOUEUR 1 :"
             + match.player_1.full_name
             + "\n"
@@ -69,7 +69,7 @@ class ViewTournament(BaseView):
             + match.player_2.full_name
         )
 
-        self.scores_section_settings_2(
+        self.scores_section_choice_settings(
             f"VICTOIRE JOUEUR 1 : Tapez 1"
             + "\n"
             + f"VICTOIRE JOUEUR 2 : Tapez 2"

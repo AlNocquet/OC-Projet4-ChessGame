@@ -25,9 +25,9 @@ class PlayerController(BaseView):
                 self.remove_player()
             elif choice == "4":
                 self.get_all_players_sorted_by_surname()
-            elif choice == "E" or choice == "e":
+            elif choice.lower() == "e":
                 exit_requested = True
-            elif choice == "Q" or choice == "q":
+            elif choice.lower() == "q":
                 exit()
 
     def create_player(self):
@@ -46,25 +46,31 @@ class PlayerController(BaseView):
     def update_player(self):
         """Update the player in the database (from data_player)"""
 
-        try:
-            player = self.view.get_player_updated()
-            Player.get_player_updated(player)
+        while True:
+            self.get_all_players_sorted_by_surname()
+            player_id = self.view.get_player_updated()
+            if player_id == "e":
+                break
+            field_to_update = self.view.get_fields_updated()
+            self.data.update_player(field_to_update=field_to_update, id_db=[player_id])
             self.view.display_success_message(f"Joueur modifié avec succès !")
 
-        except CancelError:
-            self.view.display_message(f"Modification du joueur annulée")
-            return
-
-    def remove_player(self, item, doc_id):
+    def remove_player(self):
         """Delete the player in the database (from data_player)"""
 
         try:
-            player = self.view.get_player_removed()
-            Player.get_player_removed(player)
-            self.view.display_success_message(f"Joueur supprimé avec succès !")
+            while True:
+                self.get_all_players_sorted_by_surname()
+                player_id = self.view.get_player_removed()
+                if player_id == "e":
+                    break
+                Player.player_to_remove(id_db=player_id)
+                self.view.display_success_message(f"Joueur supprimé avec succès !")
 
-        except CancelError:
-            self.view.display_message(f"Supression du joueur annulée")
+        except ValueError:
+            self.view.display_error_message(
+                f"Suppression impossible : Joueur en tournoi"
+            )
             return
 
     def get_all_players_sorted_by_surname(self):
@@ -87,28 +93,3 @@ class PlayerController(BaseView):
         self.view.table_settings(headers, title, players)
 
         return players
-
-    def find_player_by_id(self):
-        """Ask for player by id from view_player and get it from data_player"""
-        try:
-            request = self.view.get_player_by_id()
-            player = Player.get_player_by_id(request)
-            self.view.display_message(f"\n Voici le joueur {player} avec cet ID")
-
-        except CancelError:
-            self.view.display_message(f"\n Recherche du joueur annulée.\n")
-            return
-
-    def find_player_by_surname(self):
-        """Ask for player by surname and first name from view_player and get it from data_player"""
-
-        try:
-            request = self.view.get_player_by_fullname()
-            player = Player.get_player_by_fullname(request)
-            self.view.display_message(
-                f"\n Voici le joueur {player} et ses informations"
-            )
-
-        except CancelError:
-            self.view.display_message(f"\n Recherche du joueur annulée.\n")
-            return

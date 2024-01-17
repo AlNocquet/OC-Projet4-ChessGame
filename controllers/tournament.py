@@ -39,9 +39,9 @@ class TournamentController(BaseView):
                 self.get_rounds_by_tournament()
             elif choice == "5":
                 pass
-            elif choice == "e":
+            elif choice.lower() == "e":
                 exit_requested = True
-            elif choice == "q":
+            elif choice.lower() == "q":
                 exit()
 
     def create_tournament(self):
@@ -201,8 +201,8 @@ class TournamentController(BaseView):
 
             choice = self.view.get_choices_match_result(round)
 
-        now = datetime.now().date()
-        round.end_date = f"Date et heure de fin : {now.strftime('%Y-%m-%d %H:%M:%S')}"
+        date = datetime.now()
+        round.end_date = date.strftime("%Y-%m-%d %H:%M:%S")
         round.status = "Done"
         self.view.display_message(f"Round terminé !")
 

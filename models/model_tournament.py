@@ -75,7 +75,9 @@ class Tournament:
     def get_all_sorted_by_date(cls):
         """Returns a list of tournaments by date"""
         tournaments = cls.datas.extract_tournaments_list()
-        sorted_tournaments = sorted(tournaments, key=itemgetter("start_date"))
+        sorted_tournaments = sorted(
+            tournaments, reverse=True, key=itemgetter("start_date")
+        )
         return sorted_tournaments
 
     @classmethod

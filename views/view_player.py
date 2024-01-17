@@ -2,7 +2,7 @@ from .view_base import BaseView
 from .view_base import BaseView, console as c
 
 from datetime import datetime
-from colorama import Fore, Style, Back
+from colorama import Fore, Style
 
 
 class ViewPlayer(BaseView):
@@ -11,9 +11,9 @@ class ViewPlayer(BaseView):
 
         while True:
             print("\n")
-            self.player_menu_settings(f"MENU JOUEUR")
+            self.player_menu_settings("MENU JOUEUR")
 
-            self.display_section_subtitles(f"Tapez E pour revenir au menu précédent")
+            self.display_section_subtitles("Tapez E pour revenir au menu précédent")
 
             print("1. Créer un joueur")
             print("2. Modifier un joueur")
@@ -23,7 +23,7 @@ class ViewPlayer(BaseView):
 
             choice = self.get_user_answer(label=f"Entrez votre choix : ")
 
-            if choice in ["1", "2", "3", "4", "Q", "q"]:
+            if choice in ["1", "2", "3", "4", "e", "q"]:
                 if choice.lower() == "e":
                     self.display_message(f"Ok !")
 
@@ -38,15 +38,15 @@ class ViewPlayer(BaseView):
     def get_new_player(self) -> dict:
         """Displays field requested for player creation and returns the user's response"""
 
-        self.player_sections_settings(f"CRÉATION DU JOUEUR")
+        self.player_sections_settings("CRÉATION DU JOUEUR")
 
         print("\n")
 
-        surname = self.get_alpha_string(label="Nom de famille du joueur")
-        first_name = self.get_alpha_string(label="Prénom du joueur")
+        surname = self.get_alpha_string(label=f"\n Nom de famille du joueur")
+        first_name = self.get_alpha_string(label=f"\n Prénom du joueur")
         date_of_birth = self.get_player_date_of_birth()
         national_chess_id = self.get_alphanum(
-            "Identifiant national d échec de la fédération", min_len=7, max_len=7
+            f"\n Identifiant national d échec de la fédération", min_len=7, max_len=7
         )
 
         return {
@@ -57,10 +57,78 @@ class ViewPlayer(BaseView):
         }
 
     def get_player_updated(self):
-        pass
+        """Returns a players id enter by the user to update it - from Tournament Controller"""
+
+        self.player_sections_settings("MODIFICATION DU JOUEUR")
+        self.display_section_subtitles("Tapez E pour revenir au menu précédent")
+
+        player_id = input(
+            Fore.MAGENTA
+            + Style.BRIGHT
+            + "\n Indiquez l'id_db du joueur à modifier dans la base : "
+        )
+
+        return player_id
+
+    def get_fields_updated(self):
+        """Displays fields requested for player update and returns the user's response"""
+
+        while True:
+            self.player_sections_messages_settings(
+                f"Indiquez le champs à modifier : \n"
+            )
+
+            print("1. Nom de famille")
+            print("2. Prénom")
+            print("3. Date de naissance")
+            print("4. Identifiant national d'échec de la fédération")
+
+            choice = self.get_user_answer(label=f"Entrez votre choix : ")
+
+            if choice in ["1", "2", "3", "4", "e"]:
+                if choice == "1":
+                    surname = self.get_alpha_string(
+                        label=f"\n Nom de famille du joueur"
+                    )
+                    return {"surname": surname}
+
+                elif choice == "2":
+                    first_name = self.get_alpha_string(label=f"\n Prénom du joueur")
+                    return {"first_name": first_name}
+
+                elif choice == "3":
+                    date_of_birth = self.get_player_date_of_birth()
+                    return {"date_of_birth": date_of_birth}
+
+                elif choice == "4":
+                    national_chess_id = self.get_alphanum(
+                        f"\n Identifiant national d échec de la fédération",
+                        min_len=7,
+                        max_len=7,
+                    )
+                    return {"national_chess_id": national_chess_id}
+
+                elif choice.lower() == "e":
+                    self.display_message(f"Ok !")
+                    exit_requested = True
+
+                return choice
+
+            else:
+                self.display_error_message(f"Choix invalide")
 
     def get_player_removed(self):
-        pass
+        """Returns a players id enter by the user to remove it - from Tournament Controller"""
+
+        self.player_sections_settings(f"SUPPRESSION DU JOUEUR")
+        self.display_section_subtitles("Tapez E pour revenir au menu précédent")
+
+        players_id = input(
+            Fore.MAGENTA
+            + Style.BRIGHT
+            + "\n Indiquez l'id_db du joueur à supprimer de la base : "
+        )
+        return players_id
 
     def get_tournament_players_id(
         self, player_number: int, valid_players_id: list
@@ -72,7 +140,6 @@ class ViewPlayer(BaseView):
                 Fore.WHITE
                 + Style.DIM
                 + f"\n Indiquez l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace : "
-                + Style.RESET_ALL
             )
 
             if not players_id_str:

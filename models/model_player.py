@@ -1,4 +1,5 @@
 from datas.data_player import DataPlayer
+from datas.data_tournament import DataTournament
 from views.view_base import PlayerNotFound
 
 from operator import itemgetter
@@ -58,23 +59,20 @@ class Player:
         return sorted_players
 
     @classmethod
-    def get_player_updated(self):
+    def player_to_remove(self, id_db):
         """Returns a Player instance matching the id in db from data_player"""
-        data = self.datas.update_player()
 
-        if data is None:
-            raise PlayerNotFound(f"Ce joueur n'existe pas dans la base de données")
+        tournaments = DataTournament().extract_tournaments_list()
 
-        return data
+        player_involved_tournament = False
 
-    def get_player_removed(self):
-        """Returns a Player instance matching the id in db from data_player"""
-        data = self.datas.remove_player()
+        for player_involved_tournament in tournaments:
+            if id_db in tournaments.players:
+                player_involved_tournament = True
+                break
 
-        if data is None:
-            raise PlayerNotFound(f"Ce joueur n'existe pas dans la base de données")
-
-        return data
+        if player_involved_tournament:
+            raise ValueError(f"Suppression joueur impossible")
 
     @classmethod
     def get_player_by_id(cls, id_db: int) -> "Player":
