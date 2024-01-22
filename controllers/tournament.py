@@ -211,17 +211,34 @@ class TournamentController(BaseView):
     def resume_tournament(self):
         """Displays list of tournaments "Launched" and resumes the selected one"""
 
-        self.tournament_sections_settings(f"CHARGEMENT DU TOURNOI ")
+        self.tournament_sections_settings(f"CHARGEMENT DU TOURNOI")
 
         # Fonction(tournaments) view table rich des tournois lancé
-        tournaments = Tournament.search("status", "Launched")
+        tournaments = Tournament.get_tournaments_in_progress()
+
+        # Affichage liste tournois status Launched
+
+        title = f"[LISTE DES {len(tournaments)} TOURNOIS EN COURS]" + "\n"
+
+        headers = [
+            "Nom",
+            "Lieu",
+            "Date",
+            "Nbre de Rounds",
+            "Nbre de joueurs",
+            "description",
+            "status",
+            "id_db",
+        ]
+
+        self.view.table_settings(headers, title, tournaments)
 
         # Fonction Input du View tournament du tournoi à sélectionné
         tournament_id = self.view.get_tournament_id()
 
-        tournament = Tournament.get(
-            tournament_id
-        )  # Ici mettre nom fonction input du View tournament
+        # Retourne l'input avec l'id_db qui matche
+        tournament = Tournament.get_tournament(tournament_id)
+
         self.manage_rounds(tournament)
 
     def get_all_tournaments_sorted_by_date(self):
@@ -229,7 +246,7 @@ class TournamentController(BaseView):
 
         tournaments = []
 
-        for t in Tournament.get_tournaments_selected_fields_list():
+        for t in Tournament.get_tournaments_selected_fields_list(tournaments):
             t["start_date"] = str(t.get("start_date"))
             tournaments.append(t)
 
@@ -252,8 +269,10 @@ class TournamentController(BaseView):
     def get_rounds_by_tournament(self):
         """Displays tournaments' list and loads the selected one to display the associated rounds"""
 
+        # Afficher les tournois (fonction get_all_tournaments_sorted_by_date)
         tournaments = self.get_all_tournaments_sorted_by_date()
 
+        # Input du tournoi à sélectionner (fonction get_tournament_id > revoir bad_id)
         valid_tournament_id = [t.get("id_db") for t in tournaments]
 
         tournament_id_to_select = self.view.get_tournament_id(valid_tournament_id)
@@ -265,5 +284,7 @@ class TournamentController(BaseView):
             ]
         else:
             tournaments = []
-
+        
+        # Retourner la réponse utilisateur
+            
         return tournaments

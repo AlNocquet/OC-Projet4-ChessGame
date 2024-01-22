@@ -64,15 +64,9 @@ class Player:
 
         tournaments = DataTournament().extract_tournaments_list()
 
-        player_involved_tournament = False
-
-        for player_involved_tournament in tournaments:
-            if id_db in tournaments.players:
-                player_involved_tournament = True
-                break
-
-        if player_involved_tournament:
-            raise ValueError(f"Suppression joueur impossible")
+        for tournament in tournaments:
+            if id_db in tournament["players"]:
+                raise ValueError(f"Suppression joueur impossible")
 
     @classmethod
     def get_player_by_id(cls, id_db: int) -> "Player":

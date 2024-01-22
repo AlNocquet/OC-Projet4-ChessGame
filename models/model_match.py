@@ -1,3 +1,6 @@
+from .model_player import Player
+
+
 class Match:
     """Creates the Match object which should contain a pair of players and their results.
     Each Match instance is automatically stored as a tuple in the instance of the round to which it belongs.
@@ -12,6 +15,7 @@ class Match:
         self.player_2_score = player_2_score
 
     def serialize(self):
+        """"""
         match = {
             "player_1": self.player_1.id_db,
             "player_2": self.player_2.id_db,
@@ -19,3 +23,17 @@ class Match:
             "player_2_score": self.player_2_score,
         }
         return match
+
+    def deserialize(cls, data: dict) -> "Match":
+        """Returns a Match object from a dict"""
+
+        p1 = data.get("player_1")
+        p2 = data.get("player_2")
+
+        player_1 = Player.get_player_by_id(p1)
+        player_2 = Player.get_player_by_id(p2)
+
+        score_1 = data.get("player_1_score")
+        score_2 = data.get("player_2_score")
+
+        return Match(player_1, player_2, score_1, score_2)

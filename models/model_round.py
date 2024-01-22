@@ -15,6 +15,7 @@ class Round:
         self.status = "Launched"
 
     def serialize(self):
+        """"""
         round = {
             "name": self.name,
             "start_date": self.start_date,
@@ -22,4 +23,14 @@ class Round:
             "matches": [match.serialize() for match in self.matches],
             "status": self.status,
         }
+        return round
+
+    def deserialize(cls, data: dict) -> "Round":
+        """"""
+        round: Round = cls(**data)
+
+        # Match object list inside (mise en abîme):
+
+        Round.matches = [Match.deserialize(data) for data in round.matches]
+
         return round

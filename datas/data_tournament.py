@@ -40,10 +40,10 @@ class DataTournament:
         "Returns records where fields value match - to resume ONE tournament"
 
         q = Query()
-        if self.table.search(~(q[field_name].exists())):
+        if self.tournament_table.search(~(q[field_name].exists())):
             raise NameError(f"Le champs '{field_name}' n'existe pas")
 
-        records = self.table.search(q[field_name] == value)
+        records = self.tournament_table.search(q[field_name] == value)
 
         # add the db_id in the record
         for record in records:

@@ -81,7 +81,7 @@ class Tournament:
         return sorted_tournaments
 
     @classmethod
-    def get_tournaments_selected_fields_list(cls):
+    def get_tournaments_selected_fields_list(cls, tournaments):
         """Returns a list of tournaments (from data_tournament) with selected fields"""
 
         tournaments_list = []
@@ -114,3 +114,33 @@ class Tournament:
                 f"Le tournoi avec l'identifiant {id_db} n'existe pas dans la base de données"
             )
         return Tournament(**data)
+
+    @classmethod
+    def get_tournaments_in_progress(cls):
+        """Returns a list of tournaments with status "Launched" with selected fields (from data_tournament)"""
+        tournaments = cls.search(field_name="status", value="Launched")  # STATUS_START
+        list_tournaments_in_progress = cls.get_tournaments_selected_fields_list(
+            tournaments=tournaments
+        )
+        return list_tournaments_in_progress
+
+    @classmethod
+    def get_tournament(cls, tournament_id):
+        """Returns a tournament object matching tournament's id from tiny_db (from data_tournament)"""
+
+        tournament_data = cls.datas.get_t_by_id(id_db=tournament_id)
+        tournament = Tournament(**tournament_data)
+
+        # Déserialisation Players
+        players = [
+            Player.get_player_by_id(id_db=player_id) for player_id in tournament.players
+        ]
+        tournament.players = players
+
+        # Déserialisation Rounds
+
+        tournament.rounds = [
+            Round.deserialize(cls, data=round_dict) for round_dict in tournament.rounds
+        ]
+
+        return tournament

@@ -15,6 +15,8 @@ START_DATE = date.strftime("%Y-%m-%d %H:%M:%S")
 
 END_DATE = date.strftime("%Y-%m-%d %H:%M:%S")
 
+# STATUS_START
+
 
 class CancelError(Exception):
     ...
@@ -109,7 +111,7 @@ class BaseView:
             header_style="blue bold",
             title_style="purple bold",
             title_justify="center",
-            width=100,
+            width=120,
         )
 
         try:

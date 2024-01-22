@@ -66,6 +66,7 @@ class ViewPlayer(BaseView):
             Fore.MAGENTA
             + Style.BRIGHT
             + "\n Indiquez l'id_db du joueur à modifier dans la base : "
+            + Style.RESET_ALL
         )
 
         return player_id
@@ -127,6 +128,7 @@ class ViewPlayer(BaseView):
             Fore.MAGENTA
             + Style.BRIGHT
             + "\n Indiquez l'id_db du joueur à supprimer de la base : "
+            + Style.RESET_ALL
         )
         return players_id
 

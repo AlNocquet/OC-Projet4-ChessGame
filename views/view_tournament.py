@@ -88,26 +88,27 @@ class ViewTournament(BaseView):
         else:
             self.display_error_message(f"Choix invalide")
 
-    def get_tournament_id(self, valid_tournament_id: int):
+    def get_tournament_id(self):  # valid_tournament_id: int
         """Displays field for the tournament's id and returns the user's response - from Tournament Controller"""
 
         while True:
             tournament_id: int = input(
                 Fore.WHITE
                 + Style.DIM
+                + "\n"
                 + "Indiquez l'id_db du tournoi à sélectionner : "
                 + Style.RESET_ALL
             )
 
-            bad_id = []
-            for db_id in tournament_id:
-                if db_id not in valid_tournament_id:
-                    bad_id.append(db_id)
+            # bad_id = []
+            # for db_id in tournament_id:
+            # if db_id not in valid_tournament_id:
+            # bad_id.append(db_id)
 
-            if len(bad_id) > 0:
-                self.display_error_message(f"L'identifiant {bad_id} n'est pas valide")
+            # if len(bad_id) > 0:
+            # self.display_error_message(f"L'identifiant {bad_id} n'est pas valide")
 
-            else:
-                self.display_error_message("Saisie invalide")
+            # else:
+            # self.display_error_message("Saisie invalide")
 
             return tournament_id
