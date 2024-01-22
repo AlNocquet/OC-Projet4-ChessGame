@@ -1,33 +1,31 @@
-from .view_base import BaseView
-from .view_base import BaseView, console as c
+from views.view_base import BaseView, CancelError, EXIT_CODE, QUIT_CODE
 
-from datetime import datetime
 from colorama import Fore, Style
 
 
 class ViewPlayer(BaseView):
     def display_player_menu(self):
-        """Displays the Player menu and returns the user's choice"""
+        """Displays the Player Menu and returns the user's choice"""
 
         while True:
             print("\n")
             self.player_menu_settings("MENU JOUEUR")
-
-            self.display_section_subtitles("Tapez E pour revenir au menu précédent")
+            self.display_section_subtitles(
+                "Tapez Exit pour revenir au menu précédent, Quit pour quitter le programme"
+            )
 
             print("1. Créer un joueur")
             print("2. Modifier un joueur")
             print("3. Supprimer un joueur")
             print("4. Consulter Joueurs par ordre alphabétique")
-            print("Q. Quitter le programme")
 
             choice = self.get_user_answer(label=f"Entrez votre choix : ")
 
-            if choice in ["1", "2", "3", "4", "e", "q"]:
-                if choice.lower() == "e":
+            if choice in ["1", "2", "3", "4", "exit", "quit"]:
+                if choice.lower() == EXIT_CODE:
                     self.display_message(f"Ok !")
 
-                elif choice.lower() == "q":
+                elif choice.lower() == QUIT_CODE:
                     self.display_message(f"Au revoir !")
 
                 return choice
@@ -35,10 +33,13 @@ class ViewPlayer(BaseView):
             else:
                 self.display_error_message(f"Choix invalide")
 
-    def get_new_player(self) -> dict:
-        """Displays field requested for player creation and returns the user's response"""
+    def display_fields_new_player(self) -> dict:
+        """Displays fields for player's creation and returns the user's response"""
 
         self.player_sections_settings("CRÉATION DU JOUEUR")
+        self.display_section_subtitles(
+            "Tapez Exit pour revenir au MENU JOUEUR, Quit pour quitter le programme"
+        )
 
         print("\n")
 
@@ -56,11 +57,13 @@ class ViewPlayer(BaseView):
             "national_chess_id": national_chess_id,
         }
 
-    def get_player_updated(self):
-        """Returns a players id enter by the user to update it - from Tournament Controller"""
+    def get_player_id_to_update(self):
+        """Displays field to get player's id and returns the user's response"""
 
         self.player_sections_settings("MODIFICATION DU JOUEUR")
-        self.display_section_subtitles("Tapez E pour revenir au menu précédent")
+        self.display_section_subtitles(
+            "Tapez Exit pour revenir au MENU JOUEUR, Quit pour quitter le programme"
+        )
 
         player_id = input(
             Fore.MAGENTA
@@ -69,15 +72,20 @@ class ViewPlayer(BaseView):
             + Style.RESET_ALL
         )
 
+        if player_id.lower() == EXIT_CODE:
+            raise CancelError
+
+        if player_id.lower() == QUIT_CODE:
+            self.display_message(f"Au revoir !")
+            exit()
+
         return player_id
 
-    def get_fields_updated(self):
-        """Displays fields requested for player update and returns the user's response"""
+    def display_fields_player_to_update(self):
+        """Displays choices and fields for player's updating and returns the user's response"""
 
         while True:
-            self.player_sections_messages_settings(
-                f"Indiquez le champs à modifier : \n"
-            )
+            self.player_fields_settings(f"Indiquez le champs à modifier : \n")
 
             print("1. Nom de famille")
             print("2. Prénom")
@@ -86,7 +94,7 @@ class ViewPlayer(BaseView):
 
             choice = self.get_user_answer(label=f"Entrez votre choix : ")
 
-            if choice in ["1", "2", "3", "4", "e"]:
+            if choice in ["1", "2", "3", "4"]:
                 if choice == "1":
                     surname = self.get_alpha_string(
                         label=f"\n Nom de famille du joueur"
@@ -109,33 +117,39 @@ class ViewPlayer(BaseView):
                     )
                     return {"national_chess_id": national_chess_id}
 
-                elif choice.lower() == "e":
-                    self.display_message(f"Ok !")
-                    exit_requested = True
-
                 return choice
 
             else:
                 self.display_error_message(f"Choix invalide")
 
-    def get_player_removed(self):
-        """Returns a players id enter by the user to remove it - from Tournament Controller"""
+    def get_player_id_to_remove(self):
+        """Displays field to get player's id and returns the user's response"""
 
         self.player_sections_settings(f"SUPPRESSION DU JOUEUR")
-        self.display_section_subtitles("Tapez E pour revenir au menu précédent")
+        self.display_section_subtitles(
+            "Tapez Exit pour revenir au MENU JOUEUR, Quit pour quitter le programme"
+        )
 
-        players_id = input(
+        player_id = input(
             Fore.MAGENTA
             + Style.BRIGHT
             + "\n Indiquez l'id_db du joueur à supprimer de la base : "
             + Style.RESET_ALL
         )
-        return players_id
+
+        if player_id.lower() == EXIT_CODE:
+            raise CancelError
+
+        if player_id.lower() == QUIT_CODE:
+            self.display_message(f"Au revoir !")
+            exit()
+
+        return player_id
 
     def get_tournament_players_id(
         self, player_number: int, valid_players_id: list
     ) -> list[str]:
-        """Returns a list of players id enter by the user - from Tournament Controller"""
+        """Displays field to get list of player's ids and returns the user's response"""
 
         while True:
             players_id_str: str = input(
@@ -146,6 +160,10 @@ class ViewPlayer(BaseView):
 
             if not players_id_str:
                 return
+
+            if players_id_str.lower() == QUIT_CODE:
+                self.display_message(f"Au revoir !")
+                exit()
 
             players_id: list = players_id_str.split()
 

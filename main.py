@@ -6,7 +6,7 @@ init(autoreset=True)
 
 
 def main():
-    """Démarre l'application via l'objet app_controller qui centralise la gestion du programme"""
+    """Starts the app via app_controller object"""
 
     app = AppController()
     app.start()

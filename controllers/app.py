@@ -1,13 +1,11 @@
 from controllers.tournament import TournamentController
 from controllers.player import PlayerController
 from views.view_app import ViewApp
-
-import datetime
+from views.view_base import QUIT_CODE
 
 
 class AppController:
-
-    """Crée un objet qui centralise l'éxécution du programme"""
+    """Creates AppController object which centralizes the execution of the app"""
 
     def __init__(self) -> None:
         self.view_app = ViewApp()
@@ -15,16 +13,14 @@ class AppController:
         self.player_controller = PlayerController()
 
     def start(self):
-        """Affiche le MENU PRINCIPAL et renvoie le résultat du choix de l'utilisateur : Menu Gestion de tournoi, Menu Gestion des joueurs, Quitter le programme"""
+        """Manages the MAIN MENU and returns the user's choice"""
 
-        exit_requested = False
-
-        while not exit_requested:
+        while True:
             choice = self.view_app.display_main_menu()
 
             if choice == "1":
                 self.tournament_controller.manage_tournament_menu()
             elif choice == "2":
                 self.player_controller.manage_player()
-            elif choice == "Q" or choice == "q":
+            elif choice == QUIT_CODE:
                 exit()

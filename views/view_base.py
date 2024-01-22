@@ -1,7 +1,7 @@
 from datetime import datetime
 from rich.console import Console
 from rich.table import Table
-from rich.table import Column, Padding
+
 from colorama import Fore, Style, Back
 
 
@@ -9,11 +9,11 @@ console = Console()
 
 EXIT_CODE = "exit"
 
+QUIT_CODE = "quit"
+
 date = datetime.now()
 
 START_DATE = date.strftime("%Y-%m-%d %H:%M:%S")
-
-END_DATE = date.strftime("%Y-%m-%d %H:%M:%S")
 
 # STATUS_START
 
@@ -31,11 +31,11 @@ class TournamentNotFound(Exception):
 
 
 class BaseView:
-    """BaseView object manage all formats and characteristics of user's requests."""
+    """Creates BaseView object wich manages all formats and characteristics of user's requests."""
 
     @classmethod
     def get_yes_or_no(self, msg: str) -> str:
-        """Input Enter your choice - Return string 'y' or 'n' + value > 0 from the input from the user"""
+        """Display field "Enter your choice" and returns the user's response Yes or No"""
 
         valid_choice = ["y", "n"]
 
@@ -49,59 +49,59 @@ class BaseView:
                 self.display_error_message(self, msg="Choix invalide")
 
     def display_message(self, msg: str):
-        """Displays messages of view app, view_player or view_tournament which uses it"""
+        """Settings messages of view app, view_player or view_tournament which use it"""
         print("\n")
         print(Fore.WHITE + Style.BRIGHT + msg)
 
     def display_section_subtitles(self, msg: str):
-        """Displays messages under menus of view app, view_player or view_tournament which uses it"""
+        """Settings messages under menus of view app, view_player or view_tournament which use it"""
         print(Fore.WHITE + Style.DIM + msg.center(100) + "\n")
 
     def display_error_message(self, msg: str):
-        """Displays error messages related to view_player or view_tournament which uses it"""
+        """Settings error messages in App's / Player's / Tournament's controller and view which uses it"""
         print("\n" + Fore.RED + Style.BRIGHT + msg)
 
     def display_success_message(self, msg: str):
-        """Displays success messages related to view_player or view_tournament which uses it"""
+        """Settings success messages in App's / Player's / Tournament's controller and view which uses it"""
         print("\n" + Fore.GREEN + Style.BRIGHT + msg)
 
     def main_menu_settings(self, msg: str) -> str:
-        """Displays the menu related to view_app which uses it"""
+        """Settings the title menu of view_app"""
         print("\n")
         print(Fore.WHITE + Back.RED + Style.BRIGHT + msg.center(100))
 
     def player_menu_settings(self, msg: str):
-        """Displays the menu related to view_player which uses it"""
+        """Settings the title menu of view_player"""
         print("\n")
         print(Fore.WHITE + Back.MAGENTA + Style.BRIGHT + msg.center(100))
 
     def tournament_menu_settings(self, msg: str):
-        """Displays the menu related to tournament_player which uses it"""
+        """Settings the title menu of view_tournament"""
         print("\n")
         print(Fore.WHITE + Back.BLUE + Style.BRIGHT + msg.center(100))
 
     def player_sections_settings(self, msg: str):
-        """Displays the title related to the section of view_player which uses it"""
+        """Settings the title of each section of player menu"""
         print("\n" + Fore.MAGENTA + Back.BLACK + Style.BRIGHT + msg.center(100))
 
-    def player_sections_messages_settings(self, msg: str):
-        """Displays the title related to the section of view_player which uses it"""
+    def player_fields_settings(self, msg: str):
+        """Settings fields of each section of player menu which uses it"""
         print("\n" + Fore.MAGENTA + Back.BLACK + Style.BRIGHT + msg)
 
     def tournament_sections_settings(self, msg: str):
-        """Displays the title related to the section of view_tournament which uses it"""
+        """Settings the title of each section of tournament menu"""
         print("\n" + Fore.CYAN + Style.BRIGHT + msg.center(100))
 
-    def scores_section_settings(self, msg: str):
-        """Defines the visual of scores' section of view_tournament which uses it"""
+    def match_players_settings(self, msg: str):
+        """Settings the display of pair of player for view_tournament which uses it (add_scores_to_tournament)"""
         print("\n" + Fore.CYAN + Style.BRIGHT + msg)
 
-    def scores_section_choice_settings(self, msg: str):
-        """Defines the visual of scores' choices of view_tournament which uses it"""
+    def match_scores_settings(self, msg: str):
+        """Settings the display of score's choice for view_tournament which uses it (add_scores_to_tournament)"""
         print("\n" + Fore.BLUE + Style.DIM + msg)
 
     def table_settings(self, headers, title: str, items: list):
-        """Defines the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"""
+        """Settings the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"""
 
         print("\n")
 
@@ -124,33 +124,44 @@ class BaseView:
             table.add_column(title, style="white", justify="center")
 
         for item in items:
-            table.add_row(*item.values())
+            # Convertion en str des éventuels int pour compatibilité avec le rendu de Table
+            values = [str(value) for value in item.values()]
+            table.add_row(*values)
 
         console = Console()
         print("")
         console.print(table)
 
     def get_user_answer(self, label):
-        """Input Enter your choice - Returns a alphanumeric string + value > 0 from the input from the user"""
+        """Display field "Enter your choice" and returns the user's response"""
 
         while True:
             value = input(Fore.WHITE + Style.BRIGHT + f"\n {label}").lower()
             return value
 
     def get_int(self, label):
-        """Returns a value compatible with int from the input of the user"""
+        """Returns a value compatible with integer"""
 
         while True:
             value = input(Fore.WHITE + Style.DIM + f"{label} : ")
 
             try:
                 int(value)
+
+                if value.lower() == EXIT_CODE:
+                    raise CancelError
+
+                if value.lower() == QUIT_CODE:
+                    self.display_message(f"Au revoir !")
+                    exit()
+
                 return value
+
             except ValueError:
                 self.display_error_message(f"Veuillez entrer uniquement un entier")
 
     def get_alpha_string(self, label: str) -> str:
-        """Returns an alpha string + value > 0 from the input of the user"""
+        """Returns a value compatible with an alpha string and a value > 0"""
 
         while True:
             value = input(Fore.WHITE + Style.DIM + f"{label} : ")
@@ -159,6 +170,10 @@ class BaseView:
             if value.lower() == EXIT_CODE:
                 raise CancelError
 
+            if value.lower() == QUIT_CODE:
+                self.display_message(f"Au revoir !")
+                exit()
+
             if value.isalpha() or value.split():
                 return value
             self.display_error_message(
@@ -166,11 +181,18 @@ class BaseView:
             )
 
     def get_alphanum(self, label: str, min_len=1, max_len=255) -> str:
-        """Returns a alphanumeric string + value > 0 from the input from the user"""
+        """Returns a value compatible with a alphanumeric string and a value > 0"""
 
         while True:
             value = input(Fore.WHITE + Style.DIM + f"{label} : ")
             value = str.capitalize(value)
+
+            if value.lower() == EXIT_CODE:
+                raise CancelError
+
+            if value.lower() == QUIT_CODE:
+                self.display_message(f"Au revoir !")
+                exit()
 
             if not min_len <= len(value) <= max_len:
                 self.display_error_message(
@@ -181,15 +203,12 @@ class BaseView:
             if value.isalnum() or value.split():
                 return value
 
-            if value.lower() == EXIT_CODE:
-                raise CancelError
-
             self.display_error_message(
                 f"Veuillez entrer une chaîne de caractère uniquement composée de lettres et de chiffres"
             )
 
     def get_date(self, label) -> str:
-        """Returns a date(str) for tournament enter by the user"""
+        """Returns a date value in string format"""
 
         valid_date = False
 
@@ -201,10 +220,18 @@ class BaseView:
             try:
                 formated_date = datetime.strptime(date_value, "%d-%m-%Y").date()
 
+                if date_value.lower() == EXIT_CODE:
+                    raise CancelError
+
+                if date_value.lower() == QUIT_CODE:
+                    self.display_message(f"Au revoir !")
+                    exit()
+
             except ValueError:
                 self.display_error_message(
                     f"Veuillez entrer une date valide au format JJ-MM-AAAA"
                 )
+
                 continue
 
             now = datetime.now().date()
@@ -219,13 +246,20 @@ class BaseView:
                 )
 
     def get_player_date_of_birth(self):
-        """Displays field requested for player creation and returns the user's response"""
+        """Displays field for date of birth with age limit condition and returns the user's response"""
         valid_birthday = False
 
         while valid_birthday == False:
             date_of_birth = input(
                 Fore.WHITE + Style.DIM + "\n Date de naissance au format JJ-MM-AAAA : "
             )
+
+            if date_of_birth.lower() == EXIT_CODE:
+                raise CancelError
+
+            if date_of_birth.lower() == QUIT_CODE:
+                self.display_message(f"Au revoir !")
+                exit()
 
             try:
                 formated_date = datetime.strptime(date_of_birth, "%d-%m-%Y")
