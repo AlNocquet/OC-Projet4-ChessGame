@@ -81,12 +81,13 @@ class Tournament:
         return sorted_tournaments
 
     @classmethod
-    def get_tournaments_selected_fields_list(cls, tournaments):
-        """Returns a list of tournaments (from data_tournament) with selected fields"""
+    def get_tournaments_selected_fields_list(cls, tournaments=None):
+        """Returns a list of tournaments with selected fields"""
 
         tournaments_list = []
 
-        tournaments = cls.get_all_sorted_by_date()
+        if tournaments is None:
+            tournaments = cls.get_all_sorted_by_date()
 
         for t in tournaments:
             new_t = {

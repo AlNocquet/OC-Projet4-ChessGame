@@ -25,7 +25,7 @@ class ViewPlayer(BaseView):
                 if choice.lower() == EXIT_CODE:
                     self.display_message(f"Ok !")
 
-                elif choice.lower() == QUIT_CODE:
+                if choice.lower() == QUIT_CODE:
                     self.display_message(f"Au revoir !")
 
                 return choice
@@ -153,13 +153,16 @@ class ViewPlayer(BaseView):
 
         while True:
             players_id_str: str = input(
-                Fore.WHITE
-                + Style.DIM
+                Fore.BLUE
+                + Style.BRIGHT
                 + f"\n Indiquez l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace : "
             )
 
             if not players_id_str:
                 return
+
+            if players_id_str.lower() == EXIT_CODE:
+                raise CancelError
 
             if players_id_str.lower() == QUIT_CODE:
                 self.display_message(f"Au revoir !")

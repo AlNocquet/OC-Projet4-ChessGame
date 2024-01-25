@@ -4,15 +4,14 @@ from models.model_match import Match
 from models.model_player import Player
 from views.view_tournament import ViewTournament
 from views.view_player import ViewPlayer
-from views.view_base import BaseView, CancelError, PlayerNotFound, console as c
+from views.view_base import BaseView, CancelError, EXIT_CODE, QUIT_CODE
 from datas.data_player import DataPlayer
 from datas.data_tournament import DataTournament
 from controllers.player import PlayerController
 
 from datetime import datetime
+from random import shuffle
 from operator import itemgetter
-from random import random, shuffle
-from colorama import Fore, Style, Back
 
 
 class TournamentController(BaseView):
@@ -22,7 +21,7 @@ class TournamentController(BaseView):
         self.data = DataTournament()
 
     def manage_tournament_menu(self):
-        """Displays the menu "GESTION DES TOURNOIS" from view_tournament and return the user's choice"""
+        """Manages the menu "GESTION DES TOURNOIS" and returns the user's choice"""
 
         exit_requested = False
 
@@ -39,18 +38,16 @@ class TournamentController(BaseView):
                 self.get_rounds_by_tournament()
             elif choice == "5":
                 pass
-            elif choice.lower() == "e":
+            elif choice.lower() == EXIT_CODE:
                 exit_requested = True
-            elif choice.lower() == "q":
+            elif choice.lower() == QUIT_CODE:
                 exit()
 
     def create_tournament(self):
-        """Get tournament's datas and saves it in the database from the model_tournament.
-        Adds registered players of the database from data_player with the condition of a sufficient number of players per round.
-        """
+        """Gets tournament's datas and saves them. Adds registered players with the condition of a sufficient number of players per round."""
 
         try:
-            tournament = self.view.get_create_tournament()
+            tournament = self.view.display_fields_new_tournament()
             tournament = Tournament(**tournament)
 
             if len(DataPlayer().player_table) < int(tournament.number_of_rounds) * 2:
@@ -61,7 +58,7 @@ class TournamentController(BaseView):
 
             tournament.players = self.add_players_to_tournament(
                 tournament.number_of_players
-            )  # Réceptionner les players retournés par add_players
+            )
 
             self.manage_rounds(tournament, round)
 
@@ -72,7 +69,7 @@ class TournamentController(BaseView):
         return
 
     def add_players_to_tournament(self, player_number):
-        """Displays saved players in Database.json and add them according to user's choices"""
+        """Displays saved players and add them according to user's choices"""
 
         players = PlayerController().get_all_players_sorted_by_surname()
 
@@ -211,43 +208,55 @@ class TournamentController(BaseView):
     def resume_tournament(self):
         """Displays list of tournaments "Launched" and resumes the selected one"""
 
-        self.tournament_sections_settings(f"CHARGEMENT DU TOURNOI")
+        try:
+            self.tournament_sections_settings(f"CHARGEMENT DU TOURNOI")
+            self.display_section_subtitles(
+                "Tapez Exit pour revenir au menu précédent, Quit pour quitter le programme"
+            )
 
-        # Fonction(tournaments) view table rich des tournois lancé
-        tournaments = Tournament.get_tournaments_in_progress()
+            tournaments = Tournament.get_tournaments_in_progress()
 
-        # Affichage liste tournois status Launched
+            title = f"[LISTE DES {len(tournaments)} TOURNOIS EN COURS]" + "\n"
 
-        title = f"[LISTE DES {len(tournaments)} TOURNOIS EN COURS]" + "\n"
+            headers = [
+                "Nom",
+                "Lieu",
+                "Date",
+                "Nbre de Rounds",
+                "Nbre de joueurs",
+                "description",
+                "status",
+                "id_db",
+            ]
 
-        headers = [
-            "Nom",
-            "Lieu",
-            "Date",
-            "Nbre de Rounds",
-            "Nbre de joueurs",
-            "description",
-            "status",
-            "id_db",
-        ]
+            self.view.table_settings(headers, title, tournaments)
 
-        self.view.table_settings(headers, title, tournaments)
+            valid_tournament_id = [t.get("id_db") for t in tournaments]
+            tournament_id = self.view.get_tournament_id(
+                valid_tournament_id=valid_tournament_id
+            )
 
-        # Fonction Input du View tournament du tournoi à sélectionné
-        tournament_id = self.view.get_tournament_id()
+            tournament = Tournament.get_tournament(
+                tournament_id
+            )  # Retourne l'input avec l'id_db qui matche
 
-        # Retourne l'input avec l'id_db qui matche
-        tournament = Tournament.get_tournament(tournament_id)
+            self.manage_rounds(tournament)
 
-        self.manage_rounds(tournament)
+        except CancelError:
+            self.view.display_message(f"Modification du joueur annulée")
+            return
 
     def get_all_tournaments_sorted_by_date(self):
         """Displays tournaments list sorted by date from the model_tournament and display it with rich from base_view"""
 
-        tournaments = []
+        # tournaments = []
 
-        for t in Tournament.get_tournaments_selected_fields_list(tournaments):
-            t["start_date"] = str(t.get("start_date"))
+        # for t in Tournament.get_tournaments_selected_fields_list(tournaments):
+        # t["start_date"] = str(t.get("start_date"))
+        # tournaments.append(t)
+
+        tournaments = []
+        for t in Tournament.get_all_sorted_by_date():
             tournaments.append(t)
 
         title = f"[LISTE DES {len(tournaments)} TOURNOIS PAR DATE]"
@@ -284,7 +293,7 @@ class TournamentController(BaseView):
             ]
         else:
             tournaments = []
-        
+
         # Retourner la réponse utilisateur
-            
+
         return tournaments

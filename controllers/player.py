@@ -14,7 +14,9 @@ class PlayerController(BaseView):
     def manage_player(self):
         """Manages the menu "GESTION DES JOUEURS" and returns the user's choice"""
 
-        while True:
+        exit_requested = False
+
+        while not exit_requested:
             choice = ViewPlayer.display_player_menu(self)
 
             if choice == "1":
@@ -26,7 +28,7 @@ class PlayerController(BaseView):
             elif choice == "4":
                 self.get_all_players_sorted_by_surname()
             elif choice.lower() == EXIT_CODE:
-                raise CancelError
+                exit_requested = True
             elif choice.lower() == QUIT_CODE:
                 exit()
 
