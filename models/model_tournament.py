@@ -56,6 +56,7 @@ class Tournament:
             "current_round": self.current_round,
             "description": self.description,
             "status": self.status,
+            "end_date": self.end_date,
             "rounds": [round.serialize() for round in self.rounds],
             "players": [player.id_db for player in self.players],
         }
@@ -76,7 +77,7 @@ class Tournament:
         """Returns a list of tournaments by date"""
         tournaments = cls.datas.extract_tournaments_list()
         sorted_tournaments = sorted(
-            tournaments, reverse=True, key=itemgetter("start_date")
+            tournaments, reverse=False, key=itemgetter("start_date")
         )
         return sorted_tournaments
 
@@ -119,7 +120,7 @@ class Tournament:
     @classmethod
     def get_tournaments_in_progress(cls):
         """Returns a list of tournaments with status "Launched" with selected fields (from data_tournament)"""
-        tournaments = cls.search(field_name="status", value="Launched")  # STATUS_START
+        tournaments = cls.search(field_name="status", value="Launched")
         list_tournaments_in_progress = cls.get_tournaments_selected_fields_list(
             tournaments=tournaments
         )
@@ -141,7 +142,7 @@ class Tournament:
         # Déserialisation Rounds
 
         tournament.rounds = [
-            Round.deserialize(cls, data=round_dict) for round_dict in tournament.rounds
+            Round.deserialize(data=round_dict) for round_dict in tournament.rounds
         ]
 
         return tournament

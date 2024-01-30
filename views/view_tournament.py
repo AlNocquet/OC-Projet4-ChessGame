@@ -67,17 +67,13 @@ class ViewTournament(BaseView):
         self.tournament_sections_settings(f"Scores du {round.name}")
 
         self.match_players_settings(
-            f"JOUEUR 1 :"
-            + match.player_1.full_name
-            + "\n"
-            + "JOUEUR 2 :"
-            + match.player_2.full_name
+            match.player_1.full_name + "Vs" + match.player_2.full_name
         )
 
         self.match_scores_settings(
-            f"VICTOIRE JOUEUR 1 : Tapez 1"
+            f"VICTOIRE {match.player_1.full_name}: Tapez 1"
             + "\n"
-            + f"VICTOIRE JOUEUR 2 : Tapez 2"
+            + f"VICTOIRE {match.player_2.full_name} : Tapez 2"
             + "\n"
             + f"MATCH NUL : Tapez 3"
         )
@@ -97,23 +93,25 @@ class ViewTournament(BaseView):
         """Displays field for the tournament's id and returns the user's response"""
 
         while True:
-            tournament_id: int = input(
-                Fore.BLUE
-                + Style.BRIGHT
-                + "\n"
-                + "Indiquez l'id_db du tournoi à sélectionner : "
-                + Style.RESET_ALL
+            tournament_id: int = int(
+                input(
+                    Fore.BLUE
+                    + Style.BRIGHT
+                    + "\n"
+                    + "Indiquez l'id_db du tournoi à sélectionner : "
+                    + Style.RESET_ALL
+                )
             )
 
             if tournament_id in valid_tournament_id:
                 return tournament_id
 
-            # if tournament_id() == "exit":
-            # raise CancelError
+            if tournament_id == EXIT_CODE:
+                raise CancelError
 
-            # if tournament_id() == "quit":
-            # self.display_message(f"Au revoir !")
-            # exit()
+            if tournament_id == QUIT_CODE:
+                self.display_message(f"Au revoir !")
+                exit()
 
             bad_id = []
 

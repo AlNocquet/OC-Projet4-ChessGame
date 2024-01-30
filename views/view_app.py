@@ -7,15 +7,16 @@ class ViewApp(BaseView):
 
         while True:
             self.main_menu_settings("MENU PRINCIPAL")
-            self.display_section_subtitles("BIENVENU !")
+            self.display_section_subtitles(
+                "BIENVENU !" + "Tapez Quit pour quitter le programme"
+            )
 
             print("1. Gestion des Tournois")
             print("2. Gestion des Joueurs")
-            print("Q. Quitter le programme")
 
             choice = self.get_user_answer(label="Entrez votre choix : ")
 
-            valid_choice = ["1", "2"]
+            valid_choice = ["1", "2", "exit", "quit"]
 
             if choice in valid_choice:
                 return choice

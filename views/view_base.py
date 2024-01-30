@@ -11,12 +11,6 @@ EXIT_CODE = "exit"
 
 QUIT_CODE = "quit"
 
-date = datetime.now()
-
-START_DATE = date.strftime("%Y-%m-%d %H:%M:%S")
-
-# STATUS_START
-
 
 class CancelError(Exception):
     ...
@@ -66,17 +60,17 @@ class BaseView:
         print("\n" + Fore.GREEN + Style.BRIGHT + msg)
 
     def main_menu_settings(self, msg: str) -> str:
-        """Settings the title menu of view_app"""
+        """Settings the title of main menu in view_app"""
         print("\n")
         print(Fore.WHITE + Back.RED + Style.BRIGHT + msg.center(100))
 
     def player_menu_settings(self, msg: str):
-        """Settings the title menu of view_player"""
+        """Settings the title of player menu in view_player"""
         print("\n")
         print(Fore.WHITE + Back.MAGENTA + Style.BRIGHT + msg.center(100))
 
     def tournament_menu_settings(self, msg: str):
-        """Settings the title menu of view_tournament"""
+        """Settings the title of tournament menu in view_tournament"""
         print("\n")
         print(Fore.WHITE + Back.BLUE + Style.BRIGHT + msg.center(100))
 
@@ -91,14 +85,14 @@ class BaseView:
     def tournament_sections_settings(self, msg: str):
         """Settings the title of each section of tournament menu"""
         print("\n" + Fore.CYAN + Style.BRIGHT + msg.center(100))
-
+    
     def match_players_settings(self, msg: str):
         """Settings the display of pair of player for view_tournament which uses it (add_scores_to_tournament)"""
-        print("\n" + Fore.CYAN + Style.BRIGHT + msg)
+        print("\n" + Fore.WHITE + Style.DIM + msg)
 
     def match_scores_settings(self, msg: str):
         """Settings the display of score's choice for view_tournament which uses it (add_scores_to_tournament)"""
-        print("\n" + Fore.BLUE + Style.DIM + msg)
+        print("\n" + Fore.CYAN + Style.DIM + msg)
 
     def table_settings(self, headers, title: str, items: list):
         """Settings the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"""

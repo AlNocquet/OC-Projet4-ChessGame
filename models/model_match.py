@@ -24,8 +24,9 @@ class Match:
         }
         return match
 
+    @classmethod
     def deserialize(cls, data: dict) -> "Match":
-        """Returns a Match object from a dict"""
+        """Returns a Match object"""
 
         p1 = data.get("player_1")
         p2 = data.get("player_2")

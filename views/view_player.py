@@ -156,6 +156,7 @@ class ViewPlayer(BaseView):
                 Fore.BLUE
                 + Style.BRIGHT
                 + f"\n Indiquez l'id_db des {player_number} joueurs à ajouter au tournoi, séparés par un espace : "
+                + Style.RESET_ALL
             )
 
             if not players_id_str:

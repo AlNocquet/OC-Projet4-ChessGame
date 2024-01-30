@@ -60,7 +60,7 @@ class TournamentController(BaseView):
                 tournament.number_of_players
             )
 
-            self.manage_rounds(tournament, round)
+            self.manage_rounds(tournament)
 
         except CancelError:
             self.view.display_message(f"\n Création du tournoi annulé.\n")
@@ -86,7 +86,7 @@ class TournamentController(BaseView):
 
         return players
 
-    def manage_rounds(self, tournament: Tournament, round: Round):
+    def manage_rounds(self, tournament: Tournament):
         """Manages the launch of the rounds' creation with a random sorting of players for the first round and a sorting
         by player's scores for the following ones"""
 
@@ -98,21 +98,29 @@ class TournamentController(BaseView):
             if choice_next_round == "n":
                 break
 
+            # Reprise TOURNOI
+
+            # Initialise Round a None
+
             round = None
+
+            # Si Round en cours > Display match (continue self.get_matches_list(round))
             try:
                 round = tournament.rounds[tournament.current_round]
             except IndexError:
                 pass
 
-            players = tournament.players.copy()
-            if tournament.current_round == 0:
-                shuffle(players)
-            else:
-                players.sort(reverse=True, key=lambda player: player.score)
+            # Si pas de Round en cours > Création des pairs players et incrémentation round
+            if round is None:
+                players = tournament.players.copy()
+                if tournament.current_round == 0:
+                    shuffle(players)
+                else:
+                    players.sort(reverse=True, key=lambda player: player.score)
 
-            tournament.current_round += 1
-            round = self.create_round(players, tournament.current_round)
-            tournament.rounds.append(round)
+                tournament.current_round += 1
+                round = self.create_round(players, tournament.current_round)
+                tournament.rounds.append(round)
 
             self.get_matches_list(round)
 
@@ -123,12 +131,14 @@ class TournamentController(BaseView):
             if tournament.current_round >= int(tournament.number_of_rounds):
                 continue_rounds = False
                 date = datetime.now()
-                tournament.end_date = date.strftime("%Y-%m-%d %H:%M:%S")
+                tournament.end_date = date.strftime("%d-%m-%Y")
                 tournament.status = "Done"
                 self.view.display_message(f"Tournoi terminé !")
 
         tournament.save()
         self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
+
+        self.players_tournament_by_scores(tournament)
 
     def create_round(self, players: list, current_round) -> Round:
         "Returns a Round object with matches"
@@ -182,6 +192,8 @@ class TournamentController(BaseView):
         for match in round.matches:
             self.view.get_current_match(round, match)
 
+            choice = self.view.get_choices_match_result(round)
+
             if choice == "1":
                 match.player_1_score = 1
                 match.player_1.score += 1
@@ -196,14 +208,10 @@ class TournamentController(BaseView):
                 match.player_1.score += 0.5
                 match.player_2.score += 0.5
 
-            choice = self.view.get_choices_match_result(round)
-
         date = datetime.now()
         round.end_date = date.strftime("%Y-%m-%d %H:%M:%S")
         round.status = "Done"
         self.view.display_message(f"Round terminé !")
-
-        return
 
     def resume_tournament(self):
         """Displays list of tournaments "Launched" and resumes the selected one"""
@@ -216,7 +224,7 @@ class TournamentController(BaseView):
 
             tournaments = Tournament.get_tournaments_in_progress()
 
-            title = f"[LISTE DES {len(tournaments)} TOURNOIS EN COURS]" + "\n"
+            title = f"[LISTE DES {len(tournaments)} TOURNOIS EN COURS]"
 
             headers = [
                 "Nom",
@@ -232,6 +240,7 @@ class TournamentController(BaseView):
             self.view.table_settings(headers, title, tournaments)
 
             valid_tournament_id = [t.get("id_db") for t in tournaments]
+
             tournament_id = self.view.get_tournament_id(
                 valid_tournament_id=valid_tournament_id
             )
@@ -246,54 +255,105 @@ class TournamentController(BaseView):
             self.view.display_message(f"Modification du joueur annulée")
             return
 
+    def players_tournament_by_scores(self, tournament: Tournament):
+        """Gets players list sorted by score and display it with rich from base_view"""
+
+        players = [
+            Player.get_player_by_id(id_db=player_id) for player_id in tournament.players
+        ]
+
+        sorted_players = sorted(players, key=itemgetter("score"))
+
+        title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
+
+        headers = [
+            "Nom",
+            "Prénom",
+            "Date Naissance",
+            "National Chess Id",
+            "id_db",
+            "Score",
+        ]
+
+        self.view.table_settings(headers, title, sorted_players)
+
+        return sorted_players
+
     def get_all_tournaments_sorted_by_date(self):
         """Displays tournaments list sorted by date from the model_tournament and display it with rich from base_view"""
 
-        # tournaments = []
-
-        # for t in Tournament.get_tournaments_selected_fields_list(tournaments):
-        # t["start_date"] = str(t.get("start_date"))
-        # tournaments.append(t)
-
-        tournaments = []
-        for t in Tournament.get_all_sorted_by_date():
-            tournaments.append(t)
+        tournaments = Tournament.get_tournaments_selected_fields_list()
 
         title = f"[LISTE DES {len(tournaments)} TOURNOIS PAR DATE]"
 
         headers = [
-            "Nom",
-            "Lieu",
-            "Date",
-            "Nbre de Rounds",
-            "Nbre de joueurs",
+            "name",
+            "place",
+            "start_date",
+            "end_date",
+            "number_of_rounds",
+            "number_of_players",
             "description",
             "status",
             "id_db",
         ]
         self.view.table_settings(headers, title, tournaments)
 
-        return tournaments
-
-    def get_rounds_by_tournament(self):
+    def get_rounds_by_tournament(self, tournament=Tournament):
         """Displays tournaments' list and loads the selected one to display the associated rounds"""
 
-        # Afficher les tournois (fonction get_all_tournaments_sorted_by_date)
-        tournaments = self.get_all_tournaments_sorted_by_date()
+        try:
+            self.tournament_sections_settings(
+                f"CONSULTER LISTE DES ROUNDS D'UN TOURNOI"
+            )
+            self.display_section_subtitles(
+                "Tapez Exit pour revenir au menu précédent, Quit pour quitter le programme"
+            )
 
-        # Input du tournoi à sélectionner (fonction get_tournament_id > revoir bad_id)
-        valid_tournament_id = [t.get("id_db") for t in tournaments]
+            # Afficher les tournois
 
-        tournament_id_to_select = self.view.get_tournament_id(valid_tournament_id)
+            tournaments = Tournament.get_tournaments_selected_fields_list()
 
-        if tournament_id_to_select:
-            tournaments = [
-                Tournament.get_tournament_by_id(t_id)
-                for t_id in tournament_id_to_select
+            title = f"[LISTE DES {len(tournaments)} TOURNOIS EN COURS]"
+
+            headers = [
+                "Nom",
+                "Lieu",
+                "Date",
+                "Nbre de Rounds",
+                "Nbre de joueurs",
+                "description",
+                "status",
+                "id_db",
             ]
-        else:
-            tournaments = []
 
-        # Retourner la réponse utilisateur
+            self.view.table_settings(headers, title, tournaments)
 
-        return tournaments
+            # Sélectionner le tournoi (gestion valid_id)
+
+            valid_tournament_id = [t.get("id_db") for t in tournaments]
+
+            tournament_id = self.view.get_tournament_id(
+                valid_tournament_id=valid_tournament_id
+            )
+
+            tournament = Tournament.get_tournament(tournament_id)
+
+            # Affichage des rounds associés
+
+            rounds = tournament.rounds(tournament)
+
+            title = f"[LISTE DES ROUNDS]"
+
+            headers = [
+                "name",
+                "start_date",
+                "self.end_date",
+                "status",
+            ]
+
+            self.view.table_settings(headers, title, rounds)
+
+        except CancelError:
+            self.view.display_message(f"Modification du joueur annulée")
+            return

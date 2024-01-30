@@ -1,4 +1,5 @@
 from tinydb import TinyDB
+from tinydb.table import Document
 from tinydb import Query
 import os
 
@@ -21,7 +22,7 @@ class DataTournament:
         self.tournament_table.insert(serialize)
 
     def extract_tournaments_list(self):
-        """Extracts ALL tournaments saved in Tournaments.json as a dictionary list and matching the id with doc_id"""
+        """Extracts ALL tournaments saved as a dictionary list and matching the id with doc_id"""
         tournaments = self.tournament_table.all()
         # add the db id for each tournament
         for tournament in tournaments:
@@ -29,15 +30,15 @@ class DataTournament:
         return tournaments
 
     def get_t_by_id(self, id_db: int) -> dict:
-        """Returns a tournament dict matching the id (id_db matching doc_id) - to resume ONE tournament"""
+        """Returns a tournament dict matching the id (id_db matching doc_id)"""
         record = self.tournament_table.get(cond=None, doc_id=id_db)
         if record is not None:
             # add the db_id in the record
             record["id_db"] = str(record.doc_id)
         return record
 
-    def search(self, field_name: str, value: str):  # -> list[Document]:
-        "Returns records where fields value match - to resume ONE tournament"
+    def search(self, field_name: str, value: str) -> list[Document]:
+        "Returns records where fields value match"
 
         q = Query()
         if self.tournament_table.search(~(q[field_name].exists())):
