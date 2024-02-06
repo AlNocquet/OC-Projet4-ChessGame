@@ -5,7 +5,7 @@ from colorama import Fore, Style
 
 class ViewPlayer(BaseView):
     def display_player_menu(self):
-        """Displays the Player Menu and returns the user's choice"""
+        """Displays the Player Menu and returns the user's choice or None if user enter exit or quit"""
 
         while True:
             print("\n")
@@ -34,7 +34,7 @@ class ViewPlayer(BaseView):
                 self.display_error_message(f"Choix invalide")
 
     def display_fields_new_player(self) -> dict:
-        """Displays fields for player's creation and returns the user's response"""
+        """Displays fields for player's creation and returns the user's response or None if user enter exit or quit"""
 
         self.player_sections_settings("CRÉATION DU JOUEUR")
         self.display_section_subtitles(
@@ -58,7 +58,7 @@ class ViewPlayer(BaseView):
         }
 
     def get_player_id_to_update(self):
-        """Displays field to get player's id and returns the user's response"""
+        """Displays field to get player's id and returns the user's response or None if user enter exit or quit"""
 
         self.player_sections_settings("MODIFICATION DU JOUEUR")
         self.display_section_subtitles(
@@ -82,7 +82,7 @@ class ViewPlayer(BaseView):
         return player_id
 
     def display_fields_player_to_update(self):
-        """Displays choices and fields for player's updating and returns the user's response"""
+        """Displays choices and fields for player's updating and returns the user's response or None if user enter exit or quit"""
 
         while True:
             self.player_fields_settings(f"Indiquez le champs à modifier : \n")
@@ -123,7 +123,7 @@ class ViewPlayer(BaseView):
                 self.display_error_message(f"Choix invalide")
 
     def get_player_id_to_remove(self):
-        """Displays field to get player's id and returns the user's response"""
+        """Displays field to get player's id and returns the user's response or None if user enter exit or quit"""
 
         self.player_sections_settings(f"SUPPRESSION DU JOUEUR")
         self.display_section_subtitles(
@@ -149,8 +149,10 @@ class ViewPlayer(BaseView):
     def get_tournament_players_id(
         self, player_number: int, valid_players_id: list
     ) -> list[str]:
-        """Displays field to get list of player's ids and returns the user's response"""
+        """Shows the field to get the list of player IDs and returns the user's response.
+        Manages invalid IDs and that the number of players is sufficient."""
 
+        # Input liste des joueurs à ajouter
         while True:
             players_id_str: str = input(
                 Fore.BLUE
@@ -169,8 +171,10 @@ class ViewPlayer(BaseView):
                 self.display_message(f"Au revoir !")
                 exit()
 
+            # Liste de Int id_db à spliter
             players_id: list = players_id_str.split()
 
+            # Gestion id_db non valides
             bad_id = []
             for db_id in players_id:
                 if db_id not in valid_players_id:
@@ -182,6 +186,7 @@ class ViewPlayer(BaseView):
                 )
                 continue
 
+            # Gestion nbre de joueurs : Liste splitée de nombre de players nécessaires = Nbre nécessaire au tournoi : return
             if len(players_id) == player_number:
                 return players_id
 

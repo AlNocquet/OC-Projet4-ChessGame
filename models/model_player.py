@@ -1,3 +1,4 @@
+from functools import cache, cached_property
 from datas.data_player import DataPlayer
 from datas.data_tournament import DataTournament
 from views.view_base import PlayerNotFound
@@ -6,12 +7,12 @@ from operator import itemgetter
 
 
 class Player:
-
     """Creates the Player object. The player instance must contain at least:
     the name, first name, date of birth, classification, national failure identifier of the federation.
     """
 
     datas = DataPlayer()
+    cache_players = {}
 
     def __init__(
         self,
@@ -35,7 +36,7 @@ class Player:
         return " " + self.first_name + " " + self.surname + " "
 
     def serialize(self):
-        """"""
+        """Return a dict from the Player attributes"""
         player = {
             "surname": self.surname,
             "first_name": self.first_name,
@@ -74,10 +75,21 @@ class Player:
     @classmethod
     def get_player_by_id(cls, id_db: int) -> "Player":
         """Returns a Player instance matching the id"""
-        data = cls.datas.get_p_by_id(id_db)
 
-        if data is None:
-            raise PlayerNotFound(
-                f"Le joueur avec l'identifiant {id_db} n'existe pas dans la base de données"
-            )
-        return Player(**data)
+        # Try to get the player from cache
+        player = cls.cache_players.get(id_db)
+
+        # If player not found in cache get him from db
+        if player is None:
+            data = cls.datas.get_p_by_id(id_db)
+
+            if data is None:
+                raise PlayerNotFound(
+                    f"Le joueur avec l'identifiant {id_db} n'existe pas dans la base de données"
+                )
+
+            player = Player(**data)
+            # Add the player object in cache
+            cls.cache_players[id_db] = player
+
+        return player

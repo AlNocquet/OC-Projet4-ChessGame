@@ -15,7 +15,7 @@ class Round:
         self.status = status
 
     def serialize(self):
-        """"""
+        """Return a dict from the Round attributes"""
         round = {
             "name": self.name,
             "start_date": self.start_date,
@@ -27,7 +27,7 @@ class Round:
 
     @classmethod
     def deserialize(cls, data: dict) -> "Round":
-        """"""
+        """Returns a Round object"""
         round: Round = cls(**data)
 
         round.matches = [Match.deserialize(data) for data in round.matches]

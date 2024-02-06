@@ -9,7 +9,6 @@ from rich.table import Table
 
 
 class Tournament:
-
     """Creates the Tournament object.
     Each instance of a tournament is filled by the user : name, place, start and end date, the number of the current round,
     the description for general remarks from the tournament director.
@@ -46,6 +45,7 @@ class Tournament:
         self.players = players
 
     def serialize(self):
+        """Return a dict from the Tournament attributes"""
         tournament = {
             "name": self.name,
             "name": self.name,
@@ -63,7 +63,7 @@ class Tournament:
         return tournament
 
     def save(self):  # méthode d'instance = sur un objet
-        "Saves the tournament in the database (from data_tournament)"
+        "Saves the tournament in the database"
         data = self.serialize()
         self.datas.save_tournament(data)
 
@@ -108,7 +108,7 @@ class Tournament:
 
     @classmethod
     def get_tournament_by_id(cls, id_db: int) -> "Tournament":
-        """Returns a Tournament instance matching the id_db from data_player"""
+        """Returns a Tournament instance matching the id_db"""
         data = cls.datas.get_t_by_id(id_db)
 
         if data is None:
@@ -119,7 +119,7 @@ class Tournament:
 
     @classmethod
     def get_tournaments_in_progress(cls):
-        """Returns a list of tournaments with status "Launched" with selected fields (from data_tournament)"""
+        """Returns a list of tournaments with status "Launched" with selected fields"""
         tournaments = cls.search(field_name="status", value="Launched")
         list_tournaments_in_progress = cls.get_tournaments_selected_fields_list(
             tournaments=tournaments
@@ -132,6 +132,9 @@ class Tournament:
 
         tournament_data = cls.datas.get_t_by_id(id_db=tournament_id)
         tournament = Tournament(**tournament_data)
+
+        # Clear the players cache
+        Player.cache_players.clear()
 
         # Déserialisation Players
         players = [

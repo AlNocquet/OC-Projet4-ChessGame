@@ -36,7 +36,7 @@ class ViewTournament(BaseView):
                 self.display_error_message(f"Choix invalide")
 
     def display_fields_new_tournament(self) -> dict:
-        """Displays fields for tournament's creation and returns the user's response"""
+        """Displays fields for tournament's creation and returns the user's response (dict)"""
 
         self.tournament_sections_settings(f"CRÉATION DU TOURNOI ")
         self.display_section_subtitles(
@@ -93,18 +93,13 @@ class ViewTournament(BaseView):
         """Displays field for the tournament's id and returns the user's response"""
 
         while True:
-            tournament_id: int = int(
-                input(
-                    Fore.BLUE
-                    + Style.BRIGHT
-                    + "\n"
-                    + "Indiquez l'id_db du tournoi à sélectionner : "
-                    + Style.RESET_ALL
-                )
+            tournament_id: str = input(
+                Fore.BLUE
+                + Style.BRIGHT
+                + "\n"
+                + "Indiquez l'id_db du tournoi à sélectionner : "
+                + Style.RESET_ALL
             )
-
-            if tournament_id in valid_tournament_id:
-                return tournament_id
 
             if tournament_id == EXIT_CODE:
                 raise CancelError
@@ -113,18 +108,8 @@ class ViewTournament(BaseView):
                 self.display_message(f"Au revoir !")
                 exit()
 
-            bad_id = []
+            tournament_id = tournament_id
+            if tournament_id in valid_tournament_id:
+                return tournament_id
 
-            for id_db in tournament_id:
-                if id_db not in valid_tournament_id:
-                    bad_id.append(id_db)
-
-                if len(id_db) > 0:
-                    self.display_error_message(
-                        f"L'identifiant {bad_id} n'est pas valide"
-                    )
-
-                else:
-                    self.display_error_message("Saisie invalide")
-
-            return tournament_id
+            self.display_error_message("Saisie invalide")

@@ -12,16 +12,13 @@ EXIT_CODE = "exit"
 QUIT_CODE = "quit"
 
 
-class CancelError(Exception):
-    ...
+class CancelError(Exception): ...
 
 
-class PlayerNotFound(Exception):
-    ...
+class PlayerNotFound(Exception): ...
 
 
-class TournamentNotFound(Exception):
-    ...
+class TournamentNotFound(Exception): ...
 
 
 class BaseView:
@@ -85,7 +82,11 @@ class BaseView:
     def tournament_sections_settings(self, msg: str):
         """Settings the title of each section of tournament menu"""
         print("\n" + Fore.CYAN + Style.BRIGHT + msg.center(100))
-    
+
+    def round_sections_settings(self, msg: str):
+        """Settings the title of each section of tournament menu"""
+        print("\n" + Fore.YELLOW + Style.BRIGHT + msg.center(100))
+
     def match_players_settings(self, msg: str):
         """Settings the display of pair of player for view_tournament which uses it (add_scores_to_tournament)"""
         print("\n" + Fore.WHITE + Style.DIM + msg)

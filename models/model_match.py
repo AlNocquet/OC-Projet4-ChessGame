@@ -7,20 +7,40 @@ class Match:
     This tuple contains two lists containing 2 elements: a player and a score.
     """
 
-    def __init__(self, player_1, player_2, player_1_score=0, player_2_score=0):
+    def __init__(self, player_1, player_2, p1_score=0, p2_score=0):
         self.player_1 = player_1
         self.player_2 = player_2
 
-        self.player_1_score = player_1_score
-        self.player_2_score = player_2_score
+        self.p1_score = p1_score
+        self.p2_score = p2_score
+
+    @property  # (property() - décorateur intégré - pour obtenir le comportement des getters et des setters)
+    def p1_score(self):
+        return self._p1_score
+
+    @p1_score.setter
+    # Modification de valeur score player 1 objet Match
+    def p1_score(self, value: int):
+        self._p1_score = value
+        self.player_1.score += value
+
+    @property  # (Un objet de propriété a trois méthodes, getter(), setter(), delete() + crée une docstring pour l’attribut : fget, fset, fdel, doc)
+    def p2_score(self):
+        return self._p2_score
+
+    @p2_score.setter
+    # Modification de valeur score player 2 objet Match
+    def p2_score(self, value: int):
+        self._p2_score = value
+        self.player_2.score += value
 
     def serialize(self):
-        """"""
+        """Return a dict from the Match attributes"""
         match = {
             "player_1": self.player_1.id_db,
             "player_2": self.player_2.id_db,
-            "player_1_score": self.player_1_score,
-            "player_2_score": self.player_2_score,
+            "p1_score": self.p1_score,
+            "p2_score": self.p2_score,
         }
         return match
 
@@ -34,7 +54,7 @@ class Match:
         player_1 = Player.get_player_by_id(p1)
         player_2 = Player.get_player_by_id(p2)
 
-        score_1 = data.get("player_1_score")
-        score_2 = data.get("player_2_score")
+        score_1 = data.get("p1_score")
+        score_2 = data.get("p2_score")
 
-        return Match(player_1, player_2, score_1, score_2)
+        return Match(player_1, player_2, p1_score=score_1, p2_score=score_2)

@@ -38,6 +38,10 @@ class PlayerController(BaseView):
         try:
             player = self.view.display_fields_new_player()
             player = Player(**player)
+            # Unpack / Opérateur de déballage ou opérateur astérisque / L'opérateur astérisque (*) est utilisé
+            # pour décompresser toutes les valeurs d'un itérable qui n'ont pas encore été affectées.
+            # Un seul astérisque est utilisé pour décompresser les listes et les tuples, le double astérisque (**)
+            # est utilisé pour décompresser les dictionnaires.
             player.save()
             self.view.display_success_message(f"Joueur sauvegardé avec succès !")
 
@@ -79,14 +83,14 @@ class PlayerController(BaseView):
 
         except CancelError:
             self.view.display_message(f"Suppression du joueur annulée")
-
             return
 
     def get_all_players_sorted_by_surname(self):
         """Gets players list and display it with rich from base_view"""
         players = []
         for p in Player.get_all_sort_by_surname():
-            p["score"] = str(p.get("score"))
+            # Enlève score de la liste d'affichage / pop élèment hors de la liste des valeurs de l'objet Player
+            p.pop("score")
             players.append(p)
 
         title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
@@ -97,7 +101,6 @@ class PlayerController(BaseView):
             "Date Naissance",
             "National Chess Id",
             "id_db",
-            "Score",
         ]
         self.view.table_settings(headers, title, players)
 
