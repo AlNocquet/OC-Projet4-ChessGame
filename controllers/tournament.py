@@ -156,12 +156,10 @@ class TournamentController(BaseView):
                 tournament.end_date = date.strftime("%d-%m-%Y")
                 tournament.status = "Done"
                 self.view.display_message(f"Tournoi terminé !")
+                # Affichage des joueurs du tournois sorted par score
+                self.players_tournament_by_scores(tournament)
 
         tournament.save()
-        self.view.display_success_message(f"Tournoi sauvegardé avec succès !")
-
-        # Affichage des joueurs du tournois sorted par score
-        self.players_tournament_by_scores(tournament)
 
     def create_round(self, players: list, current_round) -> Round:
         "Returns a Round object with matches"
@@ -223,10 +221,10 @@ class TournamentController(BaseView):
             choice = self.view.get_choices_match_result(round)
 
             if choice == "1":
-                match.p1_score = 1
+                match.p1_score = 1.0
 
             elif choice == "2":
-                match.p2_score = 1
+                match.p2_score = 1.0
 
             elif choice == "3":
                 match.p1_score = 0.5
@@ -316,6 +314,8 @@ class TournamentController(BaseView):
         players.sort(key=itemgetter("score"), reverse=True)
 
         self.view.table_settings("", "Classement des joueurs", players)
+
+        input("Tapez Entrée pour continuer :")
 
     def get_all_tournaments_sorted_by_date(self):
         """Displays tournaments list sorted by date from the model_tournament and display it with rich from base_view"""
@@ -427,7 +427,7 @@ class TournamentController(BaseView):
                     + f"{match.p1_score}"
                     + Fore.YELLOW
                     + Style.DIM
-                    + " VS "
+                    + "  VS  "
                     + Style.RESET_ALL
                     + f"{match.player_2.full_name}: "
                     + f"{match.p2_score}"

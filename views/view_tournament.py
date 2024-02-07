@@ -108,7 +108,7 @@ class ViewTournament(BaseView):
                 self.display_message(f"Au revoir !")
                 exit()
 
-            tournament_id = tournament_id
+            tournament_id = int(tournament_id)
             if tournament_id in valid_tournament_id:
                 return tournament_id
 

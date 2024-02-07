@@ -139,17 +139,16 @@ class BaseView:
 
         while True:
             value = input(Fore.WHITE + Style.DIM + f"{label} : ")
+            
+            if value.lower() == EXIT_CODE:
+                raise CancelError
 
+            if value.lower() == QUIT_CODE:
+                self.display_message(f"Au revoir !")
+                exit()
+            
             try:
                 int(value)
-
-                if value.lower() == EXIT_CODE:
-                    raise CancelError
-
-                if value.lower() == QUIT_CODE:
-                    self.display_message(f"Au revoir !")
-                    exit()
-
                 return value
 
             except ValueError:
