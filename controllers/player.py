@@ -1,10 +1,12 @@
-from models.model_player import Player
-from views.view_player import ViewPlayer
-from views.view_base import BaseView, CancelError, EXIT_CODE, QUIT_CODE
+from colorama import Fore, Style
+
 from datas.data_player import DataPlayer
+from models.model_player import Player
+from views.view_base import EXIT_CODE, QUIT_CODE, CancelError
+from views.view_player import ViewPlayer
 
 
-class PlayerController(BaseView):
+class PlayerController:
     """Creates PlayerController object that centralizes the execution of the player part of the app"""
 
     def __init__(self) -> None:
@@ -17,7 +19,7 @@ class PlayerController(BaseView):
         exit_requested = False
 
         while not exit_requested:
-            choice = ViewPlayer.display_player_menu(self)
+            choice = self.view.display_player_menu()
 
             if choice == "1":
                 self.create_player()
@@ -38,15 +40,22 @@ class PlayerController(BaseView):
         try:
             player = self.view.display_fields_new_player()
             player = Player(**player)
-            # Unpack / Opérateur de déballage ou opérateur astérisque / L'opérateur astérisque (*) est utilisé
-            # pour décompresser toutes les valeurs d'un itérable qui n'ont pas encore été affectées.
-            # Un seul astérisque est utilisé pour décompresser les listes et les tuples, le double astérisque (**)
-            # est utilisé pour décompresser les dictionnaires.
             player.save()
-            self.view.display_success_message(f"Joueur sauvegardé avec succès !")
+            self.view.display_success_message("Joueur sauvegardé avec succès !")
+            print(
+                "\n"
+                + Fore.MAGENTA
+                + Style.DIM
+                + f"{player.full_name}"
+                + " "
+                + f"{player.date_of_birth}"
+                + " "
+                + f"{player.national_chess_id}"
+                + Style.RESET_ALL
+            )
 
         except CancelError:
-            self.view.display_message(f"Création du joueur annulée")
+            self.view.display_message("Création du joueur annulée")
             return
 
     def update_player(self):
@@ -60,10 +69,10 @@ class PlayerController(BaseView):
                 self.data.update_data_player(
                     field_to_update=field_to_update, id_db=[int(player_id)]
                 )
-                self.view.display_success_message(f"Joueur modifié avec succès !")
+                self.view.display_success_message("Joueur modifié avec succès !")
 
         except CancelError:
-            self.view.display_message(f"Modification du joueur annulée")
+            self.view.display_message("Modification du joueur annulée")
             return
 
     def remove_player(self):
@@ -74,15 +83,15 @@ class PlayerController(BaseView):
                 self.get_all_players_sorted_by_surname()
                 player_id = self.view.get_player_id_to_remove()
                 Player.remove(id_db=player_id)
-                self.view.display_success_message(f"Joueur supprimé avec succès !")
+                self.view.display_success_message("Joueur supprimé avec succès !")
 
         except ValueError:
             self.view.display_error_message(
-                f"Suppression impossible : Joueur en tournoi"
+                "Suppression impossible : Joueur en tournoi"
             )
 
         except CancelError:
-            self.view.display_message(f"Suppression du joueur annulée")
+            self.view.display_message("Suppression du joueur annulée")
             return
 
     def get_all_players_sorted_by_surname(self):
@@ -103,5 +112,7 @@ class PlayerController(BaseView):
             "id_db",
         ]
         self.view.table_settings(headers, title, players)
+
+        input("Tapez Entrée pour continuer :")
 
         return players

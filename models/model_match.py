@@ -19,17 +19,16 @@ class Match:
         return self._p1_score
 
     @p1_score.setter
-    # Modification de valeur score player 1 objet Match
+    # Changing the score value of player 1
     def p1_score(self, value: int):
         self._p1_score = value
         self.player_1.score += value
 
-    @property  # (Un objet de propriété a trois méthodes, getter(), setter(), delete() + crée une docstring pour l’attribut : fget, fset, fdel, doc)
+    @property
     def p2_score(self):
         return self._p2_score
 
     @p2_score.setter
-    # Modification de valeur score player 2 objet Match
     def p2_score(self, value: int):
         self._p2_score = value
         self.player_2.score += value

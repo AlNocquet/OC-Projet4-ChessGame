@@ -1,9 +1,8 @@
 from datetime import datetime
+
+from colorama import Back, Fore, Style
 from rich.console import Console
 from rich.table import Table
-
-from colorama import Fore, Style, Back
-
 
 console = Console()
 
@@ -87,14 +86,6 @@ class BaseView:
         """Settings the title of each section of tournament menu"""
         print("\n" + Fore.YELLOW + Style.BRIGHT + msg.center(100))
 
-    def match_players_settings(self, msg: str):
-        """Settings the display of pair of player for view_tournament which uses it (add_scores_to_tournament)"""
-        print("\n" + Fore.WHITE + Style.DIM + msg)
-
-    def match_scores_settings(self, msg: str):
-        """Settings the display of score's choice for view_tournament which uses it (add_scores_to_tournament)"""
-        print("\n" + Fore.CYAN + Style.DIM + msg)
-
     def table_settings(self, headers, title: str, items: list):
         """Settings the visual of a dynamic table with datas ( from Player or Tournament object) with Rich"""
 
@@ -139,20 +130,20 @@ class BaseView:
 
         while True:
             value = input(Fore.WHITE + Style.DIM + f"{label} : ")
-            
+
             if value.lower() == EXIT_CODE:
                 raise CancelError
 
             if value.lower() == QUIT_CODE:
-                self.display_message(f"Au revoir !")
+                self.display_message("Au revoir !")
                 exit()
-            
+
             try:
                 int(value)
                 return value
 
             except ValueError:
-                self.display_error_message(f"Veuillez entrer uniquement un entier")
+                self.display_error_message("Veuillez entrer uniquement un entier")
 
     def get_alpha_string(self, label: str) -> str:
         """Returns a value compatible with an alpha string and a value > 0"""
@@ -165,13 +156,13 @@ class BaseView:
                 raise CancelError
 
             if value.lower() == QUIT_CODE:
-                self.display_message(f"Au revoir !")
+                self.display_message("Au revoir !")
                 exit()
 
             if value.isalpha() or value.split():
                 return value
             self.display_error_message(
-                f"Veuillez entrer une chaîne de caractères uniquement composée de lettres (au moins une)"
+                "Veuillez entrer une chaîne de caractères uniquement composée de lettres (au moins une)"
             )
 
     def get_alphanum(self, label: str, min_len=1, max_len=255) -> str:
@@ -185,7 +176,7 @@ class BaseView:
                 raise CancelError
 
             if value.lower() == QUIT_CODE:
-                self.display_message(f"Au revoir !")
+                self.display_message("Au revoir !")
                 exit()
 
             if not min_len <= len(value) <= max_len:
@@ -198,7 +189,7 @@ class BaseView:
                 return value
 
             self.display_error_message(
-                f"Veuillez entrer une chaîne de caractère uniquement composée de lettres et de chiffres"
+                "Veuillez entrer une chaîne de caractère uniquement composée de lettres et de chiffres"
             )
 
     def get_date(self, label) -> str:
@@ -206,7 +197,7 @@ class BaseView:
 
         valid_date = False
 
-        while valid_date == False:
+        while valid_date is False:
             date_value = input(
                 Fore.WHITE + Style.DIM + f"{label} au format JJ-MM-AAAA : "
             )
@@ -218,12 +209,12 @@ class BaseView:
                     raise CancelError
 
                 if date_value.lower() == QUIT_CODE:
-                    self.display_message(f"Au revoir !")
+                    self.display_message("Au revoir !")
                     exit()
 
             except ValueError:
                 self.display_error_message(
-                    f"Veuillez entrer une date valide au format JJ-MM-AAAA"
+                    "Veuillez entrer une date valide au format JJ-MM-AAAA"
                 )
 
                 continue
@@ -236,23 +227,23 @@ class BaseView:
 
             else:
                 self.display_error_message(
-                    f"Veuillez entrer une date égale ou supérieure à la date du jour"
+                    "Veuillez entrer une date égale ou supérieure à la date du jour"
                 )
 
     def get_player_date_of_birth(self):
         """Displays field for date of birth with age limit condition and returns the user's response"""
         valid_birthday = False
 
-        while valid_birthday == False:
+        while valid_birthday is False:
             date_of_birth = input(
-                Fore.WHITE + Style.DIM + "\n Date de naissance au format JJ-MM-AAAA : "
+                Fore.WHITE + Style.DIM + "Date de naissance au format JJ-MM-AAAA : "
             )
 
             if date_of_birth.lower() == EXIT_CODE:
                 raise CancelError
 
             if date_of_birth.lower() == QUIT_CODE:
-                self.display_message(f"Au revoir !")
+                self.display_message("Au revoir !")
                 exit()
 
             try:
@@ -260,7 +251,7 @@ class BaseView:
 
             except ValueError:
                 self.display_error_message(
-                    f"Veuillez entrer une date valide au format JJ-MM-AAAA"
+                    "Veuillez entrer une date valide au format JJ-MM-AAAA"
                 )
                 continue
 
@@ -272,7 +263,7 @@ class BaseView:
 
             else:
                 self.display_error_message(
-                    f"Vous devez avoir au moins 18 ans pour vous inscrire"
+                    "Vous devez avoir au moins 18 ans pour vous inscrire"
                 )
 
     def get_player_number(self, label):
@@ -283,4 +274,4 @@ class BaseView:
             if int(player_number) % 2 == 0:
                 return player_number
             else:
-                self.display_error_message(f"Veuillez entrer un nombre de joueurs pair")
+                self.display_error_message("Veuillez entrer un nombre de joueurs pair")

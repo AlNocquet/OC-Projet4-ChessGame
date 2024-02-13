@@ -1,16 +1,16 @@
-from views.view_base import BaseView, CancelError, EXIT_CODE, QUIT_CODE
-from models.model_round import Round
-from models.model_match import Match
-
 from colorama import Fore, Style
+
+from models.model_match import Match
+from models.model_round import Round
+from views.view_base import EXIT_CODE, QUIT_CODE, BaseView, CancelError
 
 
 class ViewTournament(BaseView):
     def get_tournament_menu(self):
-        """Display TOURNAMENT's MAIN MENU and returns the user's response"""
+        """Displays TOURNAMENT's MAIN MENU and returns the user's response"""
 
         while True:
-            self.tournament_menu_settings(f"MENU TOURNOI")
+            self.tournament_menu_settings("MENU TOURNOI")
             self.display_section_subtitles(
                 "Tapez Exit pour revenir au menu précédent, Quit pour quitter le programme"
             )
@@ -21,24 +21,24 @@ class ViewTournament(BaseView):
             print("4. Consulter liste des ROUNDS d'un Tournoi")
             print("5. Consulter liste des MATCHS d'un Tournoi")
 
-            choice = self.get_user_answer(label=f"Entrez votre choix : ")
+            choice = self.get_user_answer(label="Entrez votre choix : ")
 
             if choice in ["1", "2", "3", "4", "5", "exit", "quit"]:
                 if choice.lower() == EXIT_CODE:
-                    self.display_message(f"Ok !")
+                    self.display_message("Ok !")
 
                 if choice.lower() == QUIT_CODE:
-                    self.display_message(f"Au revoir !")
+                    self.display_message("Au revoir !")
 
                 return choice
 
             else:
-                self.display_error_message(f"Choix invalide")
+                self.display_error_message("Choix invalide")
 
     def display_fields_new_tournament(self) -> dict:
         """Displays fields for tournament's creation and returns the user's response (dict)"""
 
-        self.tournament_sections_settings(f"CRÉATION DU TOURNOI ")
+        self.tournament_sections_settings("CRÉATION DU TOURNOI ")
         self.display_section_subtitles(
             "Tapez Exit pour revenir au MENU TOURNOI, Quit pour quitter le programme"
         )
@@ -64,30 +64,51 @@ class ViewTournament(BaseView):
     def get_current_match(self, round: Round, match: Match):
         """Displays the current round and pair of players of each match"""
 
-        self.tournament_sections_settings(f"Scores du {round.name}")
+        self.round_sections_settings(f"Scores du {round.name}")
 
-        self.match_players_settings(
-            match.player_1.full_name + "Vs" + match.player_2.full_name
+        print(
+            "\n"
+            + Fore.YELLOW
+            + Style.DIM
+            + match.player_1.full_name
+            + Style.RESET_ALL
+            + " Vs "
+            + Fore.YELLOW
+            + Style.DIM
+            + match.player_2.full_name
+            + Style.RESET_ALL
         )
 
-        self.match_scores_settings(
-            f"VICTOIRE {match.player_1.full_name}: Tapez 1"
+        print(
+            f" VICTOIRE {match.player_1.full_name} :"
+            + Fore.YELLOW
+            + Style.BRIGHT
+            + "Tapez 1"
+            + Style.RESET_ALL
             + "\n"
-            + f"VICTOIRE {match.player_2.full_name} : Tapez 2"
+            + f"VICTOIRE {match.player_2.full_name} :"
+            + Fore.YELLOW
+            + Style.BRIGHT
+            + "Tapez 2"
+            + Style.RESET_ALL
             + "\n"
-            + f"MATCH NUL : Tapez 3"
+            + "MATCH NUL :"
+            + Fore.YELLOW
+            + Style.BRIGHT
+            + "Tapez 3"
+            + Style.RESET_ALL
         )
 
     def get_choices_match_result(self, round: Round):
         """Displays choices of match results and returns the user's response"""
 
-        choice = self.get_user_answer(label=f"Entrez votre choix : ")
+        choice = self.get_user_answer(label="Entrez votre choix : ")
 
         if choice in ["1", "2", "3"]:
             return choice
 
         else:
-            self.display_error_message(f"Choix invalide")
+            self.display_error_message("Choix invalide")
 
     def get_tournament_id(self, valid_tournament_id: list[int]):
         """Displays field for the tournament's id and returns the user's response"""
@@ -105,7 +126,7 @@ class ViewTournament(BaseView):
                 raise CancelError
 
             if tournament_id == QUIT_CODE:
-                self.display_message(f"Au revoir !")
+                self.display_message("Au revoir !")
                 exit()
 
             tournament_id = int(tournament_id)

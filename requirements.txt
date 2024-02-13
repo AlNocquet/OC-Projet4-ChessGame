@@ -1,6 +1,15 @@
 colorama==0.4.6
 dataclasses==0.6     
-flake8==6.1.0        
+flake8==6.1.0 
+coverage
+flake8
+flake8-docstrings
+flake8-html
+pdoc3
+pep8-naming
+pytest
+pytest-html
+tox       
 markdown-it-py==3.0.0
 mccabe==0.7.0        
 mdurl==0.1.2

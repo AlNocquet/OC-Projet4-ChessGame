@@ -1,9 +1,8 @@
-from functools import cache, cached_property
+from operator import itemgetter
+
 from datas.data_player import DataPlayer
 from datas.data_tournament import DataTournament
 from views.view_base import PlayerNotFound
-
-from operator import itemgetter
 
 
 class Player:
@@ -46,14 +45,12 @@ class Player:
         }
         return player
 
-    def save(self):  # méthode d'instance = sur un objet
+    def save(self):
         """Saves player in the database"""
         data = self.serialize()
         self.datas.save_player(data)
 
     @classmethod
-    # Non propre à un objet player mais toute la base "joueurs" = pas méthode d'instance mais de classe (cls, pointeur vers la classe par convention)
-    # DataPlayer sort du constructeur de Player : pas en variable d'instance, pas seulement propre à chaque objet de Player = commun à tous les objets (variable de classe)
     def get_all_sort_by_surname(cls):
         """Returns a list of players sorted by surname"""
         players = cls.datas.extract_players_list()
@@ -68,7 +65,7 @@ class Player:
 
         for tournament in tournaments:
             if id_db in tournament["players"]:
-                raise ValueError(f"Suppression joueur impossible")
+                raise ValueError("Suppression joueur impossible")
 
         self.datas.remove_data_player([int(id_db)])
 

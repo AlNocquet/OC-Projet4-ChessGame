@@ -1,1 +1,4 @@
+<<<<<<< HEAD
 {"Tournaments": {"1": {"name": "Test1", "place": "Paris", "start_date": "13-02-2024", "number_of_rounds": "2", "number_of_players": "4", "current_round": 1, "description": "0", "status": "Launched", "end_date": null, "rounds": [{"name": "Round 1", "start_date": "13-02-2024", "end_date": null, "matches": [{"player_1": "3", "player_2": "1", "p1_score": 0, "p2_score": 0}, {"player_1": "4", "player_2": "2", "p1_score": 0, "p2_score": 0}], "status": "Launched"}], "players": ["1", "2", "3", "4"]}}}
+=======
+>>>>>>> ea92fce1d928403647592553bc28f57c236cb946
