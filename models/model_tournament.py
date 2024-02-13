@@ -1,16 +1,15 @@
+from operator import itemgetter
+
 from datas.data_tournament import DataTournament
 from views.view_base import TournamentNotFound
-from .model_round import Round
-from .model_player import Player
 
-from operator import itemgetter
-from rich.console import Console
-from rich.table import Table
+from .model_player import Player
+from .model_round import Round
 
 
 class Tournament:
-    """Creates the Tournament object.
-    Each instance of a tournament is filled by the user : name, place, start and end date, the number of the current round,
+    """Creates the Tournament object. Each instance of a tournament is filled by the user :
+    name, place, start and end date, the number of the current round,
     the description for general remarks from the tournament director.
     """
 
@@ -45,9 +44,8 @@ class Tournament:
         self.players = players
 
     def serialize(self):
-        """Return a dict from the Tournament attributes"""
+        """Returns a dict from the Tournament attributes"""
         tournament = {
-            "name": self.name,
             "name": self.name,
             "place": self.place,
             "start_date": self.start_date,
@@ -62,14 +60,20 @@ class Tournament:
         }
         return tournament
 
-    def save(self):  # méthode d'instance = sur un objet
-        "Saves the tournament in the database"
+    def save(self):
+        """Saves the tournament in the database - including updates to avoid duplicates"""
+
         data = self.serialize()
-        self.datas.save_tournament(data)
+        if self.id_db is None:
+            # Create the tournament
+            self.id_db = self.datas.save_tournament(data)
+        else:
+            # Update the tournament
+            self.datas.update_tournament(data, [int(self.id_db)])
 
     @classmethod
     def search(self, field_name: str, value: str):
-        "Returns records where fields value match - to resume ONE tournament"
+        "Returns records where fields value match"
         return self.datas.search(field_name, value)
 
     @classmethod
@@ -128,22 +132,21 @@ class Tournament:
 
     @classmethod
     def get_tournament(cls, tournament_id):
-        """Returns a tournament object matching tournament's id from tiny_db (from data_tournament)"""
+        """Returns a tournament object matching tournament's id from tiny_db"""
 
         tournament_data = cls.datas.get_t_by_id(id_db=tournament_id)
         tournament = Tournament(**tournament_data)
 
-        # Clear the players cache
+        # Clears the players cache - in case of previous tournament management
         Player.cache_players.clear()
 
-        # Déserialisation Players
+        # Unpack Players
         players = [
             Player.get_player_by_id(id_db=player_id) for player_id in tournament.players
         ]
         tournament.players = players
 
-        # Déserialisation Rounds
-
+        # Unpack Rounds
         tournament.rounds = [
             Round.deserialize(data=round_dict) for round_dict in tournament.rounds
         ]

@@ -1,5 +1,5 @@
-from controllers.tournament import TournamentController
 from controllers.player import PlayerController
+from controllers.tournament import TournamentController
 from views.view_app import ViewApp
 from views.view_base import QUIT_CODE
 

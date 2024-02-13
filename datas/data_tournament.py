@@ -1,14 +1,11 @@
-from tinydb import TinyDB
-from tinydb.table import Document
-from tinydb import Query
 import os
 
-from views.view_base import TournamentNotFound
+from tinydb import Query, TinyDB
+from tinydb.table import Document
 
 
 class DataTournament:
-
-    """DataTournament object handles user requests linked to the Tournament.json database"""
+    """DataTournament object handles the user's requests linked to the Tournament.json database"""
 
     if not os.path.exists("./Base"):
         os.makedirs("./Base")
@@ -21,13 +18,17 @@ class DataTournament:
         """Saves tournament in Tournaments.json"""
         self.tournament_table.insert(serialize)
 
+    def update_tournament(self, data, db_id):
+        """Updates tournament in Tournaments.json"""
+        self.tournament_table.update(data, doc_ids=db_id)
+
     def extract_tournaments_list(self):
         """Extracts ALL tournaments saved as a dictionary list and matching the id with doc_id"""
         tournaments = self.tournament_table.all()
         # add the db id for each tournament
         for tournament in tournaments:
-            tournament["id_db"] = str(tournament.doc_id)
-        return tournaments
+            tournament["id_db"] = tournament.doc_id
+            return tournaments
 
     def get_t_by_id(self, id_db: int) -> dict:
         """Returns a tournament dict matching the id (id_db matching doc_id)"""

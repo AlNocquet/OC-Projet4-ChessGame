@@ -1,6 +1,6 @@
-from controllers.app import AppController
-
 from colorama import init
+
+from controllers.app import AppController
 
 init(autoreset=True)
 

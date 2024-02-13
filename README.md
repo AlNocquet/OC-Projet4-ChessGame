@@ -67,3 +67,23 @@ $ python main.py
 ## PEP8 :
 
 flake8
+
+Créer fichier setup.cfg avec la configuration suivante :
+
+[flake8]
+exclude =
+    .git,    
+    .venv,
+    env,
+    .idea,
+    .pytest_cache,
+    .vscode,
+    .mypy_cache,
+max-complexity = 10
+max-line-length = 119
+
+Utiliser la commande suivante pour créer un rapport d'erreurs flake8-html qui sera publié dans le répertoire flake-report : 
+
+```bash
+flake8 --format html --htmldir flake8-report
+```
