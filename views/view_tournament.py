@@ -77,25 +77,24 @@ class ViewTournament(BaseView):
             + Style.DIM
             + match.player_2.full_name
             + Style.RESET_ALL
-            + "-----------------------"
+            + "\n--------------------------------\n"
         )
 
         print(
             f"VICTOIRE {match.player_1.full_name} :"
             + Fore.YELLOW
             + Style.BRIGHT
-            + "Tapez 1"
+            + " Tapez 1 \n"
             + Style.RESET_ALL
             + f"VICTOIRE {match.player_2.full_name} :"
             + Fore.YELLOW
             + Style.BRIGHT
-            + "Tapez 2"
+            + " Tapez 2 \n"
             + Style.RESET_ALL
-            + "\n"
             + "MATCH NUL :"
             + Fore.YELLOW
             + Style.BRIGHT
-            + "Tapez 3"
+            + " Tapez 3 \n"
             + Style.RESET_ALL
         )
 

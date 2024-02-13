@@ -62,14 +62,19 @@ class TournamentController:
 
         if len(DataPlayer().player_table) < int(tournament.number_of_rounds) * 2:
             self.view.display_error_message(
-                f"\n Vous devez avoir au moins {tournament.number_of_rounds * 2} joueurs dans la base.\n"
+                f"\n Vous devez avoir au moins {int(tournament.number_of_rounds) * 2} joueurs dans la base.\n"
             )
             return
 
         Player.cache_players.clear()
-        tournament.players = self.add_players_to_tournament(
-            tournament.number_of_players
-        )
+
+        try:
+            tournament.players = self.add_players_to_tournament(
+                tournament.number_of_players
+            )
+        except CancelError:
+            self.view.display_message("\n Création du tournoi annulé.\n")
+            return
 
         self.manage_rounds(tournament)
 

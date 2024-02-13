@@ -6,10 +6,10 @@
             "start_date": "13-02-2024",
             "number_of_rounds": "4",
             "number_of_players": "8",
-            "current_round": 1,
+            "current_round": 4,
             "description": "0",
-            "status": "Launched",
-            "end_date": null,
+            "status": "Done",
+            "end_date": "2024-02-13",
             "rounds": [
                 {
                     "name": "Round 1",
@@ -17,26 +17,26 @@
                     "end_date": "2024-02-13",
                     "matches": [
                         {
-                            "player_1": "4",
-                            "player_2": "2",
+                            "player_1": "8",
+                            "player_2": "7",
                             "p1_score": 1.0,
                             "p2_score": 0.0
                         },
                         {
-                            "player_1": "5",
-                            "player_2": "7",
+                            "player_1": "4",
+                            "player_2": "3",
                             "p1_score": 0.0,
                             "p2_score": 1.0
                         },
                         {
                             "player_1": "6",
-                            "player_2": "8",
+                            "player_2": "2",
                             "p1_score": 0.5,
                             "p2_score": 0.5
                         },
                         {
-                            "player_1": "3",
-                            "player_2": "1",
+                            "player_1": "5",
+                            "player_2": "9",
                             "p1_score": 1.0,
                             "p2_score": 0.0
                         }
@@ -44,31 +44,176 @@
                     "status": "Done"
                 },
                 {
-                    "name": "Round 1",
+                    "name": "Round 2",
                     "start_date": "2024-02-13",
                     "end_date": "2024-02-13",
                     "matches": [
                         {
-                            "player_1": "4",
-                            "player_2": "2",
-                            "p1_score": 1.0,
-                            "p2_score": 0.0
-                        },
-                        {
-                            "player_1": "5",
-                            "player_2": "7",
-                            "p1_score": 0.0,
-                            "p2_score": 1.0
-                        },
-                        {
-                            "player_1": "6",
-                            "player_2": "8",
+                            "player_1": "8",
+                            "player_2": "5",
                             "p1_score": 0.5,
                             "p2_score": 0.5
                         },
                         {
                             "player_1": "3",
-                            "player_2": "1",
+                            "player_2": "6",
+                            "p1_score": 0.5,
+                            "p2_score": 0.5
+                        },
+                        {
+                            "player_1": "2",
+                            "player_2": "9",
+                            "p1_score": 0.0,
+                            "p2_score": 1.0
+                        },
+                        {
+                            "player_1": "7",
+                            "player_2": "4",
+                            "p1_score": 1.0,
+                            "p2_score": 0.0
+                        }
+                    ],
+                    "status": "Done"
+                },
+                {
+                    "name": "Round 3",
+                    "start_date": "2024-02-13",
+                    "end_date": "2024-02-13",
+                    "matches": [
+                        {
+                            "player_1": "8",
+                            "player_2": "5",
+                            "p1_score": 0.0,
+                            "p2_score": 1.0
+                        },
+                        {
+                            "player_1": "3",
+                            "player_2": "9",
+                            "p1_score": 1.0,
+                            "p2_score": 0.0
+                        },
+                        {
+                            "player_1": "7",
+                            "player_2": "6",
+                            "p1_score": 1.0,
+                            "p2_score": 0.0
+                        },
+                        {
+                            "player_1": "2",
+                            "player_2": "4",
+                            "p1_score": 0.0,
+                            "p2_score": 1.0
+                        }
+                    ],
+                    "status": "Done"
+                },
+                {
+                    "name": "Round 4",
+                    "start_date": "2024-02-13",
+                    "end_date": "2024-02-13",
+                    "matches": [
+                        {
+                            "player_1": "5",
+                            "player_2": "3",
+                            "p1_score": 1.0,
+                            "p2_score": 0.0
+                        },
+                        {
+                            "player_1": "7",
+                            "player_2": "8",
+                            "p1_score": 1.0,
+                            "p2_score": 0.0
+                        },
+                        {
+                            "player_1": "9",
+                            "player_2": "4",
+                            "p1_score": 1.0,
+                            "p2_score": 0.0
+                        },
+                        {
+                            "player_1": "6",
+                            "player_2": "2",
+                            "p1_score": 0.5,
+                            "p2_score": 0.5
+                        }
+                    ],
+                    "status": "Done"
+                }
+            ],
+            "players": [
+                "9",
+                "8",
+                "7",
+                "4",
+                "5",
+                "6",
+                "3",
+                "2"
+            ]
+        },
+        "2": {
+            "name": "Test2",
+            "place": "Nice",
+            "start_date": "14-02-2024",
+            "number_of_rounds": "2",
+            "number_of_players": "4",
+            "current_round": 0,
+            "description": "Olivier, niveau d\u00e9butant.",
+            "status": "Launched",
+            "end_date": null,
+            "rounds": [],
+            "players": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+        },
+        "3": {
+            "name": "Test3",
+            "place": "Lille",
+            "start_date": "13-02-2024",
+            "number_of_rounds": "2",
+            "number_of_players": "4",
+            "current_round": 2,
+            "description": "0",
+            "status": "Done",
+            "end_date": "2024-02-13",
+            "rounds": [
+                {
+                    "name": "Round 1",
+                    "start_date": "2024-02-13",
+                    "end_date": "2024-02-13",
+                    "matches": [
+                        {
+                            "player_1": "9",
+                            "player_2": "4",
+                            "p1_score": 0.5,
+                            "p2_score": 0.5
+                        },
+                        {
+                            "player_1": "7",
+                            "player_2": "8",
+                            "p1_score": 1.0,
+                            "p2_score": 0.0
+                        }
+                    ],
+                    "status": "Done"
+                },
+                {
+                    "name": "Round 2",
+                    "start_date": "2024-02-13",
+                    "end_date": "2024-02-13",
+                    "matches": [
+                        {
+                            "player_1": "7",
+                            "player_2": "9",
+                            "p1_score": 0.5,
+                            "p2_score": 0.5
+                        },
+                        {
+                            "player_1": "4",
+                            "player_2": "8",
                             "p1_score": 1.0,
                             "p2_score": 0.0
                         }
@@ -77,14 +222,10 @@
                 }
             ],
             "players": [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
                 "7",
-                "8"
+                "8",
+                "9",
+                "4"
             ]
         }
     }
