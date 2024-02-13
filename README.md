@@ -19,8 +19,8 @@ Utiliser les commandes suivantes pour créer un environnement, installer les req
 ```bash
 $ git clone https://github.com/AlNocquet/OC-Projet4-ChessGame.git
 $ cd OC-Projet4-ChessGame
-$ python3 -m venv env (Sous Windows => python -m venv env)
-$ source env/bin/activate (Sous Windows => env\Scripts\activate)
+$ python3 -m venv venv (Sous Windows => python -m venv venv)
+$ source env/bin/activate (Sous Windows => venv\Scripts\activate)
 $ pip install -r requirements.txt
 $ python main.py
 ```
@@ -75,7 +75,7 @@ Créer fichier setup.cfg avec la configuration suivante :
 exclude =
     .git,    
     .venv,
-    env,
+    venv,
     .idea,
     .pytest_cache,
     .vscode,
@@ -87,5 +87,5 @@ max-line-length = 119
 Utiliser la commande suivante pour créer un rapport d'erreurs flake8-html qui sera publié dans le répertoire flake-report : 
 
 ```bash
-flake8 --format html --htmldir flake8-report
+flake8 --format html --htmldir flake-report
 ```
