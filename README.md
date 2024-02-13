@@ -87,5 +87,5 @@ max-line-length = 119
 Utiliser la commande suivante pour créer un rapport d'erreurs flake8-html qui sera publié dans le répertoire flake-report : 
 
 ```bash
-flake8 --format html --htmldir flake8-report
+flake8 --format html --htmldir flake-report
 ```
