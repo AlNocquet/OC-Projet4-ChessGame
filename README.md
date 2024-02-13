@@ -20,7 +20,7 @@ Utiliser les commandes suivantes pour créer un environnement, installer les req
 $ git clone https://github.com/AlNocquet/OC-Projet4-ChessGame.git
 $ cd OC-Projet4-ChessGame
 $ python3 -m venv venv (Sous Windows => python -m venv venv)
-$ source env/bin/activate (Sous Windows => venv\Scripts\activate)
+$ source venv/bin/activate (Sous Windows => venv\Scripts\activate)
 $ pip install -r requirements.txt
 $ python main.py
 ```
