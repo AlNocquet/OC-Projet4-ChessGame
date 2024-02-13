@@ -45,20 +45,19 @@ class TournamentController(BaseView):
                 exit()
 
     def create_tournament(self):
-        """Gets tournament's datas and saves them. Adds registered players with the condition of a sufficient number of players per round.
+        """Gets tournament's datas and saves them.
+        Adds registered players with the condition of a sufficient number of players per round.
         Or None if user enter exit or quit"""
 
         try:
             tournament = self.view.display_fields_new_tournament()
 
         except CancelError:
-            self.view.display_message(f"\n Création du tournoi annulé.\n")
+            self.view.display_message("\n Création du tournoi annulé.\n")
             return
 
+        # Unpack les valeurs d'un itérable pas encore affectées
         tournament = Tournament(**tournament)
-        # Unpack / Opérateur de déballage ou opérateur astérisque / L'opérateur astérisque (*) est utilisé
-        # pour décompresser toutes les valeurs d'un itérable qui n'ont pas encore été affectées.
-        # Un seul astérisque est utilisé pour décompresser les listes et les tuples, le double astérisque (**) est utilisé pour décompresser les dictionnaires.
 
         if len(DataPlayer().player_table) < int(tournament.number_of_rounds) * 2:
             self.view.display_error_message(
@@ -69,7 +68,6 @@ class TournamentController(BaseView):
         # Nettoyage du cache Player
         Player.cache_players.clear()
 
-        # Liste des joueurs du tournoi à partie de la fonction ajout des joueurs
         tournament.players = self.add_players_to_tournament(
             tournament.number_of_players
         )
@@ -80,7 +78,7 @@ class TournamentController(BaseView):
 
         players = PlayerController().get_all_players_sorted_by_surname()
 
-        # Création liste de joueurs id_db valides, itérer sur les players "sorted by surname"
+        # Création liste de joueurs id_db valides > itérer sur les players "sorted by surname"
         valid_players_id = [p.get("id_db") for p in players]
 
         # Input players id à ajouter au tournoi
@@ -88,9 +86,9 @@ class TournamentController(BaseView):
             int(player_number), valid_players_id
         )
 
-        # Liste players : Itérer sur players avec appel fonction Model pour PlayerNotFound et appel fonction DataPlayer -
-        # pour match id_db avec doc_id et enregistrement id_db.
-        # Sinon
+        # Liste players : Itérer sur players avec appel model_player pour PlayerNotFound + appel DataPlayer -
+        # > id_db = doc_id + enregistrement id_db
+
         if players_id_to_add:
             players = [Player.get_player_by_id(p_id) for p_id in players_id_to_add]
         else:
@@ -105,40 +103,30 @@ class TournamentController(BaseView):
         continue_rounds = True
 
         while continue_rounds:
-            choice_next_round = self.get_yes_or_no(f"Lancer un round ? (Y/N) : ")
+            choice_next_round = self.get_yes_or_no("Lancer un round ? (Y/N) : ")
 
-            # Sortie de boucle, retour à create_tournament pour sauvegarde tournoi
             if choice_next_round == "n":
                 break
 
-            ### CAS DE REPRISE TOURNOI ###
-
-            # Initialise Round a None
+            # REPRISE TOURNOI : Initialise Round a None
             round = None
 
-            # Test condition si Round en cours, reprendre liste des rounds et enregistrement des scores (continue self.get_matches_list(round))
+            # Test reprendre liste des rounds et enregistrement des scores (continue self.get_matches_list(round))
             try:
                 round = tournament.rounds[tournament.current_round]
             except IndexError:
                 pass
-            # Si pas de Round en cours > Création du round avec pairs de players et incrémentation round
 
+            # Sinon > création du round avec pairs de players et incrémentation round
             if round is None:
-                # Copie de la liste des joueurs du tournoi pour modification sans affecter la première
                 players = tournament.players.copy()
-                # Premier round = Tri aléatoire
                 if tournament.current_round == 0:
-                    # Tri aléatoire
                     shuffle(players)
-                # Round suivant = Par score plus haut à bas
                 else:
                     players.sort(reverse=True, key=lambda player: player.score)
 
-                # Incrémentation nombre (nom) du round en cours
                 tournament.current_round += 1
-                # Création du round avec liste des players
                 round = self.create_round(players, tournament.current_round)
-                # Ajout du round à la liste des rounds du tournoi
                 tournament.rounds.append(round)
 
             # Enregistrement des scores
@@ -148,23 +136,21 @@ class TournamentController(BaseView):
             if choice_scores == "n":
                 break
 
-            # Condition liste des round en cours toutes validées par rapport nombre de rounds demandé :
             # Validation de la fin de tournoi avec enregistrement status "Done" et "date de fin"
             if tournament.current_round >= int(tournament.number_of_rounds):
                 continue_rounds = False
                 date = datetime.now()
                 tournament.end_date = date.strftime("%d-%m-%Y")
                 tournament.status = "Done"
-                self.view.display_message(f"Tournoi terminé !")
-                # Affichage des joueurs du tournois sorted par score
-                self.players_tournament_by_scores(tournament)
+                self.view.display_message("Tournoi terminé !")
+                self.display_player_ranking(tournament)
 
         tournament.save()
 
     def create_round(self, players: list, current_round) -> Round:
         "Returns a Round object with matches"
 
-        # Round = Création liste de matches
+        # Round = liste de matches
         matches = []
 
         name = f"Round {current_round}"
@@ -172,7 +158,7 @@ class TournamentController(BaseView):
         date = datetime.now()
         start_date = date.strftime("%d-%m-%Y")
 
-        # Gestion création de Match avec sortie de la liste des joueurs déjà sélectionnés
+        # Création de Match avec sortie de la liste des joueurs déjà sélectionnés
         while len(players) > 0:
             player_1 = players.pop(0)
             player_2 = players.pop(0)
@@ -191,9 +177,7 @@ class TournamentController(BaseView):
         # Création d'une liste de matches
         matches = []
 
-        # Enumarate : attribuer un index ;
-        # Parcourir la liste et utiliser l'index de la liste parcourue ;
-        # Ajout à la liste des valeurs (Match = pair of players)
+        # Enumarate : attribuer un index > Parcourir la liste et utiliser l'index + ajout à la liste des valeurs (Match = pair of players)
         for index, match in enumerate(round.matches):
             matches.append(
                 {
@@ -210,7 +194,7 @@ class TournamentController(BaseView):
     def add_scores_to_tournament(self, round: Round):
         """Returns player's scores of each match and ends the round (status + end_date) or None if user enter N"""
 
-        choice = self.get_yes_or_no(f"Enregistrer les scores ? (Y/N) : ")
+        choice = self.get_yes_or_no("Enregistrer les scores ? (Y/N) : ")
 
         if choice == "n":
             return "n"
@@ -233,18 +217,17 @@ class TournamentController(BaseView):
         date = datetime.now()
         round.end_date = date.strftime("%d-%m-%Y")
         round.status = "Done"
-        self.view.display_message(f"Round terminé !")
+        self.view.display_message("Round terminé !")
 
     def resume_tournament(self):
         """Displays list of tournaments "Launched" and resumes the selected one or None if user enter exit or quit"""
 
         try:
-            self.tournament_sections_settings(f"CHARGEMENT DU TOURNOI")
+            self.tournament_sections_settings("CHARGEMENT DU TOURNOI")
             self.display_section_subtitles(
                 "Tapez Exit pour revenir au menu précédent, Quit pour quitter le programme"
             )
 
-            # Création objet tournoi sur les tournois en cours
             tournaments = Tournament.get_tournaments_in_progress()
 
             if len(tournaments) == 0:
@@ -268,48 +251,24 @@ class TournamentController(BaseView):
 
             # Gestion tournament_id valide
             valid_tournament_id = [t.get("id_db") for t in tournaments]
-            # Retourne l'input id tournament_id - avec gestion tournament_id valide
+
+            # Input + Gestion valid_id
             tournament_id = self.view.get_tournament_id(
                 valid_tournament_id=valid_tournament_id
             )
 
-            # tournament objet = tournament_id matching dans la base
             tournament = Tournament.get_tournament(tournament_id)
 
             self.manage_rounds(tournament)
 
         except CancelError:
-            self.view.display_message(f"Reprise du tournoi annulée")
+            self.view.display_message("Reprise du tournoi annulée")
             return
-
-    def players_tournament_by_scores(self, tournament: Tournament):
-        """Gets players list of a tournament sorted by score and display it with rich from base_view"""
-
-        players = [
-            Player.get_player_by_id(id_db=player_id) for player_id in tournament.players
-        ]
-
-        sorted_players = sorted(players, key=itemgetter("score"))
-
-        title = f"[LISTE DES {len(players)} JOUEURS PAR ORDRE ALPHABETIQUE]"
-
-        headers = [
-            "Nom",
-            "Prénom",
-            "Date Naissance",
-            "National Chess Id",
-            "id_db",
-            "Score",
-        ]
-
-        self.view.table_settings(headers, title, sorted_players)
-
-        return sorted_players
 
     def display_player_ranking(self, tournament: Tournament):
         """Display player ranking (actual score) for the tournament"""
 
-        # Convert the Player list in dict list of players and sort it on score
+        # Boucle convertir liste players en dict et sort sur le score
         players = [player.serialize() for player in tournament.players]
         players.sort(key=itemgetter("score"), reverse=True)
 
@@ -358,7 +317,7 @@ class TournamentController(BaseView):
 
         self.view.table_settings(headers, title, tournaments)
 
-        # Sélectionner le tournoi avec gestion valid_id
+        # Input + Gestion valid_id
         valid_tournament_id = [t.get("id_db") for t in tournaments]
 
         try:
@@ -368,14 +327,13 @@ class TournamentController(BaseView):
         except CancelError:
             return None
 
-        # Matching du tournament_id de l'input avec le tournament_id de la database
         tournament = Tournament.get_tournament(tournament_id)
         return tournament
 
     def get_rounds_by_tournament(self):
         """Displays tournaments' list, loads the selected one to display the associated rounds and players by ranking"""
 
-        self.tournament_sections_settings(f"CONSULTER LISTE DES ROUNDS D'UN TOURNOI")
+        self.tournament_sections_settings("CONSULTER LISTE DES ROUNDS D'UN TOURNOI")
         self.display_section_subtitles(
             "Tapez Exit pour revenir au menu précédent, Quit pour quitter le programme"
         )
@@ -389,7 +347,7 @@ class TournamentController(BaseView):
             dict_round = round.serialize()
             # Enlève les matches du dict
             dict_round.pop("matches")
-            # Création liste de rounds avec les nveaux dicos round
+            # Création liste de rounds avec les nveaux dicos Round
             rounds.append(dict_round)
 
         title = f"[LISTE DES ROUNDS DU TOURNOI {tournament.name}]"
@@ -409,7 +367,7 @@ class TournamentController(BaseView):
     def get_matches_by_tournament(self):
         """Displays tournaments' list, loads the selected one to display the associated matches and players by ranking"""
 
-        self.tournament_sections_settings(f"CONSULTER LISTE DES MATCHS D'UN TOURNOI")
+        self.tournament_sections_settings("CONSULTER LISTE DES MATCHS D'UN TOURNOI")
         self.display_section_subtitles(
             "Tapez Exit pour revenir au menu précédent, Quit pour quitter le programme"
         )
@@ -433,5 +391,4 @@ class TournamentController(BaseView):
                     + f"{match.p2_score}"
                 )
 
-        # Affichage des joueurs participants par rang (score)
         self.display_player_ranking(tournament)

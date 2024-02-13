@@ -62,10 +62,16 @@ class Tournament:
         }
         return tournament
 
-    def save(self):  # méthode d'instance = sur un objet
+    def save(self):
         "Saves the tournament in the database"
         data = self.serialize()
-        self.datas.save_tournament(data)
+
+        if self.id_db is None:
+            # Resume : create the tournament
+            self.id_db = self.datas.save_tournament(data)
+        else:
+            # update the tournament
+            self.datas.update_tournament(data, [int(self.id_db)])
 
     @classmethod
     def search(self, field_name: str, value: str):
