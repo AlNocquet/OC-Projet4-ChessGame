@@ -23,7 +23,7 @@ class DataPlayer:
         """Extracts players saved in Players.json as a dictionary list, add the id_db for each player"""
         players = self.player_table.all()
         for player in players:
-            player["id_db"] = player.doc_id
+            player["id_db"] = str(player.doc_id)
         return players
 
     def update_data_player(self, field_to_update: dict, id_db: list) -> list[int]:

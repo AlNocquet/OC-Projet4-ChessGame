@@ -61,16 +61,6 @@ class Tournament:
         return tournament
 
     def save(self):
-<<<<<<< HEAD
-        "Saves the tournament in the database"
-        data = self.serialize()
-
-        if self.id_db is None:
-            # Resume : create the tournament
-            self.id_db = self.datas.save_tournament(data)
-        else:
-            # update the tournament
-=======
         """Saves the tournament in the database - including updates to avoid duplicates"""
 
         data = self.serialize()
@@ -79,7 +69,6 @@ class Tournament:
             self.id_db = self.datas.save_tournament(data)
         else:
             # Update the tournament
->>>>>>> ea92fce1d928403647592553bc28f57c236cb946
             self.datas.update_tournament(data, [int(self.id_db)])
 
     @classmethod

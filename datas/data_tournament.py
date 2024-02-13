@@ -5,11 +5,7 @@ from tinydb.table import Document
 
 
 class DataTournament:
-<<<<<<< HEAD
-    """DataTournament object handles user requests linked to the Tournament.json database"""
-=======
     """DataTournament object handles the user's requests linked to the Tournament.json database"""
->>>>>>> ea92fce1d928403647592553bc28f57c236cb946
 
     if not os.path.exists("./Base"):
         os.makedirs("./Base")
@@ -32,11 +28,8 @@ class DataTournament:
         # add the db id for each tournament
         for tournament in tournaments:
             tournament["id_db"] = tournament.doc_id
-<<<<<<< HEAD
+
         return tournaments
-=======
-            return tournaments
->>>>>>> ea92fce1d928403647592553bc28f57c236cb946
 
     def get_t_by_id(self, id_db: int) -> dict:
         """Returns a tournament dict matching the id (id_db matching doc_id)"""

@@ -1,12 +1,7 @@
 # Ignorer INIT
 __init__.py
 # Ignorer VENV
-<<<<<<< HEAD
-.venv
-/venv
+venv/
+.venv/
 
-=======
-.env
-env
->>>>>>> ea92fce1d928403647592553bc28f57c236cb946
 

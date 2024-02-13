@@ -113,6 +113,4 @@ class PlayerController:
         ]
         self.view.table_settings(headers, title, players)
 
-        input("Tapez Entrée pour continuer :")
-
         return players
