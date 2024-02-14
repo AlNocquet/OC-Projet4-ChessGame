@@ -11,13 +11,16 @@ EXIT_CODE = "exit"
 QUIT_CODE = "quit"
 
 
-class CancelError(Exception): ...
+class CancelError(Exception):
+    pass
 
 
-class PlayerNotFound(Exception): ...
+class PlayerNotFound(Exception):
+    pass
 
 
-class TournamentNotFound(Exception): ...
+class TournamentNotFound(Exception):
+    pass
 
 
 class BaseView:
