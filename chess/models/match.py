@@ -1,6 +1,11 @@
 from .model_player import Player
 
 
+######
+# PAS BESOIN DE nommer model_match.py ==> match.py
+######
+
+
 class Match:
     """Creates the Match object which should contain a pair of players and their results.
     Each Match instance is automatically stored as a tuple in the instance of the round to which it belongs.

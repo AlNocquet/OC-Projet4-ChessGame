@@ -4,4 +4,9 @@ __init__.py
 venv/
 .venv/
 
+# OBLIGATOIRE
+*.pyc
+__pycache__/
+
+# PRENDRE LE .GITIGNEORE PAR DEFAULT DE GITHUB
 

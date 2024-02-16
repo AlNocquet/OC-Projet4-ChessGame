@@ -7,13 +7,13 @@
 
 
 sections habituelles
-## About 
+* ## About 
 
-## Install
+* ## Install
 
-## Usage 
+* ## Usage 
 
-## Contributing
+* ## Contributing
 
 
 

@@ -1,6 +1,6 @@
 from colorama import Fore, Style
 
-from models.model_match import Match
+from chess.models.match import Match
 from models.model_round import Round
 from views.view_base import EXIT_CODE, QUIT_CODE, BaseView, CancelError
 

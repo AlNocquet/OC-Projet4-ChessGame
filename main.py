@@ -1,6 +1,7 @@
 from colorama import init
 
-from controllers.app import AppController
+
+from chess.controllers.app import AppController
 
 init(autoreset=True)
 
