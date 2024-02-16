@@ -1,3 +1,5 @@
+#### TTB : le sort des imports 😃
+
 from datetime import datetime
 from operator import itemgetter
 from random import shuffle
@@ -7,7 +9,7 @@ from colorama import Fore, Style
 from controllers.player import PlayerController
 from datas.data_player import DataPlayer
 from datas.data_tournament import DataTournament
-from models.model_match import Match
+from chess.models.match import Match
 from models.model_player import Player
 from models.model_round import Round
 from models.model_tournament import Tournament
@@ -17,7 +19,11 @@ from views.view_tournament import ViewTournament
 
 
 class TournamentController:
+    """TournamentController"""
+
     def __init__(self) -> None:
+        """Init method"""
+
         self.view = ViewTournament()
         self.view_player = ViewPlayer()
         self.data = DataTournament()

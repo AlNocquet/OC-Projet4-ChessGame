@@ -1,6 +1,23 @@
 
 # CHESS GAME :
 
+## A FAIRE EN ANGLAIS
+
+## IL MANQUE UNE LICENCE
+
+
+sections habituelles
+* ## About 
+
+* ## Install
+
+* ## Usage 
+
+* ## Contributing
+
+
+
+
 Ce programme permet la gestion de tournois d'échecs en mode hors ligne.
 
 ## Technologie :

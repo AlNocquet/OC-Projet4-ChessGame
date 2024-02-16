@@ -1,6 +1,11 @@
 from .view_base import BaseView
 
 
+############################
+# IDEM pas view_app.py => app.py direct
+############################
+
+
 class ViewApp(BaseView):
     def display_main_menu(self):
         """Displays the MAIN MENU and returns the user's choice"""

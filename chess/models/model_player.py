@@ -53,8 +53,10 @@ class Player:
     @classmethod
     def get_all_sort_by_surname(cls):
         """Returns a list of players sorted by surname"""
+
         players = cls.datas.extract_players_list()
         sorted_players = sorted(players, key=itemgetter("surname"))
+
         return sorted_players
 
     @classmethod
