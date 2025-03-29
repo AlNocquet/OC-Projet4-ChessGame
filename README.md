@@ -2,19 +2,16 @@
 
 This program allows offline management of chess tournaments.
 
----
 
 ## Technology
 
 Python
 
----
 
 ## Author
 
 Alice Nocquet
 
----
 
 ## Environment setup and program launch
 
@@ -29,7 +26,6 @@ $ pip install -r requirements.txt
 $ python main.py
 ```
 
----
 
 ## USAGE
 
@@ -48,14 +44,12 @@ $ python main.py
 
 - Several reports are available depending on the state of the database.
 
----
 
 ### MAIN MENU:
 
 - **Tournament Management Menu**
 - **Player Management Menu**
 
----
 
 ### TOURNAMENT MANAGEMENT MENU:
 
@@ -65,7 +59,6 @@ $ python main.py
 - View list of **ROUNDS** of a tournament  
 - View list of **MATCHES** of a tournament  
 
----
 
 ### PLAYER MANAGEMENT MENU:
 
@@ -74,7 +67,6 @@ $ python main.py
 - Delete a player  
 - View players sorted alphabetically  
 
----
 
 ## PEP8
 
