@@ -1,74 +1,86 @@
+# CHESS GAME
 
-# CHESS GAME :
+This program allows offline management of chess tournaments.
 
-Ce programme permet la gestion de tournois d'échecs en mode hors ligne.
+---
 
-## Technologie :
+## Technology
 
 Python
 
-## Author :
+---
+
+## Author
 
 Alice Nocquet
 
+---
 
-## Installation de l'environnement et lancement du programme :
+## Environment setup and program launch
 
-Utiliser les commandes suivantes pour créer un environnement, installer les requirements et lancer le programme :
+Use the following commands to create a virtual environment, install dependencies, and launch the program:
 
 ```bash
 $ git clone https://github.com/AlNocquet/OC-Projet4-ChessGame.git
 $ cd OC-Projet4-ChessGame
-$ python3 -m venv venv (Sous Windows => python -m venv venv)
-$ source venv/bin/activate (Sous Windows => venv\Scripts\activate)
+$ python3 -m venv venv           # On Windows: python -m venv venv
+$ source venv/bin/activate       # On Windows: venv\Scripts\activate
 $ pip install -r requirements.txt
 $ python main.py
 ```
 
-## UTILISATION :
+---
 
-    L'utilisateur commence par créer des joueurs dans la base de données.
-    Seuls les joueurs enregistrés dans la base de données peuvent participer aux tournois.
+## USAGE
 
-    A la création du tournoi, l'utilisateur sélectionne les joueurs par leur identifiant de la base JSON "id_db".
-    Le nombre de joueurs du tournoi doit correspondre au nombre de tours (round) souhaité.
+- The user starts by creating players in the database.  
+- Only registered players can participate in tournaments.
 
-    Les matchs du 1er tour (round) sont automatiquement créés par pairage aléatoire des joueurs sélectionnés.
-    Les matchs suivant sont automatiquement créés en fonction des scores de ces joueurs.
+- When creating a tournament, the user selects players by their JSON database ID (`id_db`).  
+- The number of players must match the number of desired rounds.
 
-    L'utilisateur sélectionne le tournoi en cours pour reprendre la création des tours (rounds) et/ou l'enregistrement des scores.
+- The first round matches are generated randomly based on selected players.  
+- Subsequent matches are created automatically based on player scores.
 
-    A tout moment, l'utilisateur peut taper "exit" pour annuler l'action en cours et revenir au menu précédent, "quit" pour quitter le programme.
+- The user can resume an ongoing tournament to continue creating rounds or record scores.
 
-    Différents rapports sont consultables suivant la mise à jour de la base de données.
-        
-        
-        Dans le MENU PRINCIPAL :
-            
-            MENU Gestion des Tournois
-            MENU Gestion des Joueurs
-        
-        Dans le menu GESTION DES TOURNOIS :
+- At any time, the user can type `exit` to cancel the current action and return to the previous menu, or `quit` to exit the program.
 
-            Créer un tournoi
-            Charger un tournoi
-            Afficher liste des Tournois (par date)
-            Consulter liste des ROUNDS d'un Tournoi
-            Consulter liste des MATCHS d'un Tournoi
+- Several reports are available depending on the state of the database.
 
-        Dans le menu GESTION DES JOUEURS :
+---
 
-            Créer un joueur
-            Modifier un joueur
-            Supprimer un joueur
-            Consulter Joueurs par ordre alphabétique
+### MAIN MENU:
 
+- **Tournament Management Menu**
+- **Player Management Menu**
 
-## PEP8 :
+---
 
-flake8
+### TOURNAMENT MANAGEMENT MENU:
 
-Créer fichier setup.cfg avec la configuration suivante :
+- Create a tournament  
+- Load a tournament  
+- Show list of tournaments (by date)  
+- View list of **ROUNDS** of a tournament  
+- View list of **MATCHES** of a tournament  
+
+---
+
+### PLAYER MANAGEMENT MENU:
+
+- Create a player  
+- Edit a player  
+- Delete a player  
+- View players sorted alphabetically  
+
+---
+
+## PEP8
+
+`flake8`
+
+Create a `setup.cfg` file with the following configuration:
 
 ```
 [flake8]
@@ -84,7 +96,7 @@ max-complexity = 10
 max-line-length = 119
 ```
 
-Utiliser la commande suivante pour créer un rapport d'erreurs flake8-html qui sera publié dans le répertoire flake-report : 
+Use the following command to generate a `flake8-html` error report inside the `flake-report` directory:
 
 ```bash
 flake8 --format html --htmldir flake-report
